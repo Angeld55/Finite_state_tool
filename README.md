@@ -119,14 +119,14 @@ int main()
 
 int main() 
 {
-	//Regex: a(a+b)*b + b(a+b)a
+	//Regex: a(a+b)*b + b(a+b)*a
 	FiniteStateAutomation A("((((a).(((a)+(b)))*).(b))+(((b).(((a)+(b)))*).(a)))");
 
 	A.Print(); //Image 1 and 2
 
 	A.Minimize();
 
-	A.Print(); // Image 1 and 2.
+	A.Print(); // Image 3 and 4.
 
    	return 0;
 }
