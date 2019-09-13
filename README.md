@@ -7,31 +7,31 @@ F- is the set of final states, a  subset of Q<br>
 δ- is the state-transition function</p>
 <h1 id="creation">Creation</h1>
 <p>Diffrent ways of creating an automation</p>
-<pre><code>
 
-
+```c++
 int main()
 {
-//With  regular expression (Have to use many brackets for now) *fix later
-FiniteStateAutomation A("((a).(((a)+(b)))*)");
+
+	//With  regular expression (Have to use many brackets for now) *fix later
+	FiniteStateAutomation A("((a).(((a)+(b)))*)");
 
 
-FiniteStateAutomation A2;//Automation with one state (for now)
-//Don't forget to put the letters for the alphabet. In the regular expression way of creating an automation, it does it automatically.
-A2.AddLetterToAlphabet('a');
-A2.AddLetterToAlphabet('b');
+	FiniteStateAutomation A2;//Automation with one state (for now)
+	//Don't forget to put the letters for the alphabet. In the regular expression way of creating an automation, it does it automatically.
+	A2.AddLetterToAlphabet('a');
+	A2.AddLetterToAlphabet('b');
 
-A2.AddState();
-A2.AddTransition(0, 1, 'a');
-A2.AddTransition(1, 1, 'a');
-A2.AddTransition(1, 1, 'b');
+	A2.AddState();
+	A2.AddTransition(0, 1, 'a');
+	A2.AddTransition(1, 1, 'a');
+	A2.AddTransition(1, 1, 'b');
 
 
-return 0;
+	return 0;
 }
+```
 
-</code></pre>
-<p>}</p>
+
 <h2 id="control">Control</h2>
 
 <table>
