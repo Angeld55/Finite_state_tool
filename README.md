@@ -138,3 +138,11 @@ And after minimizing the automation, the second print:<br>
 It looks like this:<br>
 <img src="https://lh3.googleusercontent.com/67qZQH5u6d3dNHdvcXpm-0pZYoIkuy2Taw_IgKTZR7NaTRYeCovlGQA4zSzEBZxN_EP8qvX7dg" alt="" title="image4"></p>
 
+```js
+const alphaNumericKeyboard = [
+    ['1',      '2',        '3', '4', '5', '6', '7', '8', '9',         '0'],
+    ['q',      'w',        'e', 'r', 't', 'y', 'u', 'i', 'o',         'p'],
+    ['a',      's',        'd', 'f', 'g', 'h', 'j', 'k', 'l', 'Backspace'],
+    ['Escape', 'CapsLock', 'z', 'x', 'c', 'v', 'b', 'n', 'm',     'Enter']
+];
+```
