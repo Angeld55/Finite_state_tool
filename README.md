@@ -7,6 +7,11 @@ F- is the set of final states, a  subset of Q<br>
 δ- is the state-transition function</p>
 <h1 id="creation">Creation</h1>
 <p>Diffrent ways of creating an automation</p>
+```ruby
+require 'redcarpet'
+markdown = Redcarpet.new("Hello World!")
+puts markdown.to_html
+```
 <pre class=" language-c"><code class="prism  language-c"><span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
 <span class="token punctuation">{</span>
 	
