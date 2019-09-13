@@ -113,24 +113,7 @@ int main()
 </tbody>
 </table>
 <h2 id="example">Example</h2>
-```c++
-#include "FiniteStateAutomation.hpp"
 
-int main() 
-{
-	//Regex: a(a+b)*b + b(a+b)a
-	FiniteStateAutomation A("((((a).(((a)+(b)))*).(b))+(((b).(((a)+(b)))*).(a)))");
-
-	A.Print(); //Image 1 and 2
-
-	A.Minimize();
-
-	A.Print(); // Image 1 and 2.
-
-   	return 0;
-}
-
-```
 <p>The first print:<br>
 <img src="https://lh3.googleusercontent.com/kn6hdNn2ZmkjFB9BsS0f5W2FcM23ewhZeblTIVUculm-oMcd1O4EPuuMCIYWl1ZL3tKfcVGrCA" alt="image1" title="image 1"><br>
 After removing the unreachable states it looks like:<br>
