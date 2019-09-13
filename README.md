@@ -12,7 +12,7 @@ F- is the set of final states, a  subset of Q<br>
 δ- is the state-transition function</p>
 <h1 id="creation">Creation</h1>
 <p>Diffrent ways of creating an automation</p>
-<pre class=" language-c"><code class="prism ++ language-c"><span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
+<pre class=" language-js"><code class="prism  language-js">int <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
 <span class="token punctuation">{</span>
 	
 	<span class="token comment">//With  regular expression (Have to use many brackets for now) *fix later</span>
