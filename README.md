@@ -111,24 +111,26 @@ int main()
 <td>Intersect(A1,A2)</td>
 </tr>
 </tbody>
-</table><h2 id="example">Example</h2>
-<pre class=" language-c"><code class="prism  language-c"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"FiniteStateAutomation.hpp"</span></span>
+</table>
+<h2 id="example">Example</h2>
+```c++
+#include "FiniteStateAutomation.hpp"
 
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
-<span class="token punctuation">{</span>
-	
-	FiniteStateAutomation <span class="token function">A</span><span class="token punctuation">(</span><span class="token string">"((((a).(((a)+(b)))*).(b))+(((b).(((a)+(b)))*).(a)))"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-	<span class="token comment">// a(a+b)*b + b(a+b)a (starts and ends with diffrent letters</span>
-	
-	A<span class="token punctuation">.</span><span class="token function">Print</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//Image 1 and 2</span>
+int main() 
+{
+	//Regex: a(a+b)*b + b(a+b)a
+	FiniteStateAutomation A("((((a).(((a)+(b)))*).(b))+(((b).(((a)+(b)))*).(a)))");
 
-	A<span class="token punctuation">.</span><span class="token function">Minimize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	A.Print(); //Image 1 and 2
 
-	A<span class="token punctuation">.</span><span class="token function">Print</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Image 3 and 4.</span>
+	A.Minimize();
 
-   	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-</code></pre>
+	A.Print(); // Image 1 and 2.
+
+   	return 0;
+}
+
+```
 <p>The first print:<br>
 <img src="https://lh3.googleusercontent.com/kn6hdNn2ZmkjFB9BsS0f5W2FcM23ewhZeblTIVUculm-oMcd1O4EPuuMCIYWl1ZL3tKfcVGrCA" alt="image1" title="image 1"><br>
 After removing the unreachable states it looks like:<br>
@@ -138,25 +140,4 @@ And after minimizing the automation, the second print:<br>
 It looks like this:<br>
 <img src="https://lh3.googleusercontent.com/67qZQH5u6d3dNHdvcXpm-0pZYoIkuy2Taw_IgKTZR7NaTRYeCovlGQA4zSzEBZxN_EP8qvX7dg" alt="" title="image4"></p>
 
-```c++
-int main()
-{
 
-	//With  regular expression (Have to use many brackets for now) *fix later
-	FiniteStateAutomation A("((a).(((a)+(b)))*)");
-
-
-	FiniteStateAutomation A2;//Automation with one state (for now)
-	//Don't forget to put the letters for the alphabet. In the regular expression way of creating an automation, it does it automatically.
-	A2.AddLetterToAlphabet('a');
-	A2.AddLetterToAlphabet('b');
-
-	A2.AddState();
-	A2.AddTransition(0, 1, 'a');
-	A2.AddTransition(1, 1, 'a');
-	A2.AddTransition(1, 1, 'b');
-
-
-	return 0;
-}
-```
