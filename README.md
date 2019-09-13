@@ -1,8 +1,3 @@
----
-
-
----
-
 <h1 id="finite-state-automation">Finite State Automation</h1>
 <p>Finite state automation is A = &lt;Q,Σ,s,F,δ&gt;, where<br>
 Q - is a finite, non-empty set of states<br>
