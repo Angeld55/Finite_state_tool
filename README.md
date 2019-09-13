@@ -7,6 +7,12 @@ F- is the set of final states, a  subset of Q<br>
 δ- is the state-transition function</p>
 <h1 id="creation">Creation</h1>
 <p>Diffrent ways of creating an automation</p>
+```ruby
+require 'redcarpet'
+markdown = Redcarpet.new("Hello World!")
+puts markdown.to_html
+```
+
 <h2 id="control">Control</h2>
 
 <table>
