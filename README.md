@@ -89,7 +89,7 @@ F- is the set of final states, a  subset of Q<br>
 </tr>
 </tbody>
 </table><h2 id="example">Example</h2>
-<pre class=" language-c"><code class="prism  language-c"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"FiniteStateAutomation.hpp"</span></span>
+<pre class=" language-java"><code class="prism  language-c"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"FiniteStateAutomation.hpp"</span></span>
 
 <span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
 <span class="token punctuation">{</span>
