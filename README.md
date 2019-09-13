@@ -7,32 +7,6 @@ F- is the set of final states, a  subset of Q<br>
 δ- is the state-transition function</p>
 <h1 id="creation">Creation</h1>
 <p>Diffrent ways of creating an automation</p>
-```ruby
-require 'redcarpet'
-markdown = Redcarpet.new("Hello World!")
-puts markdown.to_html
-```
-<pre class=" language-c"><code class="prism  language-c"><span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
-<span class="token punctuation">{</span>
-	
-	<span class="token comment">//With  regular expression (Have to use many brackets for now) *fix later</span>
-	FiniteStateAutomation <span class="token function">A</span><span class="token punctuation">(</span><span class="token string">"((a).(((a)+(b)))*)"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-	
-	FiniteStateAutomation A2<span class="token punctuation">;</span><span class="token comment">//Automation with one state (for now)</span>
-	<span class="token comment">//Don't forget to put the letters for the alphabet. In the regular expression way of creating an automation, it does it automatically.</span>
-	A2<span class="token punctuation">.</span><span class="token function">AddLetterToAlphabet</span><span class="token punctuation">(</span><span class="token string">'a'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-	A2<span class="token punctuation">.</span><span class="token function">AddLetterToAlphabet</span><span class="token punctuation">(</span><span class="token string">'b'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-	A2<span class="token punctuation">.</span><span class="token function">AddState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-	A2<span class="token punctuation">.</span><span class="token function">AddTransition</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'a'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-	A2<span class="token punctuation">.</span><span class="token function">AddTransition</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'a'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-	A2<span class="token punctuation">.</span><span class="token function">AddTransition</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'b'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-
-   	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-</code></pre>
 <h2 id="control">Control</h2>
 
 <table>
