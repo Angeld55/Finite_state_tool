@@ -109,6 +109,7 @@ All basic operations with NFA-s are available:
 <td>KleeneStar(A1)</td>
 <td>Complement(A1)</td>
 <td>Intersect(A1,A2)</td>
+<td>Reverse(A1)</td>
 </tr>
 </tbody>
 </table>
