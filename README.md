@@ -106,7 +106,7 @@ All basic operations with NFA-s are available:
 <tr>
 <td>Union(A1,A2)</td>
 <td>Concat(A1,A2)</td>
-<td>KleeneStar(A1,A2)</td>
+<td>KleeneStar(A1)</td>
 <td>Complement(A1)</td>
 <td>Intersect(A1,A2)</td>
 </tr>
