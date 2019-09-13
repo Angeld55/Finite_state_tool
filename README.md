@@ -8,7 +8,7 @@ F- is the set of final states, a  subset of Q<br>
 <h1 id="creation">Creation</h1>
 <p>Diffrent ways of creating an automation</p>
 <pre><code>
-```c++
+
 
 int main()
 {
@@ -29,7 +29,7 @@ A2.AddTransition(1, 1, 'b');
 
 return 0;
 }
-```
+
 </code></pre>
 <p>}</p>
 <h2 id="control">Control</h2>
