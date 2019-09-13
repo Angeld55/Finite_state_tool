@@ -106,6 +106,7 @@ F- is the set of final states, a  subset of Q<br>
    	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
+dfsdfs
 <p>The first print:<br>
 <img src="https://lh3.googleusercontent.com/kn6hdNn2ZmkjFB9BsS0f5W2FcM23ewhZeblTIVUculm-oMcd1O4EPuuMCIYWl1ZL3tKfcVGrCA" alt="image1" title="image 1"><br>
 After removing the unreachable states it looks like:<br>
