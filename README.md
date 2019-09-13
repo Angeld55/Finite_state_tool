@@ -136,7 +136,7 @@ int main()
 
 <p>The first print:<br>
 <img src="https://lh3.googleusercontent.com/kn6hdNn2ZmkjFB9BsS0f5W2FcM23ewhZeblTIVUculm-oMcd1O4EPuuMCIYWl1ZL3tKfcVGrCA" alt="image1" title="image 1"><br>
-After removing the unreachable states it looks like:<br>
+Without the unreachable states it looks like:<br>
 <img src="https://lh3.googleusercontent.com/Wt8ptsgMGEi69QHjXjRiaKr_45mPWnQFspO39iKbA-5KCWt1AkF2jG8ovOVELPqYGcS7PBeBEw" alt="image2" title="image2"><br>
 And after minimizing the automation, the second print:<br>
 <img src="https://lh3.googleusercontent.com/iGMNgwBvphgeFmv2rNXrr0yMqtkYyLlJ-rQhy-pHdRRAGgxKRWh3_e2KSCklqwAkDGCCArbrqA" alt="" title="image3"><br>
