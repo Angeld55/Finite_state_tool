@@ -6,7 +6,7 @@ s - is an initial state, an element of Q<br>
 F- is the set of final states, a  subset of Q<br>
 δ- is the state-transition function</p>
 <h1 id="creation">Creation</h1>
-<p>Diffrent ways of creating an automation</p>
+<p>Diffrent ways of creating an automation:</p>
 
 ```c++
 int main()
