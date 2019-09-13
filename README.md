@@ -91,7 +91,7 @@ int main()
 </tr>
 </tbody>
 </table><h2 id="operations">Operations</h2>
-
+All basic operations with NFA-s are available:
 <table>
 <thead>
 <tr>
