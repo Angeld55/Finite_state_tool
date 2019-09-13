@@ -7,8 +7,28 @@ F- is the set of final states, a  subset of Q<br>
 δ- is the state-transition function</p>
 <h1 id="creation">Creation</h1>
 <p>Diffrent ways of creating an automation</p>
+<pre><code>int main()
+
+enter code here
+
+//With  regular expression (Have to use many brackets for now) *fix later
+FiniteStateAutomation A("((a).(((a)+(b)))*)");
 
 
+FiniteStateAutomation A2;//Automation with one state (for now)
+//Don't forget to put the letters for the alphabet. In the regular expression way of creating an automation, it does it automatically.
+A2.AddLetterToAlphabet('a');
+A2.AddLetterToAlphabet('b');
+
+A2.AddState();
+A2.AddTransition(0, 1, 'a');
+A2.AddTransition(1, 1, 'a');
+A2.AddTransition(1, 1, 'b');
+
+
+return 0;
+</code></pre>
+<p>}</p>
 <h2 id="control">Control</h2>
 
 <table>
@@ -89,7 +109,7 @@ F- is the set of final states, a  subset of Q<br>
 </tr>
 </tbody>
 </table><h2 id="example">Example</h2>
-<pre class=" language-java"><code class="prism  language-c"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"FiniteStateAutomation.hpp"</span></span>
+<pre class=" language-c"><code class="prism  language-c"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"FiniteStateAutomation.hpp"</span></span>
 
 <span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
 <span class="token punctuation">{</span>
@@ -106,7 +126,6 @@ F- is the set of final states, a  subset of Q<br>
    	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
-dfsdfs
 <p>The first print:<br>
 <img src="https://lh3.googleusercontent.com/kn6hdNn2ZmkjFB9BsS0f5W2FcM23ewhZeblTIVUculm-oMcd1O4EPuuMCIYWl1ZL3tKfcVGrCA" alt="image1" title="image 1"><br>
 After removing the unreachable states it looks like:<br>
