@@ -100,6 +100,7 @@ All basic operations with NFA-s are available:
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 </tr>
 </thead>
 <tbody>
