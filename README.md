@@ -138,11 +138,25 @@ And after minimizing the automation, the second print:<br>
 It looks like this:<br>
 <img src="https://lh3.googleusercontent.com/67qZQH5u6d3dNHdvcXpm-0pZYoIkuy2Taw_IgKTZR7NaTRYeCovlGQA4zSzEBZxN_EP8qvX7dg" alt="" title="image4"></p>
 
-```js
-const alphaNumericKeyboard = [
-    ['1',      '2',        '3', '4', '5', '6', '7', '8', '9',         '0'],
-    ['q',      'w',        'e', 'r', 't', 'y', 'u', 'i', 'o',         'p'],
-    ['a',      's',        'd', 'f', 'g', 'h', 'j', 'k', 'l', 'Backspace'],
-    ['Escape', 'CapsLock', 'z', 'x', 'c', 'v', 'b', 'n', 'm',     'Enter']
-];
+```c++
+int main()
+{
+
+	//With  regular expression (Have to use many brackets for now) *fix later
+	FiniteStateAutomation A("((a).(((a)+(b)))*)");
+
+
+	FiniteStateAutomation A2;//Automation with one state (for now)
+	//Don't forget to put the letters for the alphabet. In the regular expression way of creating an automation, it does it automatically.
+	A2.AddLetterToAlphabet('a');
+	A2.AddLetterToAlphabet('b');
+
+	A2.AddState();
+	A2.AddTransition(0, 1, 'a');
+	A2.AddTransition(1, 1, 'a');
+	A2.AddTransition(1, 1, 'b');
+
+
+	return 0;
+}
 ```
