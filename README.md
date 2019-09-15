@@ -1,4 +1,8 @@
 <h1 id="finite-state-automation">Finite State Automation</h1>
+
+![enter image description here](https://lh3.googleusercontent.com/bByJFV2v83qgQSU_X27YRzbG1uZ3twq855Eo3OgDWZOsChYs7KsEGHx7caeW3J3pbYA68w2wSg "example of FSA")
+
+
 <p>Finite state automation is A = &lt;Q,Σ,s,F,δ&gt;, where<br>
 Q - is a finite, non-empty set of states<br>
 Σ- is the input alphabet (a finite, non-empty set of symbols).<br>
@@ -114,7 +118,7 @@ All basic operations with NFA-s are available:
 </tr>
 </tbody>
 </table>
-<h2 id="example">Example</h2>
+<h2 id="example">Example of creating and FSA</h2>
 
 ```c++
 #include "FiniteStateAutomation.hpp"
@@ -144,5 +148,33 @@ And after minimizing the automation, the second print:<br>
 <img src="https://lh3.googleusercontent.com/iGMNgwBvphgeFmv2rNXrr0yMqtkYyLlJ-rQhy-pHdRRAGgxKRWh3_e2KSCklqwAkDGCCArbrqA" alt="" title="image3"><br>
 It looks like this:<br>
 <img src="https://lh3.googleusercontent.com/67qZQH5u6d3dNHdvcXpm-0pZYoIkuy2Taw_IgKTZR7NaTRYeCovlGQA4zSzEBZxN_EP8qvX7dg" alt="" title="image4"></p>
+<h2 id="example">Example of getting a regex from FSA</h2>
 
+```c++
+#include "FiniteStateAutomation.hpp"
 
+#include "FiniteStateAutomation.hpp"
+
+int main() 
+{	
+	// FSA for ab(a+b)*
+	FiniteStateAutomation A("(((a).(b)).(((a)+(b)))*)");
+		
+	A.Minimize(); //better to be minimized, so the regex would be simple.
+
+	A.Print();
+	
+	cout << A.GetRegEx();
+
+   	return 0;
+}
+```
+Here is the FSA:
+![
+](https://lh3.googleusercontent.com/dhlItBywP5r4jNuUtOkbLMg4cXAoxM_wUWc6uSuQyTru8ZhdKxwbmGO8_BzLQq8FoldDELIG6A "FSA to regex &#40;example 2&#41;")
+And the result:
+![
+](https://lh3.googleusercontent.com/KConC3kCvvaZycSQgcjvJxgY23h2uFHW-DEJTTWnTbW-yz339Xrt6TLsGB5PnncfJdAWUcNHtQ "regex example")
+**ab+(ab(a+b)\*(e+a+b)** *(since e,a and b are in (a+b)\*)*
+**= ab + (ab(a+b)\*)**  = *(since ab is in ab(a+b)*\*)*
+**ab(a+b)*** 
