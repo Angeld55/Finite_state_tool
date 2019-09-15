@@ -177,8 +177,8 @@ And the result:
 ](https://lh3.googleusercontent.com/KConC3kCvvaZycSQgcjvJxgY23h2uFHW-DEJTTWnTbW-yz339Xrt6TLsGB5PnncfJdAWUcNHtQ "regex example")
 
 
-**ab+(ab(a+b)\*(e+a+b)** *(since e,a and b are in (a+b)\*)*
+**ab+(ab(a+b)\*(e+a+b)** 
 
-**= ab + (ab(a+b)\*)**  = *(since ab is in ab(a+b)*\*)*
+**= ab + (ab(a+b)\*)**  = *(since e,a and b are in (a+b)\*)*
 
-**ab(a+b)*** 
+**ab(a+b)*** *(since ab is in ab(a+b)*\*)*
