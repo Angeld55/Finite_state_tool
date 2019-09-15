@@ -28,6 +28,8 @@ public:
 	String SubString(int start, int end);
 	int IndexOf(const String& other, int index); //return the index of the first encounter of other in the object
 	int IndexOf(const char* str, int index); //reusing IndexOf(const String& other, int index)
+	int CountOcurences(String str); // How many times a string is found as substring
+	int GetOcurence(String str,int i); //Get if the i-th substring (count start from 1)
 
 	const char& operator[](int index) const;
 	char& operator[](int index);
@@ -37,6 +39,7 @@ public:
 	friend std::ostream& operator<<(std::ostream& os, const String& obj);
 	friend std::istream& operator>>(std::istream& is, String& obj);
 
+	String* Split(String str);
 };
 const String operator+(const String& lhs, const String& rhs);
 
@@ -133,7 +136,7 @@ String String::SubString(int start, int end) {
 
 int String::IndexOf(const String& other, int index) {
 
-	if(index < 0 || index >= len)
+	if(index < 0)
 		throw std::logic_error("Invalid index.\n");
 
 	int iter = 0;
@@ -153,6 +156,32 @@ int String::IndexOf(const char* str, int index) {
 
 	String searched(str);
 	return IndexOf(searched, index);
+}
+
+int String::CountOcurences(String str)
+{	
+	int count = 0;
+	int i = IndexOf(str,0);
+	while (i!=-1)
+	{
+		count++;
+		i = IndexOf(str, i + 1);
+	}
+	return count;
+}
+
+inline int String::GetOcurence(String str, int num)
+{
+	int count = 0;
+	int i = IndexOf(str, 0);
+	while (i != -1)
+	{
+		count++;
+		if (count == num)
+			return i;
+		i = IndexOf(str, i + 1);
+	}
+	return count;
 }
 
 const char& String::operator[](int index) const {
@@ -198,6 +227,7 @@ std::istream& operator>>(std::istream& is, String& obj) {
 
 	return is;
 }
+
 
 const String operator+(const String& lhs, const String& rhs) {
 	if (lhs.getLenght() == 0)

@@ -28,7 +28,8 @@ public:
 	bool Contains(T elem) const;
 	void Print();
 	int getAt(int ind) const;
-	friend bool operator==(const Set<T>& rhs, const Set<T>& lhs);
+
+	//friend bool operator==(const Set<T>& rhs, const Set<T>& lhs);
 
 
 };
@@ -187,32 +188,32 @@ Set<T> Intersection(const Set<T>& set1, const Set<T>& set2) {
 }
 
 template<typename T>
-Set<T> SetDifference(const Set<T>& set1, const Set<T>& set2) {
+Set<T> SetDifference(const Set<T>& set1,const Set<T>& set2) {
 
 	Set<T> new_set;
 	bool isIn = false;
 
 	for (int i = 0; i < set1.getSize(); i++) {
 		for (int j = 0; j < set2.getSize(); j++) {
-			if (set1.getElement(i) == set2.getElement(j))
+			if (set1.getElement(i) == set2.getElement(j)) 
 				isIn = true;
 		}
 
-		if (!isIn)
+		if (!isIn) 
 			new_set.Add(set1.getElement(i));
-
+		
 		isIn = false;
 	}
 	return new_set;
 }
-template<typename T>
-bool operator==(const Set<T>& rhs, const Set<T>& lhs) {
+
+bool operator==(const Set<int>& rhs, const Set<int>& lhs) {
 
 	if (rhs.getSize() != lhs.getSize())
 		return  false;
 	for (int i = 0; i < lhs.getSize(); ++i)
 	{
-		if (!rhs.Contains(lhs.elements[i]))
+		if (!rhs.Contains(lhs.getAt(i)))
 			return false;
 	}
 	return true;
