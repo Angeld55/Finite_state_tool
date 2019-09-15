@@ -170,9 +170,15 @@ int main()
 }
 ```
 Here is the FSA:
+
+
 ![
 ](https://lh3.googleusercontent.com/dhlItBywP5r4jNuUtOkbLMg4cXAoxM_wUWc6uSuQyTru8ZhdKxwbmGO8_BzLQq8FoldDELIG6A "FSA to regex &#40;example 2&#41;")
+
+
 And the result:
+
+
 ![
 ](https://lh3.googleusercontent.com/KConC3kCvvaZycSQgcjvJxgY23h2uFHW-DEJTTWnTbW-yz339Xrt6TLsGB5PnncfJdAWUcNHtQ "regex example")
 
