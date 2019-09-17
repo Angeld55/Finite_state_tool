@@ -48,8 +48,8 @@ public:
 	bool AddTransition(int start, int end, char ch); //add edge between two states
 	bool ChangeStartState(int state);
 	bool MakeStateFinal(int state);
-
-
+	void RemoveState(int state);
+	void RemoveNotReachable();
 	bool Recognize(String str); //return true if automation recognize the string
 	bool IsEmptyLanguage();
 	
@@ -81,11 +81,9 @@ public:
 
 	void Print();
 
+	
 
 private:
-
-	bool checkIfReachable(int state);
-	void removeState(int);
 
 	bool existState(int state); //check if state exists
 	void absorb(const FiniteStateAutomation& a);
@@ -94,8 +92,13 @@ private:
 	void CheckIfOneStated();
 
 	//for determinstisation
+	
+	DynamicArray<int> getNotReachable(int from);
+	void DFS(int state, bool* visited);
+	FiniteStateAutomation ReverseTransiotions();
 	Set<int> getTransiotions(int start, char ch);
 	Set<int> getTransiotions(Set<int>, char ch);
+	
 
 	//for kleeny theorem
 	String getRegEx(int start, int end, int bound, bool needEpsilon);
@@ -105,6 +108,13 @@ private:
 
 	//for Automation to regex.
 	bool needBrackets(String regex);
+
+	//for minimal autoamta (for Brzozowski theorem).
+	bool makingMinimal = false;
+	Set<int> starts; //simulates multiple starting states for Brzozowski theorem
+	bool shouldStartBeFinal;
+
+	void removeNotReachable(int from);
 
 	bool isSubRegex(String regex, String regex2);
 };
@@ -259,6 +269,63 @@ void FiniteStateAutomation::CheckIfOneStated()
 	}
 }
 
+void FiniteStateAutomation::removeNotReachable(int from)
+{
+	DynamicArray<int> notR = getNotReachable(from);
+	notR.Sort();
+	for (int i = notR.getSize() - 1; i >= 0; --i)
+		RemoveState(notR[i]);
+}
+
+DynamicArray<int> FiniteStateAutomation::getNotReachable(int from)
+{
+	bool* temp = new bool[automation.getSize()];
+	for (int i = 0; i < automation.getSize(); ++i)
+		temp[i] = false;
+
+	DFS(from, temp);
+
+	DynamicArray<int> unvisited;
+	for (int i = 0; i < automation.getSize(); ++i)
+	{
+		if (!temp[i])
+			unvisited.PushBack(i);
+
+	}
+	delete[] temp;
+	return unvisited;
+
+}
+
+void FiniteStateAutomation::DFS(int state, bool* visited)
+{
+
+	visited[state] = true;
+	for (int i = 0; i < automation[state].getSize(); ++i)
+	{
+		if (!visited[automation[state][i].dest])
+			DFS(automation[state][i].dest,visited);
+	}
+}
+
+FiniteStateAutomation FiniteStateAutomation::ReverseTransiotions()
+{
+	FiniteStateAutomation result(automation.getSize());
+	result.alphabet = alphabet;
+
+	//reverse all the transition
+	for (int i = 0; i < automation.getSize(); ++i)
+	{
+		for (int j = 0; j < automation[i].getSize(); ++j)
+		{
+			edge current = automation[i][j];
+			result.AddTransition(current.dest, i, current.ch);
+		}
+	}
+	return result;
+
+}
+
 Set<int> FiniteStateAutomation::getTransiotions(int start, char ch)
 {
 	Set<int> result;
@@ -276,6 +343,42 @@ Set<int> FiniteStateAutomation::getTransiotions(Set<int> s, char ch)
 	for (int i = 0; i < s.getSize(); ++i)
 		result = Union(result, getTransiotions(s.getAt(i), ch));
 	return result;
+}
+
+ void FiniteStateAutomation::RemoveState(int state)
+{
+	if (state==startState)
+		return;
+	automation.RemoveAt(state);
+	for (int i = 0; i < automation.getSize(); ++i)
+	{
+		
+		for (int j = 0; j < automation[i].getSize(); ++j)
+		{
+			if (automation[i][j].dest>state)
+				automation[i][j].dest--;
+			else if (automation[i][j].dest == state)//may not be the case if it's unreachable
+				automation[i].RemoveAt(j--);
+		}
+	}
+	Set<int> fs;
+	for (int i = 0; i < finalStates.getSize(); ++i)
+	{
+
+		int finalState = finalStates.getAt(i);
+
+		if (finalState == state)
+			continue;
+		if (finalState > state)
+			finalState--;
+		fs.Add(finalState);
+	}
+	finalStates = fs;
+}
+
+void FiniteStateAutomation::RemoveNotReachable()
+{
+	removeNotReachable(startState);
 }
 
 bool FiniteStateAutomation::Recognize(String str) {
@@ -401,33 +504,33 @@ void FiniteStateAutomation::Print() {
 	std::cout << std::endl;
 }
 
-void FiniteStateAutomation::removeState(int state)
-{
-	automation.RemoveAt(state);
-	for (int i = 0; i < automation.getSize(); ++i)
-	{
-		for (int j = 0; j < automation[i].getSize(); ++j)
-		{
-			if (automation[i][j].dest>state)
-				automation[i][j].dest--;
-		}
-	}
-}
+
 
 bool t(const Set<int>& l, const Set<int>& r);
 void FiniteStateAutomation::MakeDeterministic()
 {
 	FiniteStateAutomation result;
 	result.alphabet = alphabet;
+	result.makingMinimal = makingMinimal;
 	Queue<Set<int>> newStates;
 	Dictionary newStatesIndecies;
 
 	//init start state
+	
 	Set<int> newStartState;
-	newStartState.Add(startState);
-	if (GetFinalStates().Contains(startState))
-		result.MakeStateFinal(0);
-
+	
+	if (!makingMinimal)
+	{
+		newStartState.Add(startState);
+		if (GetFinalStates().Contains(startState))
+			result.MakeStateFinal(0);
+	}
+	else
+	{
+		newStartState = starts;
+		if (shouldStartBeFinal)
+			result.MakeStateFinal(0);
+	}
 	newStatesIndecies.put(newStartState, 0);
 	newStates.Push(newStartState);
 
@@ -463,26 +566,27 @@ void FiniteStateAutomation::MakeDeterministic()
 			}
 		}
 	}
+	
 	*this = result;
-
+	//Print();
 }
 
 void FiniteStateAutomation::Reverse()
 {
-	FiniteStateAutomation result(automation.getSize());
-	result.alphabet = alphabet;
-
-	//reverse all the transition
-	for (int i = 0; i < automation.getSize(); ++i)
-	{
-		for (int j = 0; j < automation[i].getSize(); ++j)
-		{
-			edge current = automation[i][j];
-			result.AddTransition(current.dest, i, current.ch);
-		}
-	}
-
+	FiniteStateAutomation result = ReverseTransiotions();
 	result.MakeStateFinal(startState);
+	if (makingMinimal)
+	{
+		Set<int> temp = finalStates;
+		bool temp2=false;
+		if (finalStates.Contains(startState))
+			temp2 = true;
+		result.starts = temp;
+		result.shouldStartBeFinal = temp2;
+		result.makingMinimal = true;
+		*this = result;
+		return;
+	}
 
 	//new start state
 	int newStart = result.AddState();
@@ -492,7 +596,7 @@ void FiniteStateAutomation::Reverse()
 	if (GetFinalStates().Contains(startState))
 		result.MakeStateFinal(newStart);
 
-	//
+	//add the transiotions to the new start state.
 	for (int i = 0; i < finalStates.getSize(); ++i)
 	{
 		int currentFinalState = finalStates.getAt(i);
@@ -508,17 +612,22 @@ void FiniteStateAutomation::Reverse()
 
 void FiniteStateAutomation::Minimize()
 {
+
 	MakeDeterministic();
+
+	makingMinimal = true;
 
 	Reverse();
 
-	MakeDeterministic();
+	Print();
 	
+	MakeDeterministic();
+
 	Reverse();
 
 	MakeDeterministic();
 
-	CheckIfOneStated();
+	makingMinimal = false;
 	
 }
 
@@ -599,12 +708,7 @@ FiniteStateAutomation Complement(const FiniteStateAutomation& a)
 	return Complement(Union(Complement(a), Complement(b))); // De Morgan's Laws
 }
 
-FiniteStateAutomation Reverse(const FiniteStateAutomation& a)
-{
-	FiniteStateAutomation res(a);
-	res.Reverse();
-	return res;
-}
+FiniteStateAutomation Reverse(const FiniteStateAutomation& a);
 
 FiniteStateAutomation BuildFiniteStateAutomation(String reg) {
 
@@ -658,6 +762,12 @@ FiniteStateAutomation CreateBaseFiniteStateAutomation(char ch) {
 	return a;
 }
 
+inline FiniteStateAutomation Reverse(const FiniteStateAutomation& a)
+{
+	FiniteStateAutomation res(a);
+	res.Reverse();
+	return res;
+}
 
 String FiniteStateAutomation::getRegEx(int start, int end, int bound,bool needEpsilon)
 {
