@@ -66,6 +66,14 @@ int main()
 <td>Recognize(word)</td>
 <td>Return true if the word is accepted by the DFA/NFA.</td>
 </tr>
+<tr>
+<td>IsEmptyLanguage()</td>
+<td>Returns true if the FSA doesn't accept any strings.</td>
+</tr>
+<tr>
+<td>RemoveNotReachableStates()</td>
+<td>Removes all states that are not reachable from the start state..</td>
+</tr>	
 </tbody>
 </table><h2 id="properties">Properties</h2>
 
