@@ -23,6 +23,10 @@ private:
 	void Free();
 	void Resize(size_t newCap);
 	int closestPowerOfTwo(int n);
+
+	void swap(int i, int j);
+	int Partition(int low, int high);
+	void QuickSort(int low, int high);
 public:
 	void PushBack(const T& newElem); //add a new element in the end
 	T PopBack(); //removes the last element
@@ -32,7 +36,7 @@ public:
 	int getSize() const;
 	const T& operator[](size_t index) const;
 	T& operator[](size_t index);
-
+	void Sort();
 };
 
 template<typename T>
@@ -105,6 +109,42 @@ int DynamicArray<T>::closestPowerOfTwo(int n)
 	return res;
 }
 
+template <typename T>
+void DynamicArray<T>::swap(int i, int j)
+{
+	T temp = arr[i];
+	arr[i] = arr[j];
+	arr[j] = temp;
+}
+
+template <typename T>
+int DynamicArray<T>::Partition(int low, int high)
+{
+	T pivot = arr[high];  
+	int i = (low - 1); 
+	for (int j = low; j <= high - 1; j++)
+	{
+		
+		if (arr[j] < pivot)
+		{
+			i++;  
+			swap(i,j);
+		}
+	}
+	swap(i+1, high);
+	return (i + 1);
+}
+
+template <typename T>
+void DynamicArray<T>::QuickSort(int low, int high)
+{
+	if (low >= high)
+		return;
+	int pi = Partition( low, high);
+	QuickSort( low, pi - 1);
+	QuickSort(pi + 1, high);
+}
+
 template<typename T>
 void DynamicArray<T>::PushBack(const T& newElem) {
 
@@ -148,7 +188,7 @@ void DynamicArray<T>::RemoveAt(size_t index) {
 		return;
 	}
 
-	for (size_t i = index; i < curSize; i++)
+	for (size_t i = index; i < curSize-1; i++)
 		std::swap(arr[i], arr[i + 1]);
 	PopBack();
 }
@@ -184,4 +224,9 @@ T& DynamicArray<T>::operator[](size_t index) {
 	return arr[index];
 }
 
+template <typename T>
+void DynamicArray<T>::Sort()
+{
+	QuickSort(0, curSize - 1);
+}
 #endif // !DYNAMICARRAY_HDR
