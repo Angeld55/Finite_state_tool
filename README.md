@@ -118,7 +118,7 @@ All basic operations with NFA-s are available:
 </tr>
 </tbody>
 </table>
-<h2 id="example">Example of creating and FSA</h2>
+<h2 id="example">Example of creating and minimizing a FSA</h2>
 
 ```c++
 #include "FiniteStateAutomation.hpp"
