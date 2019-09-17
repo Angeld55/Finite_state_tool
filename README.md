@@ -187,4 +187,4 @@ And the result:
 
 **= ab + (ab(a+b)\*)**  *(since e,a and b are in (a+b)\*)*
 
-**= ab(a+b)*** *(since ab is in ab(a+b)*\*)*
+**= ab(a+b)*** *(since ab is in ab(a+b)*\*)
