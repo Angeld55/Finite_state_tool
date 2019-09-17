@@ -23,7 +23,7 @@ public:
 	Queue<T>& operator=(const Queue<T>& other);
 	~Queue();
 
-	bool isEmpty();
+	bool isEmpty() const;
 	void Push(T el);
 	T Pop();
 	T& Peek();
@@ -88,7 +88,7 @@ Queue<T>::~Queue() {
 }
 
 template <typename T>
-bool Queue<T>::isEmpty() {
+bool Queue<T>::isEmpty() const {
 	return count == 0;
 }
 
