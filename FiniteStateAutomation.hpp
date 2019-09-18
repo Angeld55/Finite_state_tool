@@ -8,6 +8,11 @@
 #include "String.hpp"
 #include "Dictionary.h"
 
+const int ENGLISH_ALPHABET_SIZE = 26;
+const int ALPHABET_MAXSIZE = 62;
+const int SMALL_A_INDEX = 97;
+const int ZERO_INDEX = 48;
+
 struct edge {
 
 	int dest;
@@ -143,34 +148,34 @@ FiniteStateAutomation::FiniteStateAutomation(int statesCount) :automation(states
 FiniteStateAutomation::FiniteStateAutomation(String reg)
 {
 	*this = BuildFiniteStateAutomation(reg);
-	bool* temp = new bool[62];//to keep track the symbols that are in the alphabet
-	for (int i = 0; i < 62; ++i)
+	bool* temp = new bool[ALPHABET_MAXSIZE];//to keep track the symbols that are in the alphabet
+	for (int i = 0; i < ALPHABET_MAXSIZE; ++i)
 		temp[i] = false;
 
 	for (int i = 0; i < reg.getLenght(); ++i)
 	{
 		if (reg[i] >= 'a'&&reg[i] <= 'z')
 		{
-			if (!temp[reg[i] - 97])
+			if (!temp[reg[i] - SMALL_A_INDEX])
 			{
 				AddLetterToAlphabet(reg[i]);
-				temp[reg[i]-97] = true;
+				temp[reg[i] - SMALL_A_INDEX] = true;
 			}
 		}
 		else if (reg[i] >= 'A'&&reg[i] <= 'Z')
 		{
-			if (!temp[26 + (reg[i] - 65)])
+			if (!temp[ENGLISH_ALPHABET_SIZE + (reg[i] - 65)])
 			{
 				AddLetterToAlphabet(reg[i]);
-				temp[26 + (reg[i] - 65)] = true;
+				temp[ENGLISH_ALPHABET_SIZE + (reg[i] - 65)] = true;
 			}
 		}
 		else if (reg[i] >= '0' && reg[i] <= '9')
 		{
-			if (!temp[52 + (reg[i] - 48)])
+			if (!temp[ENGLISH_ALPHABET_SIZE*2 + (reg[i] - ZERO_INDEX)])
 			{
 				AddLetterToAlphabet(reg[i]);
-				temp[52 + (reg[i] - 48)] = true;
+				temp[ENGLISH_ALPHABET_SIZE*2 + (reg[i] - ZERO_INDEX)] = true;
 			}
 		}
 		
@@ -736,13 +741,16 @@ FiniteStateAutomation BuildFiniteStateAutomation(String reg) {
 				break;
 			}
 		}
+		if (newReg[operationIndex] == '*')
+			operationIndex++;
 
 		if (newReg[operationIndex] == '+')
 			result = Union(BuildFiniteStateAutomation(newReg.SubString(0, operationIndex - 1)),
 				BuildFiniteStateAutomation(newReg.SubString(operationIndex + 1, newReg.getLenght() - 1)));
-		else if (newReg[operationIndex] = '.')
+		else if (newReg[operationIndex] == '.')
 			result = Concat(BuildFiniteStateAutomation(newReg.SubString(0, operationIndex - 1)),
 				BuildFiniteStateAutomation(newReg.SubString(operationIndex + 1, newReg.getLenght() - 1)));
+		
 	}
 
 	return result;
