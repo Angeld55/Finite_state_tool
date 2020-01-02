@@ -48,7 +48,7 @@ int main()
 <tbody>
 <tr>
 <td>AddState()</td>
-<td>Adds a new state. Return the index of the new state.</td>
+<td>Adds a new state. Returns the index of the new state.</td>
 </tr>
 <tr>
 <td>AddTransition(start,end,ch)</td>
