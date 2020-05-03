@@ -215,7 +215,7 @@ bool Set<T>::Equals(const Set<T>& other) {
 		return  false;
 	for (int i = 0; i < other.getSize(); ++i)
 	{
-		if (Contains(other.getAt(i)))
+		if (!Contains(other.getAt(i)))
 			return false;
 	}
 	return true;

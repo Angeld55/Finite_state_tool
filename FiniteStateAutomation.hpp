@@ -2,11 +2,11 @@
 #define AUTOMAT_HDR
 
 #include<iostream>
-#include "Collections/Queue.hpp"
-#include "Collections/DynamicArray.hpp"
-#include "Collections/Set.hpp"
-#include "String/String.hpp"
-#include "Collections/Dictionary.h"
+#include "../Collections/Queue.hpp"
+#include "../Collections/DynamicArray.hpp"
+#include "../Collections/Set.hpp"
+#include "../String/String.hpp"
+#include "../Collections/Dictionary.h"
 
 const int ENGLISH_ALPHABET_SIZE = 26;
 const int ALPHABET_MAXSIZE = 62;
@@ -630,21 +630,14 @@ void FiniteStateAutomation::Reverse()
 
 void FiniteStateAutomation::Minimize()
 {
-
+	//Brzozowski theorem
 	MakeDeterministic();
-
 	makingMinimal = true;
-
 	Reverse();
-
-	Print();
+	MakeDeterministic();
+	Reverse();
+	MakeDeterministic();
 	
-	MakeDeterministic();
-
-	Reverse();
-
-	MakeDeterministic();
-
 	makingMinimal = false;
 	
 }

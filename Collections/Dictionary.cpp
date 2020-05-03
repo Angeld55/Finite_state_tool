@@ -75,13 +75,13 @@ bool Dictionary::remove(Set<int> key)
 	return false;
 
 }
-int Dictionary::get(Set<int> key)
+int Dictionary::get(Set<int> searched)
 {
-	unsigned result = hashFunction(key);
+	unsigned result = hashFunction(searched);
 	Node* iter = hashTable[result];
 	while (iter)
 	{
-		if (iter->key.Equals(key))
+		if (iter->key.Equals(searched))
 			return iter->value;
 		iter = iter->next;
 	}
