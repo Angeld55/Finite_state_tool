@@ -140,7 +140,7 @@ Set<int> FiniteStateAutomation::havePathTo(int begin, String str)
 void FiniteStateAutomation::CheckIfOneStated()
 {
 	FiniteStateAutomation temp = *this;
-	temp.MakeComplete();
+	temp.MakeTotal();
 
 	if (temp.GetFinalStates().getSize() == temp.automation.getSize() || temp.GetFinalStates().getSize() == 0)
 	{
@@ -308,7 +308,7 @@ bool FiniteStateAutomation::IsEmptyLanguage()
 	return true;
 }
 
-void FiniteStateAutomation::MakeComplete()
+void FiniteStateAutomation::MakeTotal()
 {
 	bool* temp = new bool[alphabet.getSize()];
 	int errorStateIndex = -1;
@@ -570,7 +570,7 @@ FiniteStateAutomation Complement(const FiniteStateAutomation& a)
 
 	FiniteStateAutomation result = a;
 	result.MakeDeterministic();
-	result.MakeComplete();
+	result.MakeTotal();
 	Set<int> newFinals;
 	for (int i = 0; i < result.automation.getSize(); ++i)
 	{

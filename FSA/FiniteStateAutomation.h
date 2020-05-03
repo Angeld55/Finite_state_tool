@@ -85,7 +85,7 @@ public:
 	
 	bool IsDeterministic();
 	
-	void MakeComplete();
+	void MakeTotal();
 	void MakeDeterministic();
 	void Minimize();
 

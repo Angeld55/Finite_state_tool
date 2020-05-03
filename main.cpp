@@ -5,7 +5,7 @@ int main()
 	//Example for NFA with reg. expr: (a(a+b)*b) + (b(a+b)*a)
 
 
-	FiniteStateAutomation a("((((a).(((a)+(b)))*).(b))+(((b).(((a)+(b)))*).(a)))"); // (a(a+b)*b) + (b(a+b)*a)
+	FiniteStateAutomation a("((((a)+(b)))*.(b))"); // (a(a+b)*b) + (b(a+b)*a)
 
 	std::cout << a.Accept("abba") << std::endl; //false
 	std::cout << a.Accept("abbb") << std::endl; //true
