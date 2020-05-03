@@ -192,7 +192,7 @@ void FiniteStateAutomation::DFS(int state, bool* visited)
 	}
 }
 
-FiniteStateAutomation FiniteStateAutomation::ReverseTransiotions()
+FiniteStateAutomation FiniteStateAutomation::ReverseTransitions()
 {
 	FiniteStateAutomation result(automation.getSize());
 	result.alphabet = alphabet;
@@ -210,7 +210,7 @@ FiniteStateAutomation FiniteStateAutomation::ReverseTransiotions()
 
 }
 
-Set<int> FiniteStateAutomation::getTransiotions(int start, char ch)
+Set<int> FiniteStateAutomation::getTransitions(int start, char ch)
 {
 	Set<int> result;
 	for (int i = 0; i < automation[start].getSize(); ++i)
@@ -221,11 +221,11 @@ Set<int> FiniteStateAutomation::getTransiotions(int start, char ch)
 	return result;
 }
 
-Set<int> FiniteStateAutomation::getTransiotions(Set<int> s, char ch)
+Set<int> FiniteStateAutomation::getTransitions(Set<int> s, char ch)
 {
 	Set<int> result;
 	for (int i = 0; i < s.getSize(); ++i)
-		result = Union(result, getTransiotions(s.getAt(i), ch));
+		result = Union(result, getTransitions(s.getAt(i), ch));
 	return result;
 }
 
@@ -431,7 +431,7 @@ void FiniteStateAutomation::MakeDeterministic()
 
 		for (int i = 0; i < alphabet.getSize(); ++i)
 		{
-			Set<int> currentStateSet = getTransiotions(currentState, alphabet[i]);
+			Set<int> currentStateSet = getTransitions(currentState, alphabet[i]);
 			if (currentStateSet.getSize() == 0)
 				continue;
 			if (newStatesIndecies.get(currentStateSet) != -1) //if the state exists
@@ -459,7 +459,7 @@ void FiniteStateAutomation::MakeDeterministic()
 
 void FiniteStateAutomation::Reverse()
 {
-	FiniteStateAutomation result = ReverseTransiotions();
+	FiniteStateAutomation result = ReverseTransitions();
 	result.MakeStateFinal(startState);
 	if (makingMinimal)
 	{

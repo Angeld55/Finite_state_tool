@@ -112,9 +112,9 @@ private:
 	
 	DynamicArray<int> getNotReachable(int from);
 	void DFS(int state, bool* visited);
-	FiniteStateAutomation ReverseTransiotions();
-	Set<int> getTransiotions(int start, char ch);
-	Set<int> getTransiotions(Set<int>, char ch);
+	FiniteStateAutomation ReverseTransitions();
+	Set<int> getTransitions(int start, char ch);
+	Set<int> getTransitions(Set<int>, char ch);
 	
 
 	//for kleeny theorem
