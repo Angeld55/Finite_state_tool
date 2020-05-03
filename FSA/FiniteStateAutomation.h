@@ -120,7 +120,7 @@ private:
 	//for kleeny theorem
 	String getRegEx(int start, int end, int bound, bool needEpsilon);
 
-	//for making complete
+	//for making total
 	int addErrorState();
 
 	//for Automation to regex.
