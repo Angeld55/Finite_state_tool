@@ -2,11 +2,11 @@
 #define AUTOMAT_HDR
 
 #include<iostream>
-#include "Queue.hpp"
-#include "DynamicArray.hpp"
-#include "Set.hpp"
-#include "String.hpp"
-#include "Dictionary.h"
+#include "Collections/Queue.hpp"
+#include "Collections/DynamicArray.hpp"
+#include "Collections/Set.hpp"
+#include "String/String.hpp"
+#include "Collections/Dictionary.h"
 
 const int ENGLISH_ALPHABET_SIZE = 26;
 const int ALPHABET_MAXSIZE = 62;

@@ -29,6 +29,7 @@ public:
 	void Print();
 	int getAt(int ind) const;
 
+	bool Equals(const Set<T>& other);
 	//friend bool operator==(const Set<T>& rhs, const Set<T>& lhs);
 
 
@@ -207,13 +208,14 @@ Set<T> SetDifference(const Set<T>& set1,const Set<T>& set2) {
 	return new_set;
 }
 
-bool operator==(const Set<int>& rhs, const Set<int>& lhs) {
+template<typename T>
+bool Set<T>::Equals(const Set<T>& other) {
 
-	if (rhs.getSize() != lhs.getSize())
+	if (getSize() != other.getSize())
 		return  false;
-	for (int i = 0; i < lhs.getSize(); ++i)
+	for (int i = 0; i < other.getSize(); ++i)
 	{
-		if (!rhs.Contains(lhs.getAt(i)))
+		if (Contains(other.getAt(i)))
 			return false;
 	}
 	return true;

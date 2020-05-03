@@ -1,3 +1,6 @@
+#ifndef DICTIONARY_HDR
+#define DICTIONARY_HDR
+
 #include "Set.hpp"
 #include<iostream>
 
@@ -30,3 +33,4 @@ public:
 	int get(Set<int>);
 	~Dictionary();
 };
+#endif

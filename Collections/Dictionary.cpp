@@ -16,7 +16,7 @@ Node* Dictionary::getNodeByKey(Set<int> key, int index){
 	Node* iter = hashTable[index];
 	while (iter != nullptr)
 	{
-		if (iter->key == key)
+		if (iter->key.Equals(key))
 			return iter;
 		iter = iter->next;
 	}
@@ -49,7 +49,7 @@ bool Dictionary::remove(Set<int> key)
 		return false;
 	if (Iter->next == nullptr)
 	{
-		if (Iter->key == key)
+		if (Iter->key.Equals(key))
 		{
 			delete Iter;
 			hashTable[result] = nullptr;
@@ -63,7 +63,7 @@ bool Dictionary::remove(Set<int> key)
 
 	while (Iter != nullptr)
 	{
-		if (Iter->key == key)
+		if (Iter->key.Equals(key))
 		{
 
 			prev->next = Iter->next;
@@ -81,7 +81,7 @@ int Dictionary::get(Set<int> key)
 	Node* iter = hashTable[result];
 	while (iter)
 	{
-		if (iter->key == key)
+		if (iter->key.Equals(key))
 			return iter->value;
 		iter = iter->next;
 	}
