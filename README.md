@@ -86,7 +86,7 @@ int main()
 </thead>
 <tbody>
 <tr>
-<td>MakeComplete()</td>
+<td>MakeTotal()</td>
 <td>Makes the automation complete. It shoud define a transition for each state and each input symbol. We create an error state for every non-existing transition.</td>
 </tr>
 <tr>
