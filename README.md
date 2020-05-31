@@ -181,14 +181,14 @@ Here is the FSA:
 
 
 ![
-](https://lh3.googleusercontent.com/9xZ9GA_NP6yAAjPER-vp19TbapbWFZYfsm3963ScUGIUoynVMkVT8eJaA-AEUKEb_Wy8ncLZacpSC_UOP3ukw5qFesYJNvUdUoYRhnFwHD7sP-QB-gBygUwgnj1TFjiQigmkmr8YH0Vm2ow5eGOTpK-hciFdfs2t5HTLy6wEkr5mOtCGxJP2mtPApyatOWatuc7Cqa7BCMJwmmsorjmL3-KaPMoFElb0eUdvhxiYyqbcP7r1TPm2jRL7ckNCniLVeXfejXxqkiWQsQto_ww4Pdz4EhGCbGMijhhM0WaKhbq2dUd9uLlsF8nQ9rYMMY7kYyOIhGnv0wnGhgV0zXe1em6xUlc3Vo78saQf1ELOBCMgQ_jrItFGY0q6jeMmQ2dMWelXfRkOSf5nYTGkHn5xepcq9crrhaSUQifcnsEPhm8j8DZ9CKP_BrcFxgL-psyaZ2X-6gHtYxh33KQh-A8wqFVag9j2E3nk78femDV2xstmUl3Q4uZ55LMAEYdbsHq9B-FxBanW8ehrHT9mvjtHlBzmS5aZkA6EGGvJoHx4XzhFP3rN9sFMYQBvzT_OhbzaJb5MlE6LEQkiF0c5bnRUqiOQqQ6WGhQDOe-HiYeQsFk2_YSzv4OD6f3ZQhLxwl9Ja2HYP9DuoGp8KHfSBJMH1id2nmIyLDItfjGddB-6NezQazqNWnPGgQ=w399-h205-no?authuser=0 "FSA to regex &#40;example 2&#41;")
+](https://i.ibb.co/Hzr0pmM/71001177-717157422041121-5409095346024349696-n.png "FSA to regex &#40;example 2&#41;")
 
 
 And the result:
 
 
 ![
-](https://lh3.googleusercontent.com/0vCKOAtWv5YXV_QIVrKOzc_DA4eROs49MTgHVNWw5EMfGdlNljxT76TzP8YMDNiiAFhabk1zam1ywObKlfdu-iUfFRoOyGsCIaw-VOLp4JWNPwJUiaPpm7G9cQUc41YcAooB4gTL-vU9z8vtXyi9Yjes1Wsj6tBoJNXR2qZkfRb9MTb-R9jegWmvlehhZkYHMxNbNjAL5rp8XB-25BpbBbGVV4nOImB-qEvazq1vIe-UuE_uC9C07vkdzoRUpG5vgww_XcYYfr6ckkLl6otKVTYNqi6kOv3Gft3iOmqtd3hILyjPTjwjMPIFVe-R_Gt88D59NRpJc-zBIX28u3Uwo07WnHr12zewbXwOFE1w3_H1qQ6tSrFxbD6I-DNO5kR5qq6nmOS3B51k5UeKmbEtQCwge-R8jjpuEwZafkOHao5DsSzEXlI0n5knoad2vh3FrKLPKHKpWBLbb_Had_gAishqUSIZzWZ_XfegEz3yW2yXUHHSAXBso4INDxl_eRXtMV3E-6d3VAuoeHL1-0fXuVcXy-k3Btjdzgxz959XnGXQzg-3EgYvi42XY2gPP5VfuNgbfmmrH2xSNjUxHRR4ijeWrzYfskhBTdr_JVfNPHDFFhbYBEcREeEq7TrAjjssuZs1obIAHcQP9PRSshRQhIX1bhvBT1mRfby5AGX6V4CDITib-8yLkw=w394-h57-no?authuser=0 "regex example")
+](https://i.ibb.co/frkg9K6/Capture.png "regex example")
 
 
 **ab+(ab(a+b)\*(e+a+b))** 
