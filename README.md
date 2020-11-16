@@ -1,4 +1,4 @@
-<h1 id="finite-state-automation">Finite State Automation</h1>
+<h1 id="finite-state-automation">1. Finite State Automation</h1>
 
 ![enter image description here](https://i.ibb.co/FKQgLBg/69973577-352536238957668-4630865521305190400-n.png "example of FSA")
 
@@ -196,3 +196,14 @@ And the result:
 **= ab + (ab(a+b)\*)**  *(since e,a and b are in (a+b)\*)*
 
 **= ab(a+b)*** *(since ab is in ab(a+b)*\*)
+
+<h1 id="NPDA">1.Non-deterministic Pushdown Automation</h1>
+<p>.Non-deterministic Pushdown Automation is P = &lt;Q,Σ,G,#, s,F,δ&gt;, where<br>
+Q - is a finite, non-empty set of states<br>
+Σ- is the input alphabet (a finite, non-empty set of symbols).<br>
+G-  finite set which is called the stack alphabet.<br>
+# - initial stack symbol. <br>
+s - is an initial state, an element of Q<br>
+F- is the set of final states, a  subset of Q<br>
+δ- is the transition function</p>
+
