@@ -3,7 +3,6 @@
 
 NPDA::NPDA(size_t states) : finalStates(states)
 {}
-//"S->aSa|B"
 
 NPDA::NPDA(const ContextFreeGrammar grammar) : NPDA(3)
 {
