@@ -211,7 +211,7 @@ F- is the set of final states, a  subset of Q<br>
 
 **! The empty string/symbol is $ !**
 
-****Each rule(transition) looks like this: ****
+**Each rule(transition) looks like this: **
 
 ****<current state, read symbol from the tape, top of the stack, destination state, string to replace the top of stack>****
 
