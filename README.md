@@ -198,7 +198,7 @@ And the result:
 **= ab(a+b)*** *(since ab is in ab(a+b)*\*)
 
 <h1 id="NPDA">2. Non-deterministic Pushdown Automation</h1>
-![pda](https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Pushdown-overview.svg/680px-Pushdown-overview.svg.png "example of NDFA")
+![pda](https://i.postimg.cc/wv6HYmvw/680px-Pushdown-overview-svg.png "example of NDFA")
 
 <p>.Non-deterministic Pushdown Automation is P = &lt;Q,Σ,G,#, s,F,δ&gt;, where<br>
 Q - is a finite, non-empty set of states<br>
