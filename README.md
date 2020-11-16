@@ -209,11 +209,11 @@ s - is an initial state, an element of Q<br>
 F- is the set of final states, a  subset of Q<br>
 δ- is the transition function</p>
 
-**! The empty string/symbol is $**
+**! The empty string/symbol is $ !**
 
 ****Each rule(transition) looks like this: <current state, read symbol from the tape, top of the stack, destination state, string to replace the top of stack>****
-***** Example 1: <0,'a', 'A', 1, "BA"> From state 0 to state 1, we push B to the stack *****
-***** Example 2: <0,'b', 'A', 3, "$"> From state 0 to state 3, we pop A from the stack (since $ is the empty string) *****
+* Example 1: <0,'a', 'A', 1, "BA"> From state 0 to state 1, we push B to the stack *
+*Example 2: <0,'b', 'A', 3, "$"> From state 0 to state 3, we pop A from the stack (since $ is the empty string) *
 **Example for NPDA for { ww^rev | w in {a,b}* }**
 ```c++
 // Example for Nondeterministic pushdown automata for { ww^rev | w in {a,b}* }
