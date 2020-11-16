@@ -1,5 +1,5 @@
-#include "FSA\FiniteStateAutomation.h"
-#include "NPDA\NPDA.h"
+#include "Finate_state_automation\FiniteStateAutomation.h"
+#include "Nondeterministic_pushdown_automaton\NPDA.h"
 
 int main() 
 {	
@@ -54,9 +54,9 @@ int main()
 
 	NPDA PA2(cfg);
 
-	std::cout << PA2.Accepts("abc") << std::endl; //true
+	std::cout << PA2.Accepts("abc", true) << std::endl; //true
 	std::cout << PA2.Accepts("aaaaaabbbbcccccc") << std::endl; //true
-	std::cout << PA2.Accepts("abcc") << std::endl; //true
+	std::cout << PA2.Accepts("abcc") << std::endl; //false
 
 	return 0;
 }
