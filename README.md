@@ -159,9 +159,7 @@ It looks like this:<br>
 <h2 id="example">Example of getting a regex from FSA</h2>
 
 ```c++
-#include "FiniteStateAutomation.hpp"
 
-#include "FiniteStateAutomation.hpp"
 
 int main() 
 {	
@@ -211,3 +209,62 @@ s - is an initial state, an element of Q<br>
 F- is the set of final states, a  subset of Q<br>
 δ- is the transition function</p>
 
+**! The empty string/symbol is $**
+
+****Each rule(transition) looks like this: <current state, read symbol from the tape, top of the stack, destination state, string to replace the top of stack>****
+***** Example 1: <0,'a', 'A', 1, "BA"> From state 0 to state 1, we push B to the stack *****
+***** Example 2: <0,'b', 'A', 3, "$"> From state 0 to state 3, we pop A from the stack (since $ is the empty string) *****
+**Example for NPDA for { ww^rev | w in {a,b}* }**
+```c++
+// Example for Nondeterministic pushdown automata for { ww^rev | w in {a,b}* }
+int main()
+{
+	NPDA PA(3); //3 initial states
+
+	PA.MakeFinal(2);
+	PA.AddTransition(0, 'a', '#', 0, "A#");
+	PA.AddTransition(0, 'b', '#', 0, "B#");
+	PA.AddTransition(0, '$', '#', 2, "$");
+
+	PA.AddTransition(0, 'a', 'A', 0, "AA");
+	PA.AddTransition(0, 'a', 'A', 1, "$");
+
+	PA.AddTransition(0, 'b', 'B', 0, "BB");
+	PA.AddTransition(0, 'b', 'B', 1, "$");
+
+	PA.AddTransition(0, 'b', 'A', 0, "BA");
+	PA.AddTransition(0, 'a', 'B', 0, "AB");
+
+	PA.AddTransition(1, 'a', 'A', 1, "$");
+	PA.AddTransition(1, 'b', 'B', 1, "$");
+
+	PA.AddTransition(1, '$', '#', 2, "$");
+
+	std::cout << PA.Accepts("abba") << std::endl; //true
+	std::cout << PA.Accepts("abbb") << std::endl; //false
+	std::cout << PA.Accepts("aaabbbbbbaaa") << std::endl; //true
+}
+
+```
+<h1 id="NPDA">3. Context-Free Grammar</h1>
+We can input out context-free grammar (CFG) and it will simulate it using NPDA.
+
+**Example for simulating a CFG**
+```c++
+int main()
+{
+	//Example Nondeterministic pushdown automata  from a context-free grammar
+	// S->aSc | B
+	// B->bB | $
+	// L(S) = { a^n b^k c^n | n,k \in N}
+	ContextFreeGrammar cfg;
+	cfg.grammarRules.push_back("S->aSc|B");
+	cfg.grammarRules.push_back("B->bB|$");
+
+	NPDA PA2(cfg);
+
+	std::cout << PA2.Accepts("abc", true) << std::endl; //true
+	std::cout << PA2.Accepts("aaaaaabbbbcccccc") << std::endl; //true
+	std::cout << PA2.Accepts("abcc") << std::endl; //false
+}
+```
