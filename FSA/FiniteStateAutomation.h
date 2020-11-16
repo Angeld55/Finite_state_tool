@@ -66,7 +66,7 @@ public:
 	bool MakeStateFinal(int state);
 	void RemoveState(int state);
 	void RemoveNotReachable();
-	bool Accept(String str); //returns true if automation accepts the string
+	bool Accepts(String str); //returns true if automation accepts the string
 	bool IsEmptyLanguage();
 	
 
@@ -91,7 +91,6 @@ public:
 
 	String GetRegEx(); //kleeny theorem
 
-
 	int GetStatesCount() const;
 	int GetStartState() const;
 	Set<int> GetFinalStates() const;
@@ -110,7 +109,7 @@ private:
 
 	//for determinstisation
 	
-	DynamicArray<int> getNotReachable(int from);
+	DynamicArray<int> getNotReachableStates(int from);
 	void DFS(int state, bool* visited);
 	FiniteStateAutomation ReverseTransitions();
 	Set<int> getTransitions(int start, char ch);
@@ -123,9 +122,6 @@ private:
 	//for making total
 	int addErrorState();
 
-	//for Automation to regex.
-	bool needBrackets(String regex);
-
 	//for minimal autoamta (for Brzozowski theorem).
 	bool makingMinimal = false;
 	Set<int> starts; //simulates multiple starting states for Brzozowski theorem
@@ -133,7 +129,6 @@ private:
 
 	void removeNotReachable(int from);
 
-	bool isSubRegex(String regex, String regex2);
 };
 
 FiniteStateAutomation BuildFiniteStateAutomation(String reg);

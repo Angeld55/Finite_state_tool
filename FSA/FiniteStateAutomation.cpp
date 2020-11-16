@@ -155,13 +155,13 @@ void FiniteStateAutomation::CheckIfOneStated()
 
 void FiniteStateAutomation::removeNotReachable(int from)
 {
-	DynamicArray<int> notR = getNotReachable(from);
+	DynamicArray<int> notR = getNotReachableStates(from);
 	notR.Sort();
 	for (int i = notR.getSize() - 1; i >= 0; --i)
 		RemoveState(notR[i]);
 }
 
-DynamicArray<int> FiniteStateAutomation::getNotReachable(int from)
+DynamicArray<int> FiniteStateAutomation::getNotReachableStates(int from)
 {
 	bool* temp = new bool[automation.getSize()];
 	for (int i = 0; i < automation.getSize(); ++i)
@@ -265,7 +265,7 @@ void FiniteStateAutomation::RemoveNotReachable()
 	removeNotReachable(startState);
 }
 
-bool FiniteStateAutomation::Accept(String str)
+bool FiniteStateAutomation::Accepts(String str)
 {
 	Set<int> result = havePathTo(startState, str);
 	Set<int> intersection = Intersection(finalStates, result);
@@ -652,6 +652,22 @@ inline FiniteStateAutomation Reverse(const FiniteStateAutomation& a)
 	return res;
 }
 
+//if a regex need brackets for better understanding in Auomation to regex conversation.
+bool needBrackets(String regex)
+{
+	if (regex.getLenght() == 0)
+		return false;
+	if (regex[0] == '(' && regex[regex.getLenght() - 1] == ')')
+		return false;
+
+	for (int i = 0; i < regex.getLenght(); ++i)
+	{
+		if (regex[i] == '+')
+			return true;
+	}
+	return regex[regex.getLenght() - 1] == '*';
+}
+
 String FiniteStateAutomation::getRegEx(int start, int end, int bound, bool needEpsilon)
 {
 	if (bound == 0)
@@ -737,23 +753,5 @@ int FiniteStateAutomation::addErrorState()
 	return ind;
 }
 
-//if a regex need brackets for better understanding in Auomation to regex conversation.
-bool FiniteStateAutomation::needBrackets(String regex)
-{
-	if (regex.getLenght() == 0)
-		return false;
-	if (regex[0] == '(' && regex[regex.getLenght() - 1] == ')')
-		return false;
 
-	for (int i = 0; i < regex.getLenght(); ++i)
-	{
-		if (regex[i] == '+')
-			return true;
-	}
-	return regex[regex.getLenght() - 1] == '*';
-}
 
-bool FiniteStateAutomation::isSubRegex(String regex, String regex2) //TBI
-{
-	return false;
-}
