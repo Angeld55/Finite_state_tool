@@ -258,8 +258,10 @@ int main()
 We can input out context-free grammar (CFG) and it will simulate it using NPDA.
 
 **Example for simulating the CFG:**
+
 **S->aSc|B**
 **B->bB|$**
+
 ```c++
 int main()
 {
