@@ -251,6 +251,10 @@ int main()
 
 ```
 <h1 id="NPDA">3. Context-Free Grammar</h1>
+
+![
+](https://i.postimg.cc/DzDG07Vk/CFG.png "regex example")
+
 We can input out context-free grammar (CFG) and it will simulate it using NPDA.
 
 **Example for simulating a CFG**
