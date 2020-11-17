@@ -63,7 +63,7 @@ int main()
 <td>Marks the given state as final. Returns false if the state doesn’t exist.</td>
 </tr>
 <tr>
-<td>Accept(word)</td>
+<td>Accepts(word)</td>
 <td>Returns true if the word is accepted by the DFA/NFA.</td>
 </tr>
 <tr>
