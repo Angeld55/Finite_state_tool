@@ -46,7 +46,7 @@ void NPDA::AddTransition(int initialState, char symbol, char stackTopSymbol, int
 {
 	rules.push_back({ initialState, symbol, stackTopSymbol, destState, stringToReplaceTopStackSymbol });
 }
-void PDA::ApplyRuleIfPossible(Computation& current, Rule& ruleToApply, queue<Computation>& q)
+void NPDA::ApplyRuleIfPossible(Computation& current, Rule& ruleToApply, queue<Computation>& q)
 {
 	if ((current.state == ruleToApply.initialState) 
 		&&((ruleToApply.symbol == '$') || (current.word[0] == ruleToApply.symbol))
