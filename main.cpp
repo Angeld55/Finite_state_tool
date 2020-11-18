@@ -1,5 +1,5 @@
 #include "Finate_state_automation\FiniteStateAutomation.h"
-#include "Nondeterministic_pushdown_automaton\NPDA.h"
+#include "Non-deterministic_pushdown_automaton\NPDA.h"
 
 int main() 
 {	
