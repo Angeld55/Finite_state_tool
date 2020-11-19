@@ -18,15 +18,13 @@ int main()
 
 	//With  regular expression (Have to use many brackets for now) *fix later
 	// Automation for a(a+b)*
-	FiniteStateAutomation A("((a).(((a)+(b)))*)");
+	FiniteStateAutomation A("a(a+b)*");
 
 
-	FiniteStateAutomation A2;//Automation with one state (for now)
-	//Don't forget to put the letters for the alphabet. In the regular expression way of creating an automation, it does it automatically.
-	A2.AddLetterToAlphabet('a');
-	A2.AddLetterToAlphabet('b');
+	FiniteStateAutomation A2; //Only one state with index 0
 
-	A2.AddState();
+
+	A2.AddState(); //Adds state with index 1
 	A2.AddTransition(0, 1, 'a');
 	A2.AddTransition(1, 1, 'a');
 	A2.AddTransition(1, 1, 'b');

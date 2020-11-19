@@ -71,6 +71,7 @@ bool FiniteStateAutomation::AddTransition(int start, int end, char ch)
 		return false;
 	edge e(end, ch);
 	automation[start].PushBack(e);
+	alphabet.Add(ch);
 	return true;
 }
 
