@@ -20,10 +20,11 @@ int main()
 	// Automation for a(a+b)*
 	FiniteStateAutomation A("a(a+b)*");
 
+	cout << A.Accepts("abbb") << endl; //true;
+	cout << A.Accepts("bbba") << endl; //false
 
 	FiniteStateAutomation A2; //Only one state with index 0
-
-
+	
 	A2.AddState(); //Adds state with index 1
 	A2.AddTransition(0, 1, 'a');
 	A2.AddTransition(1, 1, 'a');
