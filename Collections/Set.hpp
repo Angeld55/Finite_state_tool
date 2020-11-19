@@ -27,7 +27,8 @@ public:
 	bool Add(T elem);
 	bool Contains(T elem) const;
 	void Print();
-	int getAt(int ind) const;
+	T getAt(int ind) const;
+	int IndexOf(const T& elem) const;
 
 	bool Equals(const Set<T>& other);
 	//friend bool operator==(const Set<T>& rhs, const Set<T>& lhs);
@@ -153,7 +154,7 @@ void Set<T>::Print() {
 }
 
 template <typename T>
-int Set<T>::getAt(int ind) const
+T Set<T>::getAt(int ind) const
 {
 	if (ind >= size)
 		throw  std::length_error("Invalid index!");
@@ -221,5 +222,13 @@ bool Set<T>::Equals(const Set<T>& other) {
 	return true;
 }
 
-
+template<typename T>
+int Set<T>::IndexOf(const T& elem) const
+{
+	for (int i = 0; i < size; i++) {
+		if (elements[i] == elem)
+			return i;
+	}
+	return -1;
+}
 #endif // !SET_HDR

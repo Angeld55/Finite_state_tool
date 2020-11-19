@@ -1,19 +1,21 @@
 #include "Finate_state_automation\FiniteStateAutomation.h"
 #include "Non-deterministic_pushdown_automaton\NPDA.h"
 
+
 int main() 
 {	
 	//Example for NFA with reg. expr: (a+b)*b
 
-	FiniteStateAutomation a("((((a)+(b)))*.(b))"); // ((a+b)*b)
+	FiniteStateAutomation a1("a(a+b)*b+b(a+b)*a"); // a a b + * . b . b a b + * .
+	
+	a1.Minimize();
 
-	std::cout << a.Accepts("abba") << std::endl; //false
-	std::cout << a.Accepts("abbb") << std::endl; //true
-	std::cout << a.Accepts("aaabbbbaaaaab") << std::endl; //true
+	cout << a1.Accepts("aabbab") << endl;//true;
+	cout << a1.Accepts("aabbaa") << endl;//false;
+	cout << a1.Accepts("ba") << endl;//true;
+	
+	cout << "Regex: " << a1.GetRegEx() << endl;
 
-	a.Minimize();
-	a.Print();
-	std::cout<<a.GetRegEx()<<std::endl;
    	
 	// Example for Nondeterministic pushdown automata for { ww^rev | w in {a,b}* }
 

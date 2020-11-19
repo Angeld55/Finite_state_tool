@@ -49,13 +49,13 @@ private:
 
 	Set<int> finalStates;
 	DynamicArray<DynamicArray<edge>> automation;
-	DynamicArray<char>  alphabet;
+	Set<char>  alphabet;
 
 
 public:
 	FiniteStateAutomation();
 	FiniteStateAutomation(int statesCount);
-	FiniteStateAutomation(String reg);
+	FiniteStateAutomation(const String& reg);
 
 
 	//control

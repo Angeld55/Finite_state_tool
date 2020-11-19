@@ -1,5 +1,5 @@
 #include "FiniteStateAutomation.h"
-
+#include <stack>
 
 //definitions
 FiniteStateAutomation::FiniteStateAutomation()
@@ -18,47 +18,14 @@ FiniteStateAutomation::FiniteStateAutomation(int statesCount) :automation(states
 	}
 }
 
-FiniteStateAutomation::FiniteStateAutomation(String reg)
+FiniteStateAutomation::FiniteStateAutomation(const String& reg)
 {
 	*this = BuildFiniteStateAutomation(reg);
-	bool* temp = new bool[ALPHABET_MAXSIZE];//to keep track the symbols that are in the alphabet
-	for (int i = 0; i < ALPHABET_MAXSIZE; ++i)
-		temp[i] = false;
-
-	for (int i = 0; i < reg.getLenght(); ++i)
-	{
-		if (reg[i] >= 'a'&&reg[i] <= 'z')
-		{
-			if (!temp[reg[i] - SMALL_A_INDEX])
-			{
-				AddLetterToAlphabet(reg[i]);
-				temp[reg[i] - SMALL_A_INDEX] = true;
-			}
-		}
-		else if (reg[i] >= 'A'&&reg[i] <= 'Z')
-		{
-			if (!temp[ENGLISH_ALPHABET_SIZE + (reg[i] - 65)])
-			{
-				AddLetterToAlphabet(reg[i]);
-				temp[ENGLISH_ALPHABET_SIZE + (reg[i] - 65)] = true;
-			}
-		}
-		else if (reg[i] >= '0' && reg[i] <= '9')
-		{
-			if (!temp[ENGLISH_ALPHABET_SIZE * 2 + (reg[i] - ZERO_INDEX)])
-			{
-				AddLetterToAlphabet(reg[i]);
-				temp[ENGLISH_ALPHABET_SIZE * 2 + (reg[i] - ZERO_INDEX)] = true;
-			}
-		}
-
-	}
-	delete[] temp;
 }
 
 void FiniteStateAutomation::AddLetterToAlphabet(char ch)
 {
-	alphabet.PushBack(ch);
+	alphabet.Add(ch);
 }
 
 int FiniteStateAutomation::AddState()
@@ -324,7 +291,7 @@ void FiniteStateAutomation::MakeTotal()
 			{
 				if (errorStateIndex == -1)
 					errorStateIndex = addErrorState();
-				AddTransition(i, errorStateIndex, alphabet[j]);
+				AddTransition(i, errorStateIndex, alphabet.getAt(j));
 			}
 		}
 		for (int i = 0; i < alphabet.getSize(); ++i) //we mark all letters as not-used AGAIN (for the next state)
@@ -431,13 +398,13 @@ void FiniteStateAutomation::MakeDeterministic()
 
 		for (int i = 0; i < alphabet.getSize(); ++i)
 		{
-			Set<int> currentStateSet = getTransitions(currentState, alphabet[i]);
+			Set<int> currentStateSet = getTransitions(currentState, alphabet.getAt(i));
 			if (currentStateSet.getSize() == 0)
 				continue;
 			if (newStatesIndecies.get(currentStateSet) != -1) //if the state exists
 			{
 				int destStateIndex = newStatesIndecies.get(currentStateSet);
-				result.AddTransition(currentStateIndex, destStateIndex, alphabet[i]);
+				result.AddTransition(currentStateIndex, destStateIndex, alphabet.getAt(i));
 			}
 			else
 			{
@@ -448,11 +415,11 @@ void FiniteStateAutomation::MakeDeterministic()
 				if (Intersection(currentStateSet, finalStates).getSize() != 0)
 					result.MakeStateFinal(statesCount - 1);
 
-				result.AddTransition(currentStateIndex, statesCount - 1, alphabet[i]);
+				result.AddTransition(currentStateIndex, statesCount - 1, alphabet.getAt(i));
 			}
 		}
 	}
-
+	result.MakeTotal();
 	*this = result;
 	//Print();
 }
@@ -532,7 +499,7 @@ FiniteStateAutomation Union(const FiniteStateAutomation& a, const FiniteStateAut
 
 	if (a.GetFinalStates().Contains(a.GetStartState()) || b.GetFinalStates().Contains(b.GetStartState()))
 		result.MakeStateFinal(result.GetStartState());
-
+	result.alphabet = Union(a.alphabet, b.alphabet);
 	return result;
 }
 
@@ -547,7 +514,7 @@ FiniteStateAutomation Concat(const FiniteStateAutomation& a, const FiniteStateAu
 
 	if (!b.GetFinalStates().Contains(b.GetStartState()))
 		result.finalStates = SetDifference(result.finalStates, firstFiniteStateAutomationFinalStats);
-
+	result.alphabet = Union(a.alphabet, b.alphabet);
 	return result;
 }
 
@@ -588,57 +555,139 @@ FiniteStateAutomation InterSection(const FiniteStateAutomation& a, const FiniteS
 
 FiniteStateAutomation Reverse(const FiniteStateAutomation& a);
 
-FiniteStateAutomation BuildFiniteStateAutomation(String reg)
+bool isSymbol(char ch)
 {
-	FiniteStateAutomation result;
+	return ch >= 'a' && ch <= 'z' || ch >= 'A' && ch <= 'Z' || ch >= '0' && ch <= '9' || ch == '$';
+}
+int getClosingBracketIndex(const String& reg)
+{
+	int count = 1;
+	for (int i = 1; i < reg.getLenght(); i++)
+	{
+		if (reg[i] == '(')
+			count++;
+		if (reg[i] == ')')
+			count--;
+		if (count == 0)
+			return i;
+	}
+	return -1; //error
+}
+// abc  a b . c .
+String convertRegexToRPN(const String& regex)
+{
+	String result;
+	std::stack<char> operatorStack;
 
-	if (reg.getLenght() == 3)
-		result = CreateBaseFiniteStateAutomation(reg[1]); //(a)
-
-	else if (reg[reg.getLenght() - 1] == '*')
-		result = KleeneStar(BuildFiniteStateAutomation(reg.SubString(1, reg.getLenght() - 3)));
-	else {
-		String newReg = reg.SubString(1, reg.getLenght() - 2);  //remove brackets
-
-		int countOpeningBrackets = 0;
-		int operationIndex;
-
-		for (int i = 0; i < newReg.getLenght(); i++)
+	for (int i = 0; i < regex.getLenght(); i++)
+	{
+		if (isSymbol(regex[i]))
 		{
-			if (newReg[i] == '(')
-				countOpeningBrackets++;
-			else if (newReg[i] == ')')
-				countOpeningBrackets--;
-
-			if (countOpeningBrackets == 0)
+			result += regex[i];
+				
+		}
+		else if (regex[i] == '(')
+		{
+			operatorStack.push('(');
+		}
+		else if (regex[i] == ')')
+		{
+			while (operatorStack.top() != '(')
 			{
-				operationIndex = i + 1;
-				break;
+				result += operatorStack.top();
+				operatorStack.pop();
+			}
+			operatorStack.pop();
+		}
+		else if (regex[i] == '*')
+		{
+			result += '*';
+
+		}
+		else if (regex[i] == '+')
+		{
+			while (!operatorStack.empty() && (operatorStack.top() == '.' || operatorStack.top() == '+'))
+			{
+				result += operatorStack.top();
+				operatorStack.pop();
+			}
+
+			operatorStack.push(regex[i]);
+
+		}
+		if (i != regex.getLenght() - 1)
+		{
+			char l = regex[i];
+			char r = regex[i + 1];
+			if ((isSymbol(l) && isSymbol(r) || r == '(') || (l == ')' && (isSymbol(r) || r == '(')) ||( l == '*' && (r == '(' || isSymbol(r))))
+			{
+				while (!operatorStack.empty() && (operatorStack.top() == '.' || operatorStack.top() == '*'))
+				{
+					result += operatorStack.top();
+					operatorStack.pop();
+				}
+
+				operatorStack.push('.');
 			}
 		}
-		if (newReg[operationIndex] == '*')
-			operationIndex++;
+	}
+	while (!operatorStack.empty())
+	{
+		result += operatorStack.top();
+		operatorStack.pop();
+	}
+	return result;
+}
 
-		if (newReg[operationIndex] == '+')
-			result = Union(BuildFiniteStateAutomation(newReg.SubString(0, operationIndex - 1)),
-			BuildFiniteStateAutomation(newReg.SubString(operationIndex + 1, newReg.getLenght() - 1)));
-		else if (newReg[operationIndex] == '.')
-			result = Concat(BuildFiniteStateAutomation(newReg.SubString(0, operationIndex - 1)),
-			BuildFiniteStateAutomation(newReg.SubString(operationIndex + 1, newReg.getLenght() - 1)));
+FiniteStateAutomation BuildFiniteStateAutomation(String reg)
+{
+	String regexRPN = convertRegexToRPN(reg);
+	stack<FiniteStateAutomation> automationStack;
 
+	for (int i = 0; i < regexRPN.getLenght(); i++)
+	{
+		if (isSymbol(regexRPN[i]))
+			automationStack.push(CreateBaseFiniteStateAutomation(regexRPN[i]));
+		else if (regexRPN[i] == '+')
+		{
+			FiniteStateAutomation rhs = automationStack.top();
+			automationStack.pop();
+			FiniteStateAutomation lhs = automationStack.top();
+			automationStack.pop();
+			automationStack.push(Union(lhs, rhs));
+		}
+		else if (regexRPN[i] == '.')
+		{
+			FiniteStateAutomation rhs = automationStack.top();
+			automationStack.pop();
+			FiniteStateAutomation lhs = automationStack.top();
+			automationStack.pop();
+			automationStack.push(Concat(lhs, rhs));
+		}
+		else if (regexRPN[i] == '*')
+		{
+			FiniteStateAutomation arg = automationStack.top();
+			automationStack.pop();
+			automationStack.push(KleeneStar(arg));
+		}
+
+	//	if (regexRPN[i] == '')
 	}
 
-	return result;
+	return automationStack.top(); //error
+
+
 }
 
 FiniteStateAutomation CreateBaseFiniteStateAutomation(char ch)
 {
 	FiniteStateAutomation a;
-	if (ch == 'e')
+	if (ch == '$')
 	{
 		a.MakeStateFinal(0);
 		return a;
 	}
+	a.AddLetterToAlphabet(ch);
 	a.AddState();
 	a.AddTransition(0, 1, ch);
 	a.MakeStateFinal(1);
@@ -749,7 +798,7 @@ int FiniteStateAutomation::addErrorState()
 {
 	int ind = AddState();
 	for (int i = 0; i < alphabet.getSize(); ++i)
-		AddTransition(ind, ind, alphabet[i]);
+		AddTransition(ind, ind, alphabet.getAt(i));
 	return ind;
 }
 
