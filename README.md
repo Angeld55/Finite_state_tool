@@ -134,7 +134,7 @@ All basic operations with NFA-s are available:
 int main() 
 {
 	//Regex: a(a+b)*b + b(a+b)*a
-	FiniteStateAutomation A("((((a).(((a)+(b)))*).(b))+(((b).(((a)+(b)))*).(a)))");
+	FiniteStateAutomation A("a(a+b)*b + b(a+b)*a");
 
 	A.Print(); //Image 1 and 2
 
@@ -164,7 +164,7 @@ It looks like this:<br>
 int main() 
 {	
 	// FSA for ab(a+b)*
-	FiniteStateAutomation A("(((a).(b)).(((a)+(b)))*)");
+	FiniteStateAutomation A("ab(a+b)*");
 		
 	A.Minimize(); //better to be minimized, so the regex would be simple.
 
