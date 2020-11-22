@@ -59,15 +59,15 @@ public:
 
 
 	//control
-	void AddLetterToAlphabet(char ch);
-	int AddState();
-	bool AddTransition(int start, int end, char ch); //adds an edge between two states
-	bool ChangeStartState(int state);
-	bool MakeStateFinal(int state);
-	void RemoveState(int state);
-	void RemoveNotReachable();
-	bool Accepts(String str); //returns true if automation accepts the string
-	bool IsEmptyLanguage();
+	void addLetterToAlphabet(char ch);
+	int addState();
+	bool addTransition(int start, int end, char ch); //adds an edge between two states
+	bool changeStartState(int state);
+	bool makeStateFinal(int state);
+	void removeState(int state);
+	void removeNotReachable();
+	bool accepts(String str); //returns true if automation accepts the string
+	bool isEmptyLanguage();
 	
 
 
@@ -81,21 +81,24 @@ public:
 	friend FiniteStateAutomation InterSection(const FiniteStateAutomation& a, const FiniteStateAutomation& b);
 	friend FiniteStateAutomation Reverse(const FiniteStateAutomation& a);
 
-	void Reverse();
+	void reverse();
 	
-	bool IsDeterministic();
-	
-	void MakeTotal();
-	void MakeDeterministic();
-	void Minimize();
+	bool isDeterministic();
+	bool isTotal();
 
-	String GetRegEx(); //kleeny theorem
+	void makeTotal();
+	void makeDeterministic();
+	void minimize();
 
-	int GetStatesCount() const;
-	int GetStartState() const;
-	Set<int> GetFinalStates() const;
+	String getRegEx(); //kleeny theorem
 
-	void Print();
+	int getStatesCount() const;
+	int getStartState() const;
+	Set<int> getFinalStates() const;
+
+	void print();
+
+	std::string getString();
 
 	
 
@@ -111,7 +114,7 @@ private:
 	
 	DynamicArray<int> getNotReachableStates(int from);
 	void DFS(int state, bool* visited);
-	FiniteStateAutomation ReverseTransitions();
+	FiniteStateAutomation reverseTransitions();
 	Set<int> getTransitions(int start, char ch);
 	Set<int> getTransitions(Set<int>, char ch);
 	

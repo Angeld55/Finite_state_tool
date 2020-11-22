@@ -7,11 +7,11 @@
 using namespace std;
 
 const int ALPHABET_SIZE = 26;
+const int MAX_COMPUTATION_STEPS = 50;
 struct ContextFreeGrammar;
 class NPDA
 {
-	const int MAX_COMPUTATION_STEPS = 50;
-	
+
 	struct Rule
 	{
 		int initialState;
@@ -40,15 +40,16 @@ class NPDA
 	vector<Rule> rules;
 	vector<bool> finalStates;
 
-	void ApplyRuleIfPossible(Computation& current, Rule& r, queue<Computation>& q);
+	void applyRuleIfPossible(Computation& current, Rule& r, queue<Computation>& q);
 
 	
 public:
-	NPDA(size_t states);
+	NPDA(size_t states = 1);
 	NPDA(const ContextFreeGrammar grammar);
-	void MakeFinal(size_t ind);
-	bool Accepts(const std::string& word, bool shouldPrint = false);
-	void AddTransition(int initialState, char symbol, char stackTopSymbol, int destState, string stringToReplaceTopStackSymbol);
+	bool makeFinal(size_t ind);
+	bool accepts(const std::string& word, bool shouldPrint = false);
+	void addTransition(int initialState, char symbol, char stackTopSymbol, int destState, string stringToReplaceTopStackSymbol);
+	std::string getString();
 
 };
 struct ContextFreeGrammar

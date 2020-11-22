@@ -6,9 +6,9 @@ NPDA::NPDA(size_t states) : finalStates(states)
 
 NPDA::NPDA(const ContextFreeGrammar grammar) : NPDA(3)
 {
-	MakeFinal(2);
+	makeFinal(2);
 
-	AddTransition(0, '$', '#', 1, "S#");
+	addTransition(0, '$', '#', 1, "S#");
 
 	vector<bool> usedSymbols(ALPHABET_SIZE);
 	for (int i = 0; i < grammar.grammarRules.size(); i++)
@@ -26,27 +26,28 @@ NPDA::NPDA(const ContextFreeGrammar grammar) : NPDA(3)
 				if (rule[i] >= 'a' && rule[i] <= 'z')
 					usedSymbols[rule[i] - 'a'] = true;
 			}
-			AddTransition(1, '$', var, 1, rule);
+			addTransition(1, '$', var, 1, rule);
 		}
 	}
 	for (int i = 0; i < ALPHABET_SIZE; i++)
 		if (usedSymbols[i])
-			AddTransition(1, 'a' + i, 'a' + i, 1, "$");
+			addTransition(1, 'a' + i, 'a' + i, 1, "$");
 
-	AddTransition(1, '$', '#', 2, "$");
+	addTransition(1, '$', '#', 2, "$");
 }
 
-void NPDA::MakeFinal(size_t ind)
+bool NPDA::makeFinal(size_t ind)
 {
 	if (ind >= finalStates.size())
-		return;
+		return false;
 	finalStates[ind] = true;
+	return true;
 }
-void NPDA::AddTransition(int initialState, char symbol, char stackTopSymbol, int destState, string stringToReplaceTopStackSymbol)
+void NPDA::addTransition(int initialState, char symbol, char stackTopSymbol, int destState, string stringToReplaceTopStackSymbol)
 {
 	rules.push_back({ initialState, symbol, stackTopSymbol, destState, stringToReplaceTopStackSymbol });
 }
-void NPDA::ApplyRuleIfPossible(Computation& current, Rule& ruleToApply, queue<Computation>& q)
+void NPDA::applyRuleIfPossible(Computation& current, Rule& ruleToApply, queue<Computation>& q)
 {
 	if ((current.state == ruleToApply.initialState) 
 		&&((ruleToApply.symbol == '$') || (current.word[0] == ruleToApply.symbol))
@@ -85,7 +86,7 @@ void NPDA::printComputation(const Computation& c)
 	cout << ", Word: " << c.word << ", STEPS:" << c.computationSteps << endl;
 }
 
-bool NPDA::Accepts(const std::string& word, bool shouldPrint )
+bool NPDA::accepts(const std::string& word, bool shouldPrint )
 {
 	Computation currentComputation(0, word, 0);
 	
@@ -109,10 +110,15 @@ bool NPDA::Accepts(const std::string& word, bool shouldPrint )
 		}
 
 		for (int i = 0; i < rules.size(); i++)
-			ApplyRuleIfPossible(currentComputation, rules[i], q);
+			applyRuleIfPossible(currentComputation, rules[i], q);
 
 		q.pop();
 	}
 	return false;
 
+}
+std::string NPDA::getString()
+{
+	std::string res = "States count: " + std::to_string(finalStates.size()) + ", Rules count: " + std::to_string(rules.size()) + "\n";
+	return res;
 }

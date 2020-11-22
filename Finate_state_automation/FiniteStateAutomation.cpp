@@ -1,11 +1,12 @@
 #include "FiniteStateAutomation.h"
 #include <stack>
+#include <string>
 
 //definitions
 FiniteStateAutomation::FiniteStateAutomation()
 {
 	startState = 0;
-	AddState();
+	addState();
 }
 
 FiniteStateAutomation::FiniteStateAutomation(int statesCount) :automation(statesCount)
@@ -23,19 +24,19 @@ FiniteStateAutomation::FiniteStateAutomation(const String& reg)
 	*this = BuildFiniteStateAutomation(reg);
 }
 
-void FiniteStateAutomation::AddLetterToAlphabet(char ch)
+void FiniteStateAutomation::addLetterToAlphabet(char ch)
 {
 	alphabet.Add(ch);
 }
 
-int FiniteStateAutomation::AddState()
+int FiniteStateAutomation::addState()
 {
 	DynamicArray<edge> t;
 	automation.PushBack(t);
 	return automation.getSize() - 1;
 }
 
-bool FiniteStateAutomation::ChangeStartState(int state)
+bool FiniteStateAutomation::changeStartState(int state)
 {
 	if (!existState(state))
 		return false;
@@ -43,29 +44,29 @@ bool FiniteStateAutomation::ChangeStartState(int state)
 	return true;
 }
 
-bool FiniteStateAutomation::MakeStateFinal(int state)
+bool FiniteStateAutomation::makeStateFinal(int state)
 {
 	if (!existState(state))
 		return false;
 	return finalStates.Add(state);
 }
 
-int FiniteStateAutomation::GetStatesCount() const
+int FiniteStateAutomation::getStatesCount() const
 {
 	return automation.getSize();
 }
 
-int FiniteStateAutomation::GetStartState() const
+int FiniteStateAutomation::getStartState() const
 {
 	return startState;
 }
 
-Set<int> FiniteStateAutomation::GetFinalStates() const
+Set<int> FiniteStateAutomation::getFinalStates() const
 {
 	return finalStates;
 }
 
-bool FiniteStateAutomation::AddTransition(int start, int end, char ch)
+bool FiniteStateAutomation::addTransition(int start, int end, char ch)
 {
 	if (!existState(start) && !existState(end))
 		return false;
@@ -108,15 +109,15 @@ Set<int> FiniteStateAutomation::havePathTo(int begin, String str)
 void FiniteStateAutomation::CheckIfOneStated()
 {
 	FiniteStateAutomation temp = *this;
-	temp.MakeTotal();
+	temp.makeTotal();
 
-	if (temp.GetFinalStates().getSize() == temp.automation.getSize() || temp.GetFinalStates().getSize() == 0)
+	if (temp.getFinalStates().getSize() == temp.automation.getSize() || temp.getFinalStates().getSize() == 0)
 	{
 		FiniteStateAutomation a;
-		if (GetFinalStates().getSize() != 0)
-			a.MakeStateFinal(0);
+		if (getFinalStates().getSize() != 0)
+			a.makeStateFinal(0);
 		for (int i = 0; i < automation[startState].getSize(); i++)
-			a.AddTransition(0, 0, automation[startState][i].ch);
+			a.addTransition(0, 0, automation[startState][i].ch);
 		*this = a;
 	}
 }
@@ -126,7 +127,7 @@ void FiniteStateAutomation::removeNotReachable(int from)
 	DynamicArray<int> notR = getNotReachableStates(from);
 	notR.Sort();
 	for (int i = notR.getSize() - 1; i >= 0; --i)
-		RemoveState(notR[i]);
+		removeState(notR[i]);
 }
 
 DynamicArray<int> FiniteStateAutomation::getNotReachableStates(int from)
@@ -160,7 +161,7 @@ void FiniteStateAutomation::DFS(int state, bool* visited)
 	}
 }
 
-FiniteStateAutomation FiniteStateAutomation::ReverseTransitions()
+FiniteStateAutomation FiniteStateAutomation::reverseTransitions()
 {
 	FiniteStateAutomation result(automation.getSize());
 	result.alphabet = alphabet;
@@ -171,7 +172,7 @@ FiniteStateAutomation FiniteStateAutomation::ReverseTransitions()
 		for (int j = 0; j < automation[i].getSize(); ++j)
 		{
 			edge current = automation[i][j];
-			result.AddTransition(current.dest, i, current.ch);
+			result.addTransition(current.dest, i, current.ch);
 		}
 	}
 	return result;
@@ -197,7 +198,7 @@ Set<int> FiniteStateAutomation::getTransitions(Set<int> s, char ch)
 	return result;
 }
 
-void FiniteStateAutomation::RemoveState(int state)
+void FiniteStateAutomation::removeState(int state)
 {
 	if (state == startState)
 		return;
@@ -228,12 +229,12 @@ void FiniteStateAutomation::RemoveState(int state)
 	finalStates = fs;
 }
 
-void FiniteStateAutomation::RemoveNotReachable()
+void FiniteStateAutomation::removeNotReachable()
 {
 	removeNotReachable(startState);
 }
 
-bool FiniteStateAutomation::Accepts(String str)
+bool FiniteStateAutomation::accepts(String str)
 {
 	Set<int> result = havePathTo(startState, str);
 	Set<int> intersection = Intersection(finalStates, result);
@@ -241,22 +242,22 @@ bool FiniteStateAutomation::Accepts(String str)
 	return intersection.getSize();
 }
 
-bool FiniteStateAutomation::IsEmptyLanguage()
+bool FiniteStateAutomation::isEmptyLanguage()
 {
 	bool* visited = new bool[automation.getSize()];
 	for (int i = 0; i < automation.getSize(); i++)
 		visited[i] = false;
 
 	Queue<int> gray;
-	gray.Push(GetStartState());
-	visited[GetStartState()] = true;
+	gray.Push(getStartState());
+	visited[getStartState()] = true;
 
 	while (!gray.isEmpty()) {
 
 		int currentVertex = gray.Peek();
 		gray.Pop();
 
-		if (GetFinalStates().Contains(currentVertex))
+		if (getFinalStates().Contains(currentVertex))
 		{
 			delete[] visited;
 			return false;
@@ -275,8 +276,32 @@ bool FiniteStateAutomation::IsEmptyLanguage()
 	delete[] visited;
 	return true;
 }
+bool  FiniteStateAutomation::isTotal()
+{
+	bool* temp = new bool[alphabet.getSize()];
+	int errorStateIndex = -1;
+	for (int i = 0; i < automation.getSize(); ++i)
+	{
+		for (int j = 0; j < alphabet.getSize(); ++j) 
+			temp[j] = false;
+		for (int j = 0; j < automation[i].getSize(); ++j)
+			temp[alphabet.IndexOf(automation[i][j].ch)] = true; 
+		for (int j = 0; j < alphabet.getSize(); ++j) 
+		{
+			if (!temp[j])
+			{
+				delete[] temp;
+				return false;
+			}
+		}
+		for (int i = 0; i < alphabet.getSize(); ++i) 
+			temp[i] = false;
 
-void FiniteStateAutomation::MakeTotal()
+	}
+	delete[] temp;
+	return true;
+}
+void FiniteStateAutomation::makeTotal()
 {
 	bool* temp = new bool[alphabet.getSize()];
 	int errorStateIndex = -1;
@@ -292,7 +317,7 @@ void FiniteStateAutomation::MakeTotal()
 			{
 				if (errorStateIndex == -1)
 					errorStateIndex = addErrorState();
-				AddTransition(i, errorStateIndex, alphabet.getAt(j));
+				addTransition(i, errorStateIndex, alphabet.getAt(j));
 			}
 		}
 		for (int i = 0; i < alphabet.getSize(); ++i) //we mark all letters as not-used AGAIN (for the next state)
@@ -302,7 +327,7 @@ void FiniteStateAutomation::MakeTotal()
 	delete[] temp;
 }
 
-bool FiniteStateAutomation::IsDeterministic()
+bool FiniteStateAutomation::isDeterministic()
 {
 	for (int i = 0; i < automation.getSize(); i++)
 	{
@@ -342,7 +367,22 @@ void FiniteStateAutomation::copyTransitions(int x, int y)
 		automation[x].PushBack(automation[y][i]);
 }
 
-void FiniteStateAutomation::Print()
+std::string FiniteStateAutomation::getString()
+{
+	std::string res = isDeterministic() ? "Deterministic, " : "Non-deterministic ,";
+	res += isTotal() ? "Total, " : "Non-total, ";
+	res += "Letters: {";
+	for (int i = 0; i < alphabet.getSize(); i++)
+	{
+		res += alphabet.getAt(i);
+		if (i != alphabet.getSize() - 1)
+			res += ", ";
+	
+	}
+	res += ("}, States count: " + std::to_string(automation.getSize()) + ".\n");
+	return res;
+}
+void FiniteStateAutomation::print()
 {
 	for (int i = 0; i < automation.getSize(); i++)
 	{
@@ -361,7 +401,7 @@ void FiniteStateAutomation::Print()
 }
 
 bool t(const Set<int>& l, const Set<int>& r);
-void FiniteStateAutomation::MakeDeterministic()
+void FiniteStateAutomation::makeDeterministic()
 {
 	FiniteStateAutomation result;
 	result.alphabet = alphabet;
@@ -376,14 +416,14 @@ void FiniteStateAutomation::MakeDeterministic()
 	if (!makingMinimal)
 	{
 		newStartState.Add(startState);
-		if (GetFinalStates().Contains(startState))
-			result.MakeStateFinal(0);
+		if (getFinalStates().Contains(startState))
+			result.makeStateFinal(0);
 	}
 	else
 	{
 		newStartState = starts;
 		if (shouldStartBeFinal)
-			result.MakeStateFinal(0);
+			result.makeStateFinal(0);
 	}
 	newStatesIndecies.put(newStartState, 0);
 	newStates.Push(newStartState);
@@ -405,30 +445,30 @@ void FiniteStateAutomation::MakeDeterministic()
 			if (newStatesIndecies.get(currentStateSet) != -1) //if the state exists
 			{
 				int destStateIndex = newStatesIndecies.get(currentStateSet);
-				result.AddTransition(currentStateIndex, destStateIndex, alphabet.getAt(i));
+				result.addTransition(currentStateIndex, destStateIndex, alphabet.getAt(i));
 			}
 			else
 			{
-				result.AddState();
+				result.addState();
 				newStatesIndecies.put(currentStateSet, statesCount++);
 				newStates.Push(currentStateSet);
 
 				if (Intersection(currentStateSet, finalStates).getSize() != 0)
-					result.MakeStateFinal(statesCount - 1);
+					result.makeStateFinal(statesCount - 1);
 
-				result.AddTransition(currentStateIndex, statesCount - 1, alphabet.getAt(i));
+				result.addTransition(currentStateIndex, statesCount - 1, alphabet.getAt(i));
 			}
 		}
 	}
-	result.MakeTotal();
+	result.makeTotal();
 	*this = result;
-	//Print();
+	//print();
 }
 
-void FiniteStateAutomation::Reverse()
+void FiniteStateAutomation::reverse()
 {
-	FiniteStateAutomation result = ReverseTransitions();
-	result.MakeStateFinal(startState);
+	FiniteStateAutomation result = reverseTransitions();
+	result.makeStateFinal(startState);
 	if (makingMinimal)
 	{
 		Set<int> temp = finalStates;
@@ -443,12 +483,12 @@ void FiniteStateAutomation::Reverse()
 	}
 
 	//new start state
-	int newStart = result.AddState();
-	result.ChangeStartState(newStart);
+	int newStart = result.addState();
+	result.changeStartState(newStart);
 
 	//the new start state is final if the old start state was final.
-	if (GetFinalStates().Contains(startState))
-		result.MakeStateFinal(newStart);
+	if (getFinalStates().Contains(startState))
+		result.makeStateFinal(newStart);
 
 	//add the transiotions to the new start state.
 	for (int i = 0; i < finalStates.getSize(); ++i)
@@ -457,27 +497,27 @@ void FiniteStateAutomation::Reverse()
 		for (int j = 0; j < result.automation[currentFinalState].getSize(); ++j)
 		{
 			edge current = result.automation[currentFinalState][j];
-			result.AddTransition(newStart, current.dest, current.ch);
+			result.addTransition(newStart, current.dest, current.ch);
 		}
 	}
 	*this = result;
 
 }
 
-void FiniteStateAutomation::Minimize()
+void FiniteStateAutomation::minimize()
 {
 
-	MakeDeterministic();
+	makeDeterministic();
 	makingMinimal = true;
-	Reverse();
-	MakeDeterministic();
-	Reverse();
-	MakeDeterministic();
+	reverse();
+	makeDeterministic();
+	reverse();
+	makeDeterministic();
 	makingMinimal = false;
 
 }
 
-String FiniteStateAutomation::GetRegEx()
+String FiniteStateAutomation::getRegEx()
 {
 	String res = "";
 	for (int i = 0; i < finalStates.getSize(); ++i)
@@ -493,13 +533,13 @@ FiniteStateAutomation Union(const FiniteStateAutomation& a, const FiniteStateAut
 {
 	FiniteStateAutomation result = a;
 	result.absorb(b);
-	result.AddState(); //it will be the new start state
-	result.ChangeStartState(result.GetStatesCount() - 1);
-	result.copyTransitions(result.GetStatesCount() - 1, a.GetStartState());
-	result.copyTransitions(result.GetStatesCount() - 1, a.GetStatesCount() + b.GetStartState());
+	result.addState(); //it will be the new start state
+	result.changeStartState(result.getStatesCount() - 1);
+	result.copyTransitions(result.getStatesCount() - 1, a.getStartState());
+	result.copyTransitions(result.getStatesCount() - 1, a.getStatesCount() + b.getStartState());
 
-	if (a.GetFinalStates().Contains(a.GetStartState()) || b.GetFinalStates().Contains(b.GetStartState()))
-		result.MakeStateFinal(result.GetStartState());
+	if (a.getFinalStates().Contains(a.getStartState()) || b.getFinalStates().Contains(b.getStartState()))
+		result.makeStateFinal(result.getStartState());
 	result.alphabet = Union(a.alphabet, b.alphabet);
 	return result;
 }
@@ -507,13 +547,13 @@ FiniteStateAutomation Union(const FiniteStateAutomation& a, const FiniteStateAut
 FiniteStateAutomation Concat(const FiniteStateAutomation& a, const FiniteStateAutomation& b)
 {
 	FiniteStateAutomation result = a;
-	Set<int> firstFiniteStateAutomationFinalStats(a.GetFinalStates()); // copy c-tor
+	Set<int> firstFiniteStateAutomationFinalStats(a.getFinalStates()); // copy c-tor
 	result.absorb(b);
 
 	for (int i = 0; i < firstFiniteStateAutomationFinalStats.getSize(); i++)
-		result.copyTransitions(firstFiniteStateAutomationFinalStats.getElement(i), b.GetStartState() + a.GetStatesCount());
+		result.copyTransitions(firstFiniteStateAutomationFinalStats.getElement(i), b.getStartState() + a.getStatesCount());
 
-	if (!b.GetFinalStates().Contains(b.GetStartState()))
+	if (!b.getFinalStates().Contains(b.getStartState()))
 		result.finalStates = SetDifference(result.finalStates, firstFiniteStateAutomationFinalStats);
 	result.alphabet = Union(a.alphabet, b.alphabet);
 	return result;
@@ -522,13 +562,13 @@ FiniteStateAutomation Concat(const FiniteStateAutomation& a, const FiniteStateAu
 FiniteStateAutomation KleeneStar(const FiniteStateAutomation& a)
 {
 	FiniteStateAutomation result = a;
-	result.AddState();
-	result.ChangeStartState(result.GetStatesCount() - 1);
-	result.copyTransitions(result.GetStatesCount() - 1, a.GetStartState());
+	result.addState();
+	result.changeStartState(result.getStatesCount() - 1);
+	result.copyTransitions(result.getStatesCount() - 1, a.getStartState());
 
-	for (int i = 0; i < result.GetFinalStates().getSize(); i++)
-		result.copyTransitions(result.GetFinalStates().getElement(i), result.GetStartState());
-	result.MakeStateFinal(result.GetStartState());
+	for (int i = 0; i < result.getFinalStates().getSize(); i++)
+		result.copyTransitions(result.getFinalStates().getElement(i), result.getStartState());
+	result.makeStateFinal(result.getStartState());
 
 	return result;
 }
@@ -537,8 +577,8 @@ FiniteStateAutomation Complement(const FiniteStateAutomation& a)
 {
 
 	FiniteStateAutomation result = a;
-	result.MakeDeterministic();
-	result.MakeTotal();
+	result.makeDeterministic();
+	result.makeTotal();
 	Set<int> newFinals;
 	for (int i = 0; i < result.automation.getSize(); ++i)
 	{
@@ -620,7 +660,7 @@ String convertRegexToRPN(const String& regex)
 		{
 			char l = regex[i];
 			char r = regex[i + 1];
-			if ((isSymbol(l) && isSymbol(r) || r == '(') || (l == ')' && (isSymbol(r) || r == '(')) ||( l == '*' && (r == '(' || isSymbol(r))))
+			if ((isSymbol(l) && (isSymbol(r) || r == '(')) || (l == ')' && (isSymbol(r) || r == '(')) ||( l == '*' && (r == '(' || isSymbol(r))))
 			{
 				while (!operatorStack.empty() && (operatorStack.top() == '.' || operatorStack.top() == '*'))
 				{
@@ -685,20 +725,20 @@ FiniteStateAutomation CreateBaseFiniteStateAutomation(char ch)
 	FiniteStateAutomation a;
 	if (ch == '$')
 	{
-		a.MakeStateFinal(0);
+		a.makeStateFinal(0);
 		return a;
 	}
-	a.AddLetterToAlphabet(ch);
-	a.AddState();
-	a.AddTransition(0, 1, ch);
-	a.MakeStateFinal(1);
+	a.addLetterToAlphabet(ch);
+	a.addState();
+	a.addTransition(0, 1, ch);
+	a.makeStateFinal(1);
 	return a;
 }
 
 inline FiniteStateAutomation Reverse(const FiniteStateAutomation& a)
 {
 	FiniteStateAutomation res(a);
-	res.Reverse();
+	res.reverse();
 	return res;
 }
 
@@ -797,9 +837,9 @@ String FiniteStateAutomation::getRegEx(int start, int end, int bound, bool needE
 
 int FiniteStateAutomation::addErrorState()
 {
-	int ind = AddState();
+	int ind = addState();
 	for (int i = 0; i < alphabet.getSize(); ++i)
-		AddTransition(ind, ind, alphabet.getAt(i));
+		addTransition(ind, ind, alphabet.getAt(i));
 	return ind;
 }
 
