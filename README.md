@@ -1,5 +1,9 @@
 <h1 id="finite-state-automation">Automata and formal languages tool (AFL)</h1>
+
+
 ![enter image description here](https://i.ibb.co/jfqRzQc/snapshot.png "AFL")
+
+
 | Syntax:                          | Effect:                                                                      | Example:            |
 |----------------------------------|------------------------------------------------------------------------------|---------------------|
 | FSA [name]                       |  registers an automation with one state with this name.                      |  FSA test1          |
