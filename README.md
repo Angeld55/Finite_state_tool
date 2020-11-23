@@ -2,16 +2,17 @@
 |----------------------------------|------------------------------------------------------------------------------|---------------------|
 | fsa [name]                       |  registers an automation with one state with this name.                      |  fsa test1          |
 | fsa [name] [regex]               | registers an automation with this name for this regex.                       | fsa test2 a*(a+b)*b |
-| print <name>                     | prints the automation.                                                       | print test1         |
-| <fsa1> = union <fsa2> <fsa3>     | registers an automation fsa1 which is the union of fsa2 and fsa3             | a1 = union a2 a3    |
-| <fsa1> = concat <fsa2> <fsa3>    | registers an automation fsa1 which is the concatenation of fsa2 and fsa3     | a1 = concat a2 a3   |
-| <fsa1> = intersect <fsa2> <fsa3> | registers an automation fsa1 which is the intersection of fsa2 and fsa3      | a1 = concat a2 a3   |
-| compl <fsa1>                     | fsa1 becomes an new automation for the complement of the old fsa1 automation | compl a1            |
-| <fsa1> = compl <fsa2>            | registers an automation fsa1 which is the complement of fsa2                 | a1 = compl a2       |
-|                                  |                                                                              |                     |
-|                                  |                                                                              |                     |
-|                                  |                                                                              |                     |
-|                                  |                                                                              |                     |
+| print [name]                     | prints the automation.                                                       | print test1         |
+| [fsa1] = union [fsa2] [fsa3]     | registers an automation fsa1 which is the union of fsa2 and fsa3             | a1 = union a2 a3    |
+| [fsa1] = concat [fsa2] [fsa3]    | registers an automation fsa1 which is the concatenation of fsa2 and fsa3     | a1 = concat a2 a3   |
+| [fsa1] = intersect [fsa2] [fsa3] | registers an automation fsa1 which is the intersection of fsa2 and fsa3      | a1 = concat a2 a3   |
+| star [fsa1]                      | fsa1 becomes an new automation for the Kleene star of the old fsa1 automation| star a1             |
+| [fsa1] = star [fsa2]             | registers an automation fsa1 which is the Kleene star of fsa2                | a1 = star a2        |
+| compl [fsa1]                     | fsa1 becomes an new automation for the complement of the old fsa1 automation | compl a1            |
+| [fsa1] = compl [fsa2]            | registers an automation fsa1 which is the complement of fsa2                 | a1 = compl a2       |
+| reverse [fsa1]                   | fsa1 becomes an new automation for the reverse of the old fsa1 automation    | reverse a1          |
+| [fsa1] = reverse [fsa2]          | registers an automation fsa1 which is the reverse of fsa2                    | a1 = reverse a2     |
+
 
 
 <h1 id="finite-state-automation">1. Finite State Automation</h1>
