@@ -5,7 +5,7 @@
 | print [name]                     | prints the automation.                                                       | print test1         |
 | [fsa1] = union [fsa2] [fsa3]     | registers an automation fsa1 which is the union of fsa2 and fsa3             | a1 = union a2 a3    |
 | [fsa1] = concat [fsa2] [fsa3]    | registers an automation fsa1 which is the concatenation of fsa2 and fsa3     | a1 = concat a2 a3   |
-| [fsa1] = intersect [fsa2] [fsa3] | registers an automation fsa1 which is the intersection of fsa2 and fsa3      | a1 = concat a2 a3   |
+| [fsa1] = intersect [fsa2] [fsa3] | registers an automation fsa1 which is the intersection of fsa2 and fsa3      | a1 = intersect a2 a3|
 | star [fsa1]                      | fsa1 becomes an new automation for the Kleene star of the old fsa1 automation| star a1             |
 | [fsa1] = star [fsa2]             | registers an automation fsa1 which is the Kleene star of fsa2                | a1 = star a2        |
 | compl [fsa1]                     | fsa1 becomes an new automation for the complement of the old fsa1 automation | compl a1            |
