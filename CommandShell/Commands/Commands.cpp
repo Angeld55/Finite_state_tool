@@ -304,3 +304,12 @@ std::string PrintCommand::execute(const std::vector<std::string>& args)
 		return pa->getString();
 	return  "Error! No FSA/PDA with ID: " + args[1];
 }
+std::string RegexCommand::execute(const std::vector<std::string>& args)
+{
+	if (args.size() != 2)
+		return "Error! Invalid command! (Error: 1114)";
+	FiniteStateAutomation* fs = nullptr;
+	if (dispatcher.env.getFSA(args[1], fs) == 0)
+		return std::string(fs->getRegEx().c_str());
+	return  "Error! No FSA with ID: " + args[1];
+}

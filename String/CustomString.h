@@ -41,6 +41,7 @@ public:
 	friend std::istream& operator>>(std::istream& is, CustomString& obj);
 
 	CustomString* Split(CustomString str);
+	const char* c_str();
 };
 const CustomString operator+(const CustomString& lhs, const CustomString& rhs);
 

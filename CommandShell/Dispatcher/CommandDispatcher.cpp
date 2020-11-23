@@ -17,6 +17,7 @@ CommandDispatcher::CommandDispatcher()
 	registerCommand("accepts", new AcceptsCommand(*this));
 	registerCommand("fsa", new CreationCommand(*this));
 	registerCommand("print", new PrintCommand(*this));
+	registerCommand("regex", new RegexCommand(*this));
 }
 
 void CommandDispatcher::registerCommand(const std::string& commandName, Command* command)
@@ -33,8 +34,7 @@ void CommandDispatcher::registerCommand(const std::string& commandName, Command*
 std::string CommandDispatcher::dispatch(const std::vector<std::string>& args)
 {
 	if (args.empty())
-	{
-	}
+		return "Error! Empty arguments list!";
 	if (args.size() == 1)
 		return "Error! Invalid command!";
 	std::string key = args[1] == "=" ? "assign" : args[0];

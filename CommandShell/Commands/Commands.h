@@ -69,3 +69,10 @@ public:
 	PrintCommand(CommandDispatcher& dispatcher) : Command(dispatcher){}
 	std::string execute(const std::vector<std::string>& args);
 };
+class RegexCommand : public Command
+{
+	//regex A
+public:
+	RegexCommand(CommandDispatcher& dispatcher) : Command(dispatcher){}
+	std::string execute(const std::vector<std::string>& args);
+};

@@ -184,7 +184,10 @@ std::istream& operator>>(std::istream& is, CustomString& obj) {
 	return is;
 }
 
-
+const char* CustomString::c_str()
+{
+	return str;
+}
 const CustomString operator+(const CustomString& lhs, const CustomString& rhs) {
 	if (lhs.getLenght() == 0)
 		return rhs;
