@@ -1,6 +1,6 @@
 | Syntax:                          | Effect:                                                                      | Example:            |
 |----------------------------------|------------------------------------------------------------------------------|---------------------|
-| fsa <name>                       |  registers an automation with one state with this name.                      |  fsa test1          |
+| fsa &ltname&rt                       |  registers an automation with one state with this name.                      |  fsa test1          |
 | fsa <name> <regex>               | registers an automation with this name for this regex.                       | fsa test2 a*(a+b)*b |
 | print <name>                     | prints the automation.                                                       | print test1         |
 | <fsa1> = union <fsa2> <fsa3>     | registers an automation fsa1 which is the union of fsa2 and fsa3             | a1 = union a2 a3    |
