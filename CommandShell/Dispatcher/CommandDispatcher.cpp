@@ -3,14 +3,20 @@
 CommandDispatcher::CommandDispatcher()
 {
 	registerCommand("assign", new AssignCommand(*this));
-	registerCommand("det", new DetMinTotCommand(*this));
-	registerCommand("min", new DetMinTotCommand(*this));
-	registerCommand("tot", new DetMinTotCommand(*this));
+	registerCommand("det", new UnaryCommand(*this));
+	registerCommand("min", new UnaryCommand(*this));
+	registerCommand("tot", new UnaryCommand(*this));
+
+	registerCommand("reverse", new UnaryCommand(*this));
+	registerCommand("star", new UnaryCommand(*this));
+	registerCommand("compl", new UnaryCommand(*this));
+
 	registerCommand("arc", new TransitionCommand(*this));
 	registerCommand("add_state", new AddStateCommand(*this));
 	registerCommand("make_final", new MakeFinalStateCommand(*this));
-	registerCommand("accepts", new TransitionCommand(*this));
-	registerCommand("FSA", new CreationCommand(*this));
+	registerCommand("accepts", new AcceptsCommand(*this));
+	registerCommand("fsa", new CreationCommand(*this));
+	registerCommand("print", new PrintCommand(*this));
 }
 
 void CommandDispatcher::registerCommand(const std::string& commandName, Command* command)
@@ -26,27 +32,31 @@ void CommandDispatcher::registerCommand(const std::string& commandName, Command*
 
 std::string CommandDispatcher::dispatch(const std::vector<std::string>& args)
 {
-	if (!args.empty())
+	if (args.empty())
 	{
-		std::map<std::string, Command*>::const_iterator cmdPair = registeredCommands.find(args[0]);
-		if (cmdPair == registeredCommands.end())
+	}
+	if (args.size() == 1)
+		return "Error! Invalid command!";
+	std::string key = args[1] == "=" ? "assign" : args[0];
+	std::map<std::string, Command*>::const_iterator cmdPair = registeredCommands.find(key);
+
+	if (cmdPair == registeredCommands.end())
+	{
+		return "Error! Invalid command!";
+	}
+	else
+	{
+		try
 		{
-			return "Error! Invalid command!";
+			Command* cmd = cmdPair->second;
+			return cmd->execute(args);
 		}
-		else
+		catch (exception& e)
 		{
-			cout << "here";
-			try
-			{
-				Command* cmd = cmdPair->second;
-				return cmd->execute(args);
-			}
-			catch (exception& e)
-			{
-				return "Unhandled error!";
-			}
+			return "Unhandled error!";
 		}
 	}
+	
 }
 bool BothAreSpaces(char lhs, char rhs) { return (lhs == rhs) && (lhs == ' '); }
 
@@ -57,6 +67,7 @@ void removeMultipleWhitespacesWithOne(std::string& str)
 }
 std::string CommandDispatcher::dispatch(std::string input)
 {
+
 	removeMultipleWhitespacesWithOne(input);
 	
 	std::vector<std::string> args;

@@ -1,23 +1,20 @@
-#include "Finate_state_automation\FiniteStateAutomation.h"
-#include "Non-deterministic_pushdown_automaton\NPDA.h"
-#include "Environment\Environment.h"
+#include <iostream>
+#include <vector>
+#include <string>
 
-#include  "CommandShell\Dispatcher\CommandDispatcher.h"
-#include  "GUI\AFL.h"
+using namespace std;
+
+#include "GUI\AFL_main_form.h"
 
 using namespace System;
 using namespace System::Windows::Forms;
 
-[STAThreadAttribute]
-int main() 
+int WinMain() 
 {	
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
-	AFL::AFL form;
+	AFL_forms::AFL_main_form form;
 	Application::Run(%form);
-
-	CommandDispatcher d;
-	cout << d.dispatch("dsfds test");
 	return 0;
 }
  

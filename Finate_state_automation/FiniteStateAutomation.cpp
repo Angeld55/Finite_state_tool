@@ -19,7 +19,7 @@ FiniteStateAutomation::FiniteStateAutomation(int statesCount) :automation(states
 	}
 }
 
-FiniteStateAutomation::FiniteStateAutomation(const String& reg)
+FiniteStateAutomation::FiniteStateAutomation(const CustomString& reg)
 {
 	*this = BuildFiniteStateAutomation(reg);
 }
@@ -68,7 +68,7 @@ Set<int> FiniteStateAutomation::getFinalStates() const
 
 bool FiniteStateAutomation::addTransition(int start, int end, char ch)
 {
-	if (!existState(start) && !existState(end))
+	if (!existState(start) || !existState(end))
 		return false;
 	edge e(end, ch);
 	automation[start].PushBack(e);
@@ -81,7 +81,7 @@ bool FiniteStateAutomation::existState(int state)
 	return state < automation.getSize();
 }
 
-Set<int> FiniteStateAutomation::havePathTo(int begin, String str)
+Set<int> FiniteStateAutomation::havePathTo(int begin, CustomString str)
 {
 	char firstCh = str[0];
 	Set<int> result;
@@ -234,7 +234,7 @@ void FiniteStateAutomation::removeNotReachable()
 	removeNotReachable(startState);
 }
 
-bool FiniteStateAutomation::accepts(String str)
+bool FiniteStateAutomation::accepts(CustomString str)
 {
 	Set<int> result = havePathTo(startState, str);
 	Set<int> intersection = Intersection(finalStates, result);
@@ -369,8 +369,10 @@ void FiniteStateAutomation::copyTransitions(int x, int y)
 
 std::string FiniteStateAutomation::getString()
 {
-	std::string res = isDeterministic() ? "Deterministic, " : "Non-deterministic ,";
-	res += isTotal() ? "Total, " : "Non-total, ";
+	std::string res = "Deterministic: ";
+	res += isDeterministic() ? "True, " : "False, ";
+	res += "Total: ";
+	res += isTotal() ? "True, " : "False, ";
 	res += "Letters: {";
 	for (int i = 0; i < alphabet.getSize(); i++)
 	{
@@ -399,7 +401,29 @@ void FiniteStateAutomation::print()
 	}
 	std::cout << std::endl;
 }
+std::string FiniteStateAutomation::getFullString()
+{
+	std::string res;
+	for (int i = 0; i < automation.getSize(); i++)
+	{
+		res += "State: " + std::to_string(i);
+		if (i == startState)
+			res += "(S)";
+		else
+			res += "    ";
+		if (finalStates.Contains(i))
+			res += "(F)";
+		else
+			res += "   ";
+		res += " transitions: ";
+		for (int j = 0; j < automation[i].getSize(); j++)
+			res =  res + "with " + automation[i][j].ch + " to " + std::to_string(automation[i][j].dest) + "   ";
+		if (i != automation.getSize()-1)
+			res += '\n';
+	}
 
+	return res;
+}
 bool t(const Set<int>& l, const Set<int>& r);
 void FiniteStateAutomation::makeDeterministic()
 {
@@ -517,9 +541,9 @@ void FiniteStateAutomation::minimize()
 
 }
 
-String FiniteStateAutomation::getRegEx()
+CustomString FiniteStateAutomation::getRegEx()
 {
-	String res = "";
+	CustomString res = "";
 	for (int i = 0; i < finalStates.getSize(); ++i)
 	{
 		if (i > 0)
@@ -600,7 +624,7 @@ bool isSymbol(char ch)
 {
 	return ch >= 'a' && ch <= 'z' || ch >= 'A' && ch <= 'Z' || ch >= '0' && ch <= '9' || ch == '$';
 }
-int getClosingBracketIndex(const String& reg)
+int getClosingBracketIndex(const CustomString& reg)
 {
 	int count = 1;
 	for (int i = 1; i < reg.getLenght(); i++)
@@ -615,9 +639,9 @@ int getClosingBracketIndex(const String& reg)
 	return -1; //error
 }
 // abc  a b . c .
-String convertRegexToRPN(const String& regex)
+CustomString convertRegexToRPN(const CustomString& regex)
 {
-	String result;
+	CustomString result;
 	std::stack<char> operatorStack;
 
 	for (int i = 0; i < regex.getLenght(); i++)
@@ -680,9 +704,9 @@ String convertRegexToRPN(const String& regex)
 	return result;
 }
 
-FiniteStateAutomation BuildFiniteStateAutomation(String reg)
+FiniteStateAutomation BuildFiniteStateAutomation(CustomString reg)
 {
-	String regexRPN = convertRegexToRPN(reg);
+	CustomString regexRPN = convertRegexToRPN(reg);
 	stack<FiniteStateAutomation> automationStack;
 
 	for (int i = 0; i < regexRPN.getLenght(); i++)
@@ -735,7 +759,7 @@ FiniteStateAutomation CreateBaseFiniteStateAutomation(char ch)
 	return a;
 }
 
-inline FiniteStateAutomation Reverse(const FiniteStateAutomation& a)
+FiniteStateAutomation Reverse(const FiniteStateAutomation& a)
 {
 	FiniteStateAutomation res(a);
 	res.reverse();
@@ -743,7 +767,7 @@ inline FiniteStateAutomation Reverse(const FiniteStateAutomation& a)
 }
 
 //if a regex need brackets for better understanding in Auomation to regex conversation.
-bool needBrackets(String regex)
+bool needBrackets(CustomString regex)
 {
 	if (regex.getLenght() == 0)
 		return false;
@@ -758,7 +782,7 @@ bool needBrackets(String regex)
 	return regex[regex.getLenght() - 1] == '*';
 }
 
-String FiniteStateAutomation::getRegEx(int start, int end, int bound, bool needEpsilon)
+CustomString FiniteStateAutomation::getRegEx(int start, int end, int bound, bool needEpsilon)
 {
 	if (bound == 0)
 	{
@@ -772,7 +796,7 @@ String FiniteStateAutomation::getRegEx(int start, int end, int bound, bool needE
 			if (currentEdge.dest == end)
 				s.Add(currentEdge.ch);
 		}
-		String str;
+		CustomString str;
 		for (int i = 0; i < s.getSize(); ++i)
 		{
 			if (i != 0)
@@ -782,13 +806,13 @@ String FiniteStateAutomation::getRegEx(int start, int end, int bound, bool needE
 		return str;
 	}
 
-	String left = getRegEx(start, end, bound - 1, needEpsilon);
+	CustomString left = getRegEx(start, end, bound - 1, needEpsilon);
 
-	String b = getRegEx(start, bound - 1, bound - 1, needEpsilon);
-	String c = getRegEx(bound - 1, bound - 1, bound - 1, false); // Don't need epsilon (we have * -> it contains it)
-	String d = getRegEx(bound - 1, end, bound - 1, needEpsilon);
+	CustomString b = getRegEx(start, bound - 1, bound - 1, needEpsilon);
+	CustomString c = getRegEx(bound - 1, bound - 1, bound - 1, false); // Don't need epsilon (we have * -> it contains it)
+	CustomString d = getRegEx(bound - 1, end, bound - 1, needEpsilon);
 
-	String right;
+	CustomString right;
 	if (b != "e")
 	{
 		if (needBrackets(b))
@@ -825,7 +849,7 @@ String FiniteStateAutomation::getRegEx(int start, int end, int bound, bool needE
 	if (left == right)
 		return left;
 
-	String regex = left;
+	CustomString regex = left;
 	if (needBrackets(right))
 		regex = regex + " + " + "(" + right + ")";
 	else

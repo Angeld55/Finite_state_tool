@@ -6,7 +6,7 @@
 #include "../Collections/Queue.hpp"
 #include "../Collections/DynamicArray.hpp"
 #include "../Collections/Set.hpp"
-#include "../String/String.h"
+#include "../String/CustomString.h"
 #include "../Collections/Dictionary.h"
 
 
@@ -55,7 +55,7 @@ private:
 public:
 	FiniteStateAutomation();
 	FiniteStateAutomation(int statesCount);
-	FiniteStateAutomation(const String& reg);
+	FiniteStateAutomation(const CustomString& reg);
 
 
 	//control
@@ -66,7 +66,7 @@ public:
 	bool makeStateFinal(int state);
 	void removeState(int state);
 	void removeNotReachable();
-	bool accepts(String str); //returns true if automation accepts the string
+	bool accepts(CustomString str); //returns true if automation accepts the string
 	bool isEmptyLanguage();
 	
 
@@ -90,7 +90,7 @@ public:
 	void makeDeterministic();
 	void minimize();
 
-	String getRegEx(); //kleeny theorem
+	CustomString getRegEx(); //kleeny theorem
 
 	int getStatesCount() const;
 	int getStartState() const;
@@ -99,6 +99,7 @@ public:
 	void print();
 
 	std::string getString();
+	std::string getFullString();
 
 	
 
@@ -107,7 +108,7 @@ private:
 	bool existState(int state); //check if a state exists
 	void absorb(const FiniteStateAutomation& a);
 	void copyTransitions(int x, int y); 
-	Set<int> havePathTo(int begin, String str); //returns set of states reachable with that word
+	Set<int> havePathTo(int begin, CustomString str); //returns set of states reachable with that word
 	void CheckIfOneStated();
 
 	//for determinstisation
@@ -120,7 +121,7 @@ private:
 	
 
 	//for kleeny theorem
-	String getRegEx(int start, int end, int bound, bool needEpsilon);
+	CustomString getRegEx(int start, int end, int bound, bool needEpsilon);
 
 	//for making total
 	int addErrorState();
@@ -134,7 +135,7 @@ private:
 
 };
 
-FiniteStateAutomation BuildFiniteStateAutomation(String reg);
+FiniteStateAutomation BuildFiniteStateAutomation(CustomString reg);
 FiniteStateAutomation CreateBaseFiniteStateAutomation(char ch); //automation with two states and one letter
 
 #endif // !AUTOMATION_HDR

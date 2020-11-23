@@ -2,7 +2,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
-#include "../../Environment/Environment.h"
+#include "../../Environment/AFL_Environment.h"
 #include "../Commands/Commands.h"
 
 class CommandDispatcher
@@ -14,6 +14,6 @@ public:
 	void registerCommand(const std::string& commandName, Command* command);
 	std::string dispatch(const std::vector<std::string>& args);
 	std::string dispatch(std::string);
-	Environment env;
+	AFL_Environment env;
 };
 

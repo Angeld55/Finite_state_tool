@@ -1,13 +1,13 @@
-#include "Environment.h"
+#include "AFL_Environment.h"
 
-int Environment::registerFSA(const std::string& key, const FiniteStateAutomation& fsa)
+int AFL_Environment::registerFSA(const std::string& key, const FiniteStateAutomation& fsa)
 {
 	auto autPair= fsas.find(key);
 	fsas[key] = fsa;
 	return 0;
 
 }
-int Environment::registerNPDA(const std::string& key, const NPDA& fsa)
+int AFL_Environment::registerNPDA(const std::string& key, const NPDA& fsa)
 {
 	auto autPair = npdas.find(key);
 
@@ -15,29 +15,29 @@ int Environment::registerNPDA(const std::string& key, const NPDA& fsa)
 	return 0;
 
 }
-int Environment::getNPDA(const std::string& key, NPDA& npda)
+int AFL_Environment::getNPDA(const std::string& key, NPDA*& npda)
 {
 	auto autPair = npdas.find(key);
 	if (autPair != npdas.end())
 	{
-		npda = npdas[key];
+		npda = &npdas[key];
 		return 0;
 	}
 	else
 		return -1;//does not exists
 }
-int Environment::getFSA(const std::string& key, FiniteStateAutomation& fsa)
+int AFL_Environment::getFSA(const std::string& key, FiniteStateAutomation*& fsa)
 {
 	auto autPair = fsas.find(key);
 	if (autPair != fsas.end())
 	{
-		fsa = fsas[key];
+		fsa = &fsas[key];
 		return 0;
 	}
 	else
 		return -1;//does not exists
 }
-std::string Environment::print()
+std::string AFL_Environment::toStringFSA()
 {
 	std::string result = "Finite-State Automations:\n";
 
@@ -46,8 +46,11 @@ std::string Environment::print()
 		result += "ID: " + it->first + ", ";
 		result+=it->second.getString();
 	}
-
-	result+= "Non-deterministic Pushdown Automations\n";
+	return result;
+}
+std::string AFL_Environment::toStringNPDA()
+{
+	std::string result = "Non-deterministic Pushdown Automations: TBD\n";
 
 	for (auto it = npdas.begin(); it != npdas.end(); ++it)
 	{
@@ -56,11 +59,12 @@ std::string Environment::print()
 	}
 	return result;
 }
-void Environment::setSecretForAssignments(FiniteStateAutomation& fsa)
+void AFL_Environment::setSecretForAssignments(FiniteStateAutomation& fsa)
 {
 	fsaSecret = fsa;
 }
-FiniteStateAutomation& Environment::GetSecretForAssignments()
+FiniteStateAutomation& AFL_Environment::GetSecretForAssignments()
 {
 	return fsaSecret;
 }
+

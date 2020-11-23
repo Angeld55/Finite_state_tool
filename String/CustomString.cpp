@@ -1,6 +1,6 @@
-#include "String.h"
+#include "CustomString.h"
 
-void String::CopyFrom(const String& other) {
+void CustomString::CopyFrom(const CustomString& other) {
 
 	str = new char[strlen(other.str) + 1];
 	strcpy(str, other.str);
@@ -8,18 +8,18 @@ void String::CopyFrom(const String& other) {
 	len = other.len;
 }
 
-void String::Free() {
+void CustomString::Free() {
 	delete[] str;
 }
 
-String::String() {
+CustomString::CustomString() {
 
 	str = new char[1];
 	str[0] = '\0';
 	len = 0;
 }
 
-String::String(char ch)
+CustomString::CustomString(char ch)
 {
 	str = new char[2];
 	str[0] = ch;
@@ -27,7 +27,7 @@ String::String(char ch)
 	len = 1;
 }
 
-String::String(const char* str) {
+CustomString::CustomString(const char* str) {
 
 	len = strlen(str);
 
@@ -35,11 +35,11 @@ String::String(const char* str) {
 	strcpy(this->str, str);
 }
 
-String::String(const String& other) {
+CustomString::CustomString(const CustomString& other) {
 	CopyFrom(other);
 }
 
-String& String::operator=(const String& other) {
+CustomString& CustomString::operator=(const CustomString& other) {
 
 	if (this != &other) {
 		Free();
@@ -48,15 +48,15 @@ String& String::operator=(const String& other) {
 	return *this;
 }
 
-String::~String() {
+CustomString::~CustomString() {
 	Free();
 }
 
-int String::getLenght() const {
+int CustomString::getLenght() const {
 	return len;
 }
 
-String String::SubString(int start) {
+CustomString CustomString::SubString(int start) {
 
 	if (start < 0 || start > len)
 		throw std::logic_error("Invalid index.\n");
@@ -67,13 +67,13 @@ String String::SubString(int start) {
 		newStr[j++] = str[i];
 	newStr[j] = '\0';
 	
-	String newString(newStr);
+	CustomString newString(newStr);
 	delete[] newStr;
 
 	return newString;
 }
 
-String String::SubString(int start, int end) {
+CustomString CustomString::SubString(int start, int end) {
 
 	if (start < 0 || start > len || end <= 0 || end > len)
 		throw std::logic_error("Invalid index.\n");
@@ -84,13 +84,13 @@ String String::SubString(int start, int end) {
 		newStr[j++] = str[i];
 	newStr[j] = '\0';
 
-	String newString(newStr);
+	CustomString newString(newStr);
 	delete[] newStr;
 
 	return newString;
 }
 
-int String::IndexOf(const String& other, int index) {
+int CustomString::IndexOf(const CustomString& other, int index) {
 
 	if(index < 0)
 		throw std::logic_error("Invalid index.\n");
@@ -108,13 +108,13 @@ int String::IndexOf(const String& other, int index) {
 	return -1;
 }
 
-int String::IndexOf(const char* str, int index) {
+int CustomString::IndexOf(const char* str, int index) {
 
-	String searched(str);
+	CustomString searched(str);
 	return IndexOf(searched, index);
 }
 
-int String::CountOcurences(String str)
+int CustomString::CountOcurences(CustomString str)
 {	
 	int count = 0;
 	int i = IndexOf(str,0);
@@ -126,7 +126,7 @@ int String::CountOcurences(String str)
 	return count;
 }
 
-inline int String::GetOcurence(String str, int num)
+inline int CustomString::GetOcurence(CustomString str, int num)
 {
 	int count = 0;
 	int i = IndexOf(str, 0);
@@ -140,18 +140,18 @@ inline int String::GetOcurence(String str, int num)
 	return count;
 }
 
-const char& String::operator[](int index) const {
+const char& CustomString::operator[](int index) const {
 
 	if(index >= len)
 		throw std::out_of_range("Out of range!");
 	return str[index];
 }
 
-char& String::operator[](int index) {
+char& CustomString::operator[](int index) {
 	return str[index];
 }
 
-String& String::operator+=(const String& other) {
+CustomString& CustomString::operator+=(const CustomString& other) {
 
 	char* temp = str;
 	str = new char[len + other.len + 1];
@@ -162,19 +162,19 @@ String& String::operator+=(const String& other) {
 	return *this;
 }
 
-bool operator==(const String& lhs, const String& rhs) {
+bool operator==(const CustomString& lhs, const CustomString& rhs) {
 	return !strcmp(lhs.str, rhs.str);
 }
 
-bool operator!=(const String& lhs, const String& rhs) {
+bool operator!=(const CustomString& lhs, const CustomString& rhs) {
 	return strcmp(lhs.str, rhs.str);
 }
 
-std::ostream& operator<<(std::ostream& os, const String& obj) {
+std::ostream& operator<<(std::ostream& os, const CustomString& obj) {
 	return os << obj.str;
 }
 
-std::istream& operator>>(std::istream& is, String& obj) {
+std::istream& operator>>(std::istream& is, CustomString& obj) {
 
 	char buff[MAX_SIZE];
 	is.getline(buff, MAX_SIZE);
@@ -185,10 +185,10 @@ std::istream& operator>>(std::istream& is, String& obj) {
 }
 
 
-const String operator+(const String& lhs, const String& rhs) {
+const CustomString operator+(const CustomString& lhs, const CustomString& rhs) {
 	if (lhs.getLenght() == 0)
 		return rhs;
 	else if (rhs.getLenght() == 0)
 		return lhs;
-	return String(lhs) += rhs;
+	return CustomString(lhs) += rhs;
 }

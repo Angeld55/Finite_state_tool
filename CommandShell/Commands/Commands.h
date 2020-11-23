@@ -20,11 +20,11 @@ public:
 	std::string execute(const std::vector<std::string>& args);
 
 };
-class DetMinTotCommand : public Command
+class UnaryCommand : public Command
 {
-    //A = DET B
+    //A = DET B, A = MIN B , A = COMPL B
 	public:
-	DetMinTotCommand(CommandDispatcher& dispatcher) : Command(dispatcher){}
+	UnaryCommand(CommandDispatcher& dispatcher) : Command(dispatcher){}
 	std::string execute(const std::vector<std::string>& args);
 };
 class TransitionCommand : public Command
@@ -60,5 +60,12 @@ class CreationCommand : public Command
 	// FSA test  FSA aut a*b*
 	public:
 	CreationCommand(CommandDispatcher& dispatcher) : Command(dispatcher){}
+	std::string execute(const std::vector<std::string>& args);
+};
+class PrintCommand : public Command
+{
+	//print A
+public:
+	PrintCommand(CommandDispatcher& dispatcher) : Command(dispatcher){}
 	std::string execute(const std::vector<std::string>& args);
 };
