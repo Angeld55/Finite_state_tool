@@ -1,7 +1,12 @@
+<h1 id="finite-state-automation">Automata and formal languages tool (AFL)</h1>
+![enter image description here](https://i.ibb.co/jfqRzQc/snapshot.png "AFL")
 | Syntax:                          | Effect:                                                                      | Example:            |
 |----------------------------------|------------------------------------------------------------------------------|---------------------|
 | FSA [name]                       |  registers an automation with one state with this name.                      |  FSA test1          |
 | FSA [name] [regex]               | registers an automation with this name for this regex.                       | FSA test2 a*(a+b)*b |
+| print [name]                     | prints the automation.                                                       | print test1         |
+| add_state [fsa]                  | adds a new state to the automation                                           | add_state a1        |
+| arc [fsa] [start] [end] [symbol] | adds a new transition from state start to state end with this symbol         | arc a1 0 1 a        |
 | print [name]                     | prints the automation.                                                       | print test1         |
 | [fsa1] = union [fsa2] [fsa3]     | registers an automation fsa1 which is the union of fsa2 and fsa3             | a1 = union a2 a3    |
 | [fsa1] = concat [fsa2] [fsa3]    | registers an automation fsa1 which is the concatenation of fsa2 and fsa3     | a1 = concat a2 a3   |
