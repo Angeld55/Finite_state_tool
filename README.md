@@ -9,6 +9,7 @@
 | fsa [name]                       |  registers an automation with one state with this name.                      | fsa test1           |
 | fsa [name] [regex]               | registers an automation with this name for this regex.                       | fsa test2 a*(a+b)*b |
 | print [name]                     | prints the automation.                                                       | print test1         |
+| accepts [fsa] [string]           | returns true if the fsa accepts the string and false otherwise               | accepts a1  aabbb   |
 | add_state [fsa]                  | adds a new state to the automation                                           | add_state a1        |
 | arc [fsa] [start] [end] [symbol] | adds a new transition from state start to state end with this symbol         | arc a1 0 1 a        |
 | det [fsa]                        | fsa becomes deterministc                                                     | det a1              |
