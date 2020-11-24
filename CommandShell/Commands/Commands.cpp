@@ -276,7 +276,7 @@ std::string CreationCommand::execute(const std::vector<std::string>& args)
 		else if (args.size() == 2)
 			dispatcher.env.registerFSA(args[1], FiniteStateAutomation());
 		else
-			return "Error! Invalid FSA name!";
+			return "Error! Invalid command! (Error 1115)";
 		return "FSA succesfully created!";
 	}
 	else if (args[0] == "npda")
