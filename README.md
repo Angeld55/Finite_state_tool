@@ -11,7 +11,7 @@
 | print [name]                     | prints the automation.                                                       | print test1         |
 | add_state [fsa]                  | adds a new state to the automation                                           | add_state a1        |
 | arc [fsa] [start] [end] [symbol] | adds a new transition from state start to state end with this symbol         | arc a1 0 1 a        |
-| print [name]                     | prints the automation.                                                       | print test1         |
+| print [fsa]                      | prints the automation.                                                       | print test1         |
 | [fsa1] = union [fsa2] [fsa3]     | registers an automation fsa1 which is the union of fsa2 and fsa3             | a1 = union a2 a3    |
 | [fsa1] = concat [fsa2] [fsa3]    | registers an automation fsa1 which is the concatenation of fsa2 and fsa3     | a1 = concat a2 a3   |
 | [fsa1] = intersect [fsa2] [fsa3] | registers an automation fsa1 which is the intersection of fsa2 and fsa3      | a1 = intersect a2 a3|
