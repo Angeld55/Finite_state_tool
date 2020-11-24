@@ -49,15 +49,15 @@ int main()
 	// Automation for a(a+b)*
 	FiniteStateAutomation A("a(a+b)*");
 
-	cout << A.Accepts("abbb") << endl; //true;
-	cout << A.Accepts("bbba") << endl; //false
+	cout << A.accepts("abbb") << endl; //true;
+	cout << A.accepts("bbba") << endl; //false
 
 	FiniteStateAutomation A2; //Only one state with index 0
 	
-	A2.AddState(); //Adds state with index 1
-	A2.AddTransition(0, 1, 'a');
-	A2.AddTransition(1, 1, 'a');
-	A2.AddTransition(1, 1, 'b');
+	A2.addState(); //Adds state with index 1
+	A2.addTransition(0, 1, 'a');
+	A2.addTransition(1, 1, 'a');
+	A2.addTransition(1, 1, 'b');
 
 
 	return 0;
@@ -165,11 +165,11 @@ int main()
 	//Regex: a(a+b)*b + b(a+b)*a
 	FiniteStateAutomation A("a(a+b)*b + b(a+b)*a");
 
-	A.Print(); //Image 1 and 2
+	A.print(); //Image 1 and 2
 
-	A.Minimize();
+	A.minimize();
 
-	A.Print(); // Image 3 and 4.
+	A.print(); // Image 3 and 4.
 
    	return 0;
 }
@@ -195,11 +195,11 @@ int main()
 	// FSA for ab(a+b)*
 	FiniteStateAutomation A("ab(a+b)*");
 		
-	A.Minimize(); //better to be minimized, so the regex would be simple.
+	A.minimize(); //better to be minimized, so the regex would be simple.
 
-	A.Print();
+	A.print();
 	
-	cout << A.GetRegEx();
+	cout << A.getRegEx();
 
    	return 0;
 }
@@ -254,28 +254,28 @@ int main()
 {
 	NPDA PA(3); //3 initial states
 
-	PA.MakeFinal(2);
-	PA.AddTransition(0, 'a', '#', 0, "A#");
-	PA.AddTransition(0, 'b', '#', 0, "B#");
-	PA.AddTransition(0, '$', '#', 2, "$");
+	PA.makeFinal(2);
+	PA.addTransition(0, 'a', '#', 0, "A#");
+	PA.addTransition(0, 'b', '#', 0, "B#");
+	PA.addTransition(0, '$', '#', 2, "$");
 
-	PA.AddTransition(0, 'a', 'A', 0, "AA");
-	PA.AddTransition(0, 'a', 'A', 1, "$");
+	PA.addTransition(0, 'a', 'A', 0, "AA");
+	PA.addTransition(0, 'a', 'A', 1, "$");
 
-	PA.AddTransition(0, 'b', 'B', 0, "BB");
-	PA.AddTransition(0, 'b', 'B', 1, "$");
+	PA.addTransition(0, 'b', 'B', 0, "BB");
+	PA.addTransition(0, 'b', 'B', 1, "$");
 
-	PA.AddTransition(0, 'b', 'A', 0, "BA");
-	PA.AddTransition(0, 'a', 'B', 0, "AB");
+	PA.addTransition(0, 'b', 'A', 0, "BA");
+	PA.addTransition(0, 'a', 'B', 0, "AB");
 
-	PA.AddTransition(1, 'a', 'A', 1, "$");
-	PA.AddTransition(1, 'b', 'B', 1, "$");
+	PA.addTransition(1, 'a', 'A', 1, "$");
+	PA.addTransition(1, 'b', 'B', 1, "$");
 
 	PA.AddTransition(1, '$', '#', 2, "$");
 
-	std::cout << PA.Accepts("abba") << std::endl; //true
-	std::cout << PA.Accepts("abbb") << std::endl; //false
-	std::cout << PA.Accepts("aaabbbbbbaaa") << std::endl; //true
+	std::cout << PA.accepts("abba") << std::endl; //true
+	std::cout << PA.accepts("abbb") << std::endl; //false
+	std::cout << PA.accepts("aaabbbbbbaaa") << std::endl; //true
 }
 
 ```
@@ -305,8 +305,8 @@ int main()
 
 	NPDA PA2(cfg);
 
-	std::cout << PA2.Accepts("abc", true) << std::endl; //true
-	std::cout << PA2.Accepts("aaaaaabbbbcccccc") << std::endl; //true
+	std::cout << PA2.accepts("abc", true) << std::endl; //true
+	std::cout << PA2.accepts("aaaaaabbbbcccccc") << std::endl; //true
 	std::cout << PA2.Accepts("abcc") << std::endl; //false
 }
 ```
