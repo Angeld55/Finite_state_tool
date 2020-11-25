@@ -11,6 +11,7 @@
 | print [name]                     | prints the automation.                                                       | print test1         |
 | accepts [fsa] [string]           | returns true if the fsa accepts the string and false otherwise               | accepts a1  aabbb   |
 | add_state [fsa]                  | adds a new state to the automation                                           | add_state a1        |
+| make_final [fsa] [state]         | makes the state final                                                        | make_final a1 0     |
 | arc [fsa] [start] [end] [symbol] | adds a new transition from state start to state end with this symbol         | arc a1 0 1 a        |
 | det [fsa]                        | fsa becomes deterministc                                                     | det a1              |
 | [fsa1] = det [fsa]               | registers an automation fsa1 which is the deterministic fsa2                 | a1 = det a          |
