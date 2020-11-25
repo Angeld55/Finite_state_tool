@@ -229,7 +229,7 @@ std::string MakeFinalStateCommand::execute(const std::vector<std::string>& args)
 {
 	FiniteStateAutomation* fs = nullptr;
 	NPDA* pa = nullptr;
-	if (args.size() != 3 || !onlyDigits(args[1]))
+	if (args.size() != 3 || !onlyDigits(args[2]))
 		return "Error! Invalid command! (Error 1109)";
 	if (dispatcher.env.getFSA(args[1], fs) == 0)
 	{
