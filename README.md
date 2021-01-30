@@ -34,8 +34,9 @@
 | add_state [npda]                 | adds a new state to the npda                                                 | add_state test1      |
 | make_final [npda] [state]        | makes the state final                                                        | make_final test1 0  |
 | arc [npda] [start] [symbol] [stack_top] [end] [replace_stack]| adds a new transition from state start to state end   | arc test1 0 a # 0 A# |
-| accepts [npda] [string]           | returns true if the npda accepts the string and false otherwise               | accepts test1  aabbb   |
-
+| accepts [npda] [string]           | returns true if the npda accepts the string and false otherwise             | accepts test1  aabbb   |
+| cfg [name] [rules]		   | Creates a context-free grammer. The rules are separated with a space.         | cfg test1 S->aSd|A A->bAcc|$   |
+	
 <h1 id="finite-state-automation">1. Finite State Automation</h1>
 
 ![enter image description here](https://i.ibb.co/FKQgLBg/69973577-352536238957668-4630865521305190400-n.png "example of FSA")
