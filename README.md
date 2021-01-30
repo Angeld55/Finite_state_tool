@@ -6,6 +6,8 @@
 
 | Syntax:                          | Effect:                                                                      | Example:            |
 |----------------------------------|------------------------------------------------------------------------------|---------------------|
+| environment fsa                  | prints information for all registered fsa-s                                  | environment fsa     |
+| regex [fsa1]                     | returns a regex for the automation.                                          | regex a1            |
 | fsa [name]                       |  registers an automation with one state with this name.                      | fsa test1           |
 | fsa [name] [regex]               | registers an automation with this name for this regex.                       | fsa test2 a*(a+b)*b |
 | print [name]                     | prints the automation.                                                       | print test1         |
@@ -27,7 +29,12 @@
 | reverse [fsa1]                   | fsa1 becomes an new automation for the reverse of the old fsa1 automation    | reverse a1          |
 | [fsa1] = reverse [fsa2]          | registers an automation fsa1 which is the reverse of fsa2                    | a1 = reverse a2     |
 | regex [fsa1]                     | returns a regex for the automation.                                          | regex a1            |
-
+| environment npda                 | prints information for all registered npda-s                                 | environment npda    |
+| npda [name]                      | registers an Pushdown automation with one state with this name.              | npda test1          |
+| add_state [npda]                 | adds a new state to the npda                                                 | add_state test1      |
+| make_final [npda] [state]        | makes the state final                                                        | make_final test1 0  |
+| arc [npda] [start] [symbol] [stack_top] [end] [replace_stack]| adds a new transition from state start to state end   | arc test1 0 a # 0 A# |
+| accepts [npda] [string]           | returns true if the npda accepts the string and false otherwise               | accepts test1  aabbb   |
 
 <h1 id="finite-state-automation">1. Finite State Automation</h1>
 
