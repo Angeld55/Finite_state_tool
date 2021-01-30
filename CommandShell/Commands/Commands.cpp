@@ -198,14 +198,16 @@ std::string TransitionCommand::execute(const std::vector<std::string>& args)
 	}
 	else if (dispatcher.env.getNPDA(args[1], pa) == 0)
 	{
+		//arc PDA 0 a A 1 $ 
 		if (args.size() == 7)
 		{
 			if (!onlyDigits(args[2]) || !onlyDigits(args[5]))
 				return "Invalid states!";
 			if (args[3].size() != 1 || args[4].size() != 1)
 				return "Transitions should have only one symbol!";
-			pa->addTransition(atoi(args[2].c_str()), args[3][0], args[4][0], atoi(args[5].c_str()), args[6]);
-			return "Trasition added sucessfully!";
+
+			bool res = pa->addTransition(atoi(args[2].c_str()), args[3][0], args[4][0], atoi(args[5].c_str()), args[6]);
+			return  res ? "Trasition added sucessfully!" : "Error! One of the states given does not exists!";
 		}
 		else
 			return "Error! Invalid command! (Error 1107)";
@@ -216,9 +218,15 @@ std::string TransitionCommand::execute(const std::vector<std::string>& args)
 std::string AddStateCommand::execute(const std::vector<std::string>& args)  // add_state A
 {
 	FiniteStateAutomation* fs = nullptr;
+	NPDA* npda = nullptr;
 	if (dispatcher.env.getFSA(args[1], fs) == 0)
 	{
 		fs->addState();
+		return "State added successfully!";
+	}
+	else if (dispatcher.env.getNPDA(args[1], npda) == 0 )
+	{
+		npda->addState();
 		return "State added successfully!";
 	}
 	else
@@ -260,7 +268,7 @@ std::string AcceptsCommand::execute(const std::vector<std::string>& args)
 		bool res = pa->accepts(args[2].c_str());
 		return res ? "True!" : "False!";
 	}
-	return "Error! No FSA with ID:" + args[1];
+	return "Error! No FSA/NPDA with ID:" + args[1];
 }
 
 std::string CreationCommand::execute(const std::vector<std::string>& args)
@@ -283,12 +291,26 @@ std::string CreationCommand::execute(const std::vector<std::string>& args)
 	{
 		if (args.size() == 2)
 		{
-			std::string CFG = args[2];
-			//dispatcher->env.registerFSA(args[1], NPDA(CFG));
-		}
-		else
 			dispatcher.env.registerNPDA(args[1], NPDA());
-		return "NPDA succesfully created!";
+			return "NPDA succesfully created!";
+		}
+		return "Error! Invalid command! (Error: 1118)";
+	}
+	else if (args[0] == "cfg")
+	{ // npda test cfg S->aSb|$
+	
+		if (args.size() <= 2)
+			return "Error! Invalid command! (Error: 1120)";
+
+		ContextFreeGrammar cfg;
+
+		for (int i = 2; i < args.size(); i++)
+			cfg.grammarRules.push_back(args[i]);
+		dispatcher.env.registerNPDA(args[1], NPDA(cfg));
+
+		return "NPDA(from CFG) succesfully created!";
+	
+
 	}
 	return "Error! Invalid command! (Error: 1108)";
 }
@@ -312,4 +334,17 @@ std::string RegexCommand::execute(const std::vector<std::string>& args)
 	if (dispatcher.env.getFSA(args[1], fs) == 0)
 		return std::string(fs->getRegEx().c_str());
 	return  "Error! No FSA with ID: " + args[1];
+}
+
+std::string EnvironmentCommand::execute(const std::vector<std::string>& args)
+{
+	if (args.size() != 2)
+		return "Error! Invalid command! (Error: 1116)";
+	if (args[1] == "fsa")
+		return dispatcher.env.toStringFSA();
+	else if (args[1] == "npda")
+		return dispatcher.env.toStringNPDA();
+	else
+		return "Error! Invalid command! (Error: 1117)";
+
 }

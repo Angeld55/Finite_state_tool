@@ -16,8 +16,12 @@ CommandDispatcher::CommandDispatcher()
 	registerCommand("make_final", new MakeFinalStateCommand(*this));
 	registerCommand("accepts", new AcceptsCommand(*this));
 	registerCommand("fsa", new CreationCommand(*this));
+	registerCommand("npda", new CreationCommand(*this));
+	registerCommand("cfg", new CreationCommand(*this));
 	registerCommand("print", new PrintCommand(*this));
 	registerCommand("regex", new RegexCommand(*this));
+	registerCommand("environment", new EnvironmentCommand(*this));
+	
 }
 
 void CommandDispatcher::registerCommand(const std::string& commandName, Command* command)

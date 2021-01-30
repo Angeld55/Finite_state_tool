@@ -43,9 +43,17 @@ bool NPDA::makeFinal(size_t ind)
 	finalStates[ind] = true;
 	return true;
 }
-void NPDA::addTransition(int initialState, char symbol, char stackTopSymbol, int destState, string stringToReplaceTopStackSymbol)
+int NPDA::addState()
 {
+	finalStates.push_back(false);
+	return finalStates.size() - 1;
+}
+bool NPDA::addTransition(int initialState, char symbol, char stackTopSymbol, int destState, string stringToReplaceTopStackSymbol)
+{
+	if (initialState >= finalStates.size() || destState >= finalStates.size())
+		return false;
 	rules.push_back({ initialState, symbol, stackTopSymbol, destState, stringToReplaceTopStackSymbol });
+	return true;
 }
 void NPDA::applyRuleIfPossible(Computation& current, Rule& ruleToApply, queue<Computation>& q)
 {

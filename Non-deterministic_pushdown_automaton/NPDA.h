@@ -48,7 +48,8 @@ public:
 	NPDA(const ContextFreeGrammar grammar);
 	bool makeFinal(size_t ind);
 	bool accepts(const std::string& word, bool shouldPrint = false);
-	void addTransition(int initialState, char symbol, char stackTopSymbol, int destState, string stringToReplaceTopStackSymbol);
+	int addState();
+	bool addTransition(int initialState, char symbol, char stackTopSymbol, int destState, string stringToReplaceTopStackSymbol);
 	std::string getString();
 
 };
