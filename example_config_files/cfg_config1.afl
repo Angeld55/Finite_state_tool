@@ -1,2 +1,0 @@
-// {w | Na(w) = Nb(w)}
-cfg test S->aSb|bSa|SS|$
