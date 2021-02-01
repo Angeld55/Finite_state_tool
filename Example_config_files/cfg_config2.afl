@@ -1,0 +1,2 @@
+// {a^n b^k c^2k d^n}
+cfg test2 S->aSd|A A->bAcc|$
