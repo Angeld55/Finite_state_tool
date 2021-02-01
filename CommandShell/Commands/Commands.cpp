@@ -15,7 +15,7 @@ std::string AssignCommand::execute(const std::vector<std::string>& args)
 			dispatcher.env.registerFSA(args[0], dispatcher.env.GetSecretForAssignments());
 		else
 			return "Error! Invalid command! (Error 1100)";
-		return "Succesfull operation on the FSA!";
+		return "Successfully executed operation on the FSA!";
 	}
 	// A = UNION B C
 	if (args.size() == 5)
@@ -28,24 +28,20 @@ std::string AssignCommand::execute(const std::vector<std::string>& args)
 			{
 				FiniteStateAutomation res = Union(*fsaLeft, *fsaRight);
 				dispatcher.env.registerFSA(args[0], res);
-				return "Succesfull operation on the FSA!";
-
 			}
 			else if (args[2] == "intersect")
 			{
 				FiniteStateAutomation res = InterSection(*fsaLeft, *fsaRight);
 				dispatcher.env.registerFSA(args[0], res);
-				return "Succesfull operation on the FSA!";
 			}
 			else if (args[2] == "concat")
 			{
 				FiniteStateAutomation res = Concat(*fsaLeft, *fsaRight);
 				dispatcher.env.registerFSA(args[0], res);
-				return "Succesfull operation on the FSA!";
 			}
 			else
 				return "Error! Invalid command! (Error 1110)";
-		
+			return "Successfully executed operation on the FSAs!";
 		}
 		else
 			return "Error! One of the FSA-s doesn't exists!";
