@@ -83,7 +83,6 @@ bool FiniteStateAutomation::existState(int state)
 
 Set<int> FiniteStateAutomation::havePathTo(int begin,const CustomString& str)
 {
-	char firstCh = str[0];
 	Set<int> result;
 
 	if (str.getLenght() == 0)
@@ -91,6 +90,7 @@ Set<int> FiniteStateAutomation::havePathTo(int begin,const CustomString& str)
 		result.Add(begin);
 		return result;
 	}
+	char firstCh = str[0];
 
 	for (int i = 0; i < automation[begin].getSize(); i++)
 	{
