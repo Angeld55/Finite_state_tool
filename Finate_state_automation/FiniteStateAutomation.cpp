@@ -81,7 +81,7 @@ bool FiniteStateAutomation::existState(int state)
 	return state < automation.getSize();
 }
 
-Set<int> FiniteStateAutomation::havePathTo(int begin, CustomString str)
+Set<int> FiniteStateAutomation::havePathTo(int begin,const CustomString& str)
 {
 	char firstCh = str[0];
 	Set<int> result;
@@ -190,7 +190,7 @@ Set<int> FiniteStateAutomation::getTransitions(int start, char ch)
 	return result;
 }
 
-Set<int> FiniteStateAutomation::getTransitions(Set<int> s, char ch)
+Set<int> FiniteStateAutomation::getTransitions(const Set<int>& s, char ch)
 {
 	Set<int> result;
 	for (int i = 0; i < s.getSize(); ++i)
@@ -234,7 +234,7 @@ void FiniteStateAutomation::removeNotReachable()
 	removeNotReachable(startState);
 }
 
-bool FiniteStateAutomation::accepts(CustomString str)
+bool FiniteStateAutomation::accepts(const CustomString& str)
 {
 	Set<int> result = havePathTo(startState, str);
 	Set<int> intersection = Intersection(finalStates, result);
@@ -704,7 +704,7 @@ CustomString convertRegexToRPN(const CustomString& regex)
 	return result;
 }
 
-FiniteStateAutomation BuildFiniteStateAutomation(CustomString reg)
+FiniteStateAutomation BuildFiniteStateAutomation(const CustomString& reg)
 {
 	CustomString regexRPN = convertRegexToRPN(reg);
 	stack<FiniteStateAutomation> automationStack;

@@ -2,106 +2,63 @@
 #include <vector>
 #include <string>
 #include "CommandShell\Dispatcher\CommandDispatcher.h"
+
 using namespace std;
 
 
-void npdaTest()
+void trim(std::string& str)
 {
-	CommandDispatcher dispatecher;
-	std::string request = "npda even_palindromes";
-	cout << dispatecher.dispatch(request) << endl;
-
-	request = "add_state even_palindromes";
-	cout << dispatecher.dispatch(request) << endl;
-	cout << dispatecher.dispatch(request) << endl;
-
-	request = "make_final even_palindromes 2";
-	cout << dispatecher.dispatch(request) << endl;
-
-	request = "arc even_palindromes 0 a # 0 A#";
-	cout << dispatecher.dispatch(request) << endl;
-
-	request = "arc even_palindromes 0 b # 0 B#";
-	cout << dispatecher.dispatch(request) << endl;
-
-	request = "arc even_palindromes 0 $ # 2 $";
-	cout << dispatecher.dispatch(request) << endl;
-
-	request = "arc even_palindromes 0 a A 0 AA";
-	cout << dispatecher.dispatch(request) << endl;
-
-	request = "arc even_palindromes 0 a A 0 $";
-	cout << dispatecher.dispatch(request) << endl;
-
-	request = "arc even_palindromes 0 b B 0 BB";
-	cout << dispatecher.dispatch(request) << endl;
-
-	request = "arc even_palindromes 0 b B 0 $";
-	cout << dispatecher.dispatch(request) << endl;
-
-	request = "arc even_palindromes 0 a B 0 AB";
-	cout << dispatecher.dispatch(request) << endl;
-
-	request = "arc even_palindromes 0 b A 0 BA";
-	cout << dispatecher.dispatch(request) << endl;
-
-	request = "arc even_palindromes 1 b B 1 $";
-	cout << dispatecher.dispatch(request) << endl;
-
-	request = "arc even_palindromes 1 a A 1 $";
-	cout << dispatecher.dispatch(request) << endl;
-
-	request = "arc even_palindromes 1 $ # 2 $";
-	cout << dispatecher.dispatch(request) << endl;
-
-	request = "accepts even_palindromes aabbbbaa";
-	cout << dispatecher.dispatch(request) << endl;
-
-	request = "accepts even_palindromes aabbbba";
-	cout << dispatecher.dispatch(request) << endl;
+	size_t endpos = str.find_last_not_of(" \t");
+	size_t startpos = str.find_first_not_of(" \t");
+	if (std::string::npos != endpos)
+	{
+		str = str.substr(0, endpos + 1);
+		str = str.substr(startpos);
+	}
+	else {
+		str.erase(std::remove(std::begin(str), std::end(str), ' '), std::end(str));
+	}
 }
 
-void fsaTest()
-{
-	CommandDispatcher dispatecher;
 
-	std::string request = "fsa A1 a(a+b)*b";
-	cout << dispatecher.dispatch(request) << endl;
-
-	request = "fsa A2 b(a+b)*a";
-	cout << dispatecher.dispatch(request) << endl;
-
-	request = "A3 = union A1 A2";
-	cout << dispatecher.dispatch(request) << endl;
-
-	request = "accepts A3 aabbab";
-	cout << dispatecher.dispatch(request) << endl;
-
-	request = "accepts A3 baabbab";
-	cout << dispatecher.dispatch(request) << endl;
-
-	request = "accepts A3 aaabbaa";
-	cout << dispatecher.dispatch(request) << endl;
-
-	request = "min A3";
-	cout << dispatecher.dispatch(request) << endl;
-
-	request = "print A3";
-	cout << dispatecher.dispatch(request) << endl;
-}
 
 void cfgTest()
 {
 	CommandDispatcher dispatecher;
-
-	std::string request = "cfg test S->aSd|A A->bAcc|$";
+	std::string request = "cfg test S->aSb|bSa|SS|$";
+	//std::string request = "cfg test2 S->aSd|A A->bAcc|$";
 	cout << dispatecher.dispatch(request) << endl;
 
-	request = "accepts test aaabbccccddd";
-	cout << dispatecher.dispatch(request) << endl;
+	//request = "accepts test ab";
+	//cout << dispatecher.dispatch(request) << endl;
 
-	request = "accepts test aaaaabbcccccddd";
+	request = "accepts test ababba";
 	cout << dispatecher.dispatch(request) << endl;
+}
+
+bool loadConfiguration(CommandDispatcher& dispatcher, const std::string& configFile, std::string& dispatcherFinalResponse)
+{
+	ifstream infile(configFile);
+
+	std::string line;
+	while (std::getline(infile, line))
+	{
+		line = line.substr(0, line.find("//", 0)); //remove comments
+		trim(line);
+		if (line.length() == 0)
+			continue;
+
+		std::string request = line; //maybe trim?
+		std::string response = dispatcher.dispatch(request);
+
+		if (response.find("Error", 0) == 0)
+		{
+			dispatcherFinalResponse = response;
+			return false;
+		}
+	}
+	dispatcherFinalResponse = "Configuration file successfuly loaded!";
+	return true;
 }
 void runAFL()
 {
@@ -111,19 +68,27 @@ void runAFL()
 		cout << ">";
 		std::string request;
 		std::getline(cin, request);
-		std::string response = dispatcher.dispatch(request);
+		
+		std::string response;
+		trim(request);
+
+		if (request.rfind("load", 0) == 0) //load saved configuration
+		{
+			loadConfiguration(dispatcher, request.substr(5), response);
+			cout << response << endl;
+			continue;
+		}
+		response = dispatcher.dispatch(request);
 		cout << response << endl;
 
-		std::string envOutput1 = dispatcher.env.toStringFSA();
 
-		std::string envOutput2 = dispatcher.env.toStringNPDA();
 	}
 }
 int main() 
 {
 	//npdaTest();
 	//fsaTest();
-	cfgTest();
+	//cfgTest();
 	runAFL();
 }
  

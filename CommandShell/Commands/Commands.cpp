@@ -112,8 +112,8 @@ std::string UnaryCommand::execute(const std::vector<std::string>& args)
 			}
 			else if (args[0] == "compl")
 			{
-				FiniteStateAutomation compl = Complement(*fsa);
-				dispatcher.env.registerFSA(args[1], compl);
+				FiniteStateAutomation complement = Complement(*fsa);
+				dispatcher.env.registerFSA(args[1], complement);
 			}
 			else if (args[0] == "star")
 			{
@@ -153,8 +153,8 @@ std::string UnaryCommand::execute(const std::vector<std::string>& args)
 			}
 			else if (args[0] == "compl")
 			{
-				FiniteStateAutomation compl = Complement(*fsa);
-				dispatcher.env.setSecretForAssignments(compl);
+				FiniteStateAutomation complement = Complement(*fsa);
+				dispatcher.env.setSecretForAssignments(complement);
 			}
 			else if (args[0] == "star")
 			{

@@ -1,0 +1,4 @@
+fsa A1 a(a+b)*b
+fsa A2 b(a+b)*a
+A3 = union A1 A2
+min    A3   

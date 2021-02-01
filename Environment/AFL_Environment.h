@@ -19,6 +19,6 @@ public:
 	int getFSA(const std::string& key, FiniteStateAutomation*& fsa);
 	void setSecretForAssignments(FiniteStateAutomation& fsa);
 	FiniteStateAutomation& GetSecretForAssignments();
-	std::string AFL_Environment::toStringFSA();
-	std::string AFL_Environment::toStringNPDA();
+	std::string toStringFSA();
+	std::string toStringNPDA();
 };

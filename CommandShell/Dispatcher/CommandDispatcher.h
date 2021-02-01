@@ -14,6 +14,8 @@ public:
 	CommandDispatcher();
 	std::string dispatch(std::string);
 	std::string dispatch(const std::vector<std::string>& args);
+	void reset();
+
 	AFL_Environment env;
 };
 

@@ -88,5 +88,9 @@ std::string CommandDispatcher::dispatch(std::string input)
 	args.push_back(input);
 	return dispatch(args);
 }
-
+void CommandDispatcher::reset()
+{
+	AFL_Environment newEnv;
+	env = newEnv;
+}
 

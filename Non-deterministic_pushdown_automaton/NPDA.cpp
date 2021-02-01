@@ -4,7 +4,7 @@
 NPDA::NPDA(size_t states) : finalStates(states)
 {}
 
-NPDA::NPDA(const ContextFreeGrammar grammar) : NPDA(3)
+NPDA::NPDA(const ContextFreeGrammar& grammar) : NPDA(3)
 {
 	makeFinal(2);
 

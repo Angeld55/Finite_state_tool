@@ -66,7 +66,7 @@ public:
 	bool makeStateFinal(int state);
 	void removeState(int state);
 	void removeNotReachable();
-	bool accepts(CustomString str); //returns true if automation accepts the string
+	bool accepts(const CustomString& str); //returns true if automation accepts the string
 	bool isEmptyLanguage();
 	
 
@@ -108,7 +108,7 @@ private:
 	bool existState(int state); //check if a state exists
 	void absorb(const FiniteStateAutomation& a);
 	void copyTransitions(int x, int y); 
-	Set<int> havePathTo(int begin, CustomString str); //returns set of states reachable with that word
+	Set<int> havePathTo(int begin, const CustomString& str); //returns set of states reachable with that word
 	void CheckIfOneStated();
 
 	//for determinstisation
@@ -117,7 +117,7 @@ private:
 	void DFS(int state, bool* visited);
 	FiniteStateAutomation reverseTransitions();
 	Set<int> getTransitions(int start, char ch);
-	Set<int> getTransitions(Set<int>, char ch);
+	Set<int> getTransitions(const Set<int>&, char ch);
 	
 
 	//for kleeny theorem
@@ -135,7 +135,7 @@ private:
 
 };
 
-FiniteStateAutomation BuildFiniteStateAutomation(CustomString reg);
+FiniteStateAutomation BuildFiniteStateAutomation(const CustomString& reg);
 FiniteStateAutomation CreateBaseFiniteStateAutomation(char ch); //automation with two states and one letter
 
 #endif // !AUTOMATION_HDR

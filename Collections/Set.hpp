@@ -1,3 +1,4 @@
+#include <iostream>
 #ifndef SET_HDR
 #define SET_HDR
 
@@ -143,14 +144,6 @@ bool Set<T>::Contains(T elem) const {
 			return true;
 	}
 	return false;
-}
-
-template<typename T>
-void Set<T>::Print() {
-
-	for (int i = 0; i < getSize(); i++)
-		std::cout << elements[i] << " ";
-	std::cout << std::endl;
 }
 
 template <typename T>

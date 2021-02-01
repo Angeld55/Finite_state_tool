@@ -25,8 +25,8 @@ public:
 	~CustomString();
 
 	int getLenght() const;
-	CustomString SubString(int start);
-	CustomString SubString(int start, int end);
+	CustomString SubString(int start) const;
+	CustomString SubString(int start, int end) const;
 	int IndexOf(const CustomString& other, int index); //return the index of the first encounter of other in the object
 	int IndexOf(const char* str, int index); //reusing IndexOf(const CustomString& other, int index)
 	int CountOcurences(CustomString str); // How many times a string is found as substring

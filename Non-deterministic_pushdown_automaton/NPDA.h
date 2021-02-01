@@ -7,7 +7,7 @@
 using namespace std;
 
 const int ALPHABET_SIZE = 26;
-const int MAX_COMPUTATION_STEPS = 50;
+const int MAX_COMPUTATION_STEPS = 20;
 struct ContextFreeGrammar;
 class NPDA
 {
@@ -45,7 +45,7 @@ class NPDA
 	
 public:
 	NPDA(size_t states = 1);
-	NPDA(const ContextFreeGrammar grammar);
+	NPDA(const ContextFreeGrammar& grammar);
 	bool makeFinal(size_t ind);
 	bool accepts(const std::string& word, bool shouldPrint = false);
 	int addState();

@@ -1,6 +1,8 @@
 #include "CustomString.h"
+#pragma warning(disable:4996)
 
-void CustomString::CopyFrom(const CustomString& other) {
+void CustomString::CopyFrom(const CustomString& other) 
+{
 
 	str = new char[strlen(other.str) + 1];
 	strcpy(str, other.str);
@@ -27,7 +29,8 @@ CustomString::CustomString(char ch)
 	len = 1;
 }
 
-CustomString::CustomString(const char* str) {
+CustomString::CustomString(const char* str) 
+{
 
 	len = strlen(str);
 
@@ -35,11 +38,13 @@ CustomString::CustomString(const char* str) {
 	strcpy(this->str, str);
 }
 
-CustomString::CustomString(const CustomString& other) {
+CustomString::CustomString(const CustomString& other) 
+{
 	CopyFrom(other);
 }
 
-CustomString& CustomString::operator=(const CustomString& other) {
+CustomString& CustomString::operator=(const CustomString& other) 
+{
 
 	if (this != &other) {
 		Free();
@@ -48,15 +53,18 @@ CustomString& CustomString::operator=(const CustomString& other) {
 	return *this;
 }
 
-CustomString::~CustomString() {
+CustomString::~CustomString() 
+{
 	Free();
 }
 
-int CustomString::getLenght() const {
+int CustomString::getLenght() const 
+{
 	return len;
 }
 
-CustomString CustomString::SubString(int start) {
+CustomString CustomString::SubString(int start) const 
+{
 
 	if (start < 0 || start > len)
 		throw std::logic_error("Invalid index.\n");
@@ -73,7 +81,8 @@ CustomString CustomString::SubString(int start) {
 	return newString;
 }
 
-CustomString CustomString::SubString(int start, int end) {
+CustomString CustomString::SubString(int start, int end) const  
+{
 
 	if (start < 0 || start > len || end <= 0 || end > len)
 		throw std::logic_error("Invalid index.\n");
@@ -140,18 +149,21 @@ inline int CustomString::GetOcurence(CustomString str, int num)
 	return count;
 }
 
-const char& CustomString::operator[](int index) const {
+const char& CustomString::operator[](int index) const 
+{
 
 	if(index >= len)
 		throw std::out_of_range("Out of range!");
 	return str[index];
 }
 
-char& CustomString::operator[](int index) {
+char& CustomString::operator[](int index)
+{
 	return str[index];
 }
 
-CustomString& CustomString::operator+=(const CustomString& other) {
+CustomString& CustomString::operator+=(const CustomString& other) 
+{
 
 	char* temp = str;
 	str = new char[len + other.len + 1];
@@ -162,19 +174,23 @@ CustomString& CustomString::operator+=(const CustomString& other) {
 	return *this;
 }
 
-bool operator==(const CustomString& lhs, const CustomString& rhs) {
+bool operator==(const CustomString& lhs, const CustomString& rhs) 
+{
 	return !strcmp(lhs.str, rhs.str);
 }
 
-bool operator!=(const CustomString& lhs, const CustomString& rhs) {
+bool operator!=(const CustomString& lhs, const CustomString& rhs)
+{
 	return strcmp(lhs.str, rhs.str);
 }
 
-std::ostream& operator<<(std::ostream& os, const CustomString& obj) {
+std::ostream& operator<<(std::ostream& os, const CustomString& obj) 
+{
 	return os << obj.str;
 }
 
-std::istream& operator>>(std::istream& is, CustomString& obj) {
+std::istream& operator>>(std::istream& is, CustomString& obj) 
+{
 
 	char buff[MAX_SIZE];
 	is.getline(buff, MAX_SIZE);
@@ -188,7 +204,8 @@ const char* CustomString::c_str()
 {
 	return str;
 }
-const CustomString operator+(const CustomString& lhs, const CustomString& rhs) {
+const CustomString operator+(const CustomString& lhs, const CustomString& rhs) 
+{
 	if (lhs.getLenght() == 0)
 		return rhs;
 	else if (rhs.getLenght() == 0)
