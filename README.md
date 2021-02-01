@@ -2,9 +2,6 @@
 
 ![enter image description here](https://i.ibb.co/fYYPwr4/AFL-example.png "AFL")
 
-//![enter image description here](https://i.ibb.co/jfqRzQc/snapshot.png "AFL")
-
-
 | Syntax:                          | Effect:                                                                      | Example:            |
 |----------------------------------|------------------------------------------------------------------------------|---------------------|
 | load [config_file]               | loads configuration from a file. Example files in Example_config_files       | load myfsa.afl
