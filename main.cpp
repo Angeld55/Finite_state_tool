@@ -20,22 +20,6 @@ void trim(std::string& str)
 	}
 }
 
-
-
-void cfgTest()
-{
-	CommandDispatcher dispatecher;
-	std::string request = "cfg test S->aSb|bSa|SS|$";
-	//std::string request = "cfg test2 S->aSd|A A->bAcc|$";
-	cout << dispatecher.dispatch(request) << endl;
-
-	//request = "accepts test ab";
-	//cout << dispatecher.dispatch(request) << endl;
-
-	request = "accepts test ababba";
-	cout << dispatecher.dispatch(request) << endl;
-}
-
 bool loadConfiguration(CommandDispatcher& dispatcher, const std::string& configFile, std::string& dispatcherFinalResponse)
 {
 	ifstream infile(configFile);
@@ -86,9 +70,6 @@ void runAFL()
 }
 int main() 
 {
-	//npdaTest();
-	//fsaTest();
-	//cfgTest();
 	runAFL();
 }
  
