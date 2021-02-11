@@ -124,19 +124,19 @@ int main()
 </thead>
 <tbody>
 <tr>
-<td>MakeTotal()</td>
+<td>makeTotal()</td>
 <td>Makes the automation complete. It shoud define a transition for each state and each input symbol. We create an error state for every non-existing transition.</td>
 </tr>
 <tr>
-<td>MakeDeterministic()</td>
+<td>makeDeterministic()</td>
 <td>Makes the Non-deterministic finite automaton(NFA)  to Deterministic finite Automation(DFA).</td>
 </tr>
 <tr>
-<td>Minimize()</td>
+<td>minimize()</td>
 <td>Transforms the given DETERMINISTIC finite automaton into an equivalent DFA that has a minimum number of states.</td>
 </tr>
 <tr>
-<td>GetRegEx()</td>
+<td>getRegEx()</td>
 <td>Gets a regular expression for the language accepted by the NFA. The regular expression may be non-practical as it becomes long very fast.</td>
 </tr>
 </tbody>
