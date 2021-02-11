@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <fstream>
 #include "CommandShell\Dispatcher\CommandDispatcher.h"
 
 using namespace std;
@@ -15,7 +16,8 @@ void trim(std::string& str)
 		str = str.substr(0, endpos + 1);
 		str = str.substr(startpos);
 	}
-	else {
+	else 
+	{
 		str.erase(std::remove(std::begin(str), std::end(str), ' '), std::end(str));
 	}
 }
@@ -24,15 +26,20 @@ bool loadConfiguration(CommandDispatcher& dispatcher, const std::string& configF
 {
 	ifstream infile(configFile);
 
+	if (!infile.is_open())
+	{
+		dispatcherFinalResponse = "The file doesn't exists!";
+		return false;
+	}
+
 	std::string line;
 	while (std::getline(infile, line))
 	{
-		line = line.substr(0, line.find("//", 0)); //remove comments
 		trim(line);
-		if (line.length() == 0)
-			continue;
+		std::string request = line.substr(0, line.find("//", 0)); //remove comments
 
-		std::string request = line; //maybe trim?
+		if (request.length() == 0)
+			continue;
 		std::string response = dispatcher.dispatch(request);
 
 		if (response.find("Error", 0) == 0)

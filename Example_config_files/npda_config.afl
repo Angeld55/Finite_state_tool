@@ -2,6 +2,7 @@ npda even_palindromes
 add_state even_palindromes
 add_state even_palindromes
 make_final even_palindromes 2
+
 arc even_palindromes 0 a # 0 A#
 arc even_palindromes 0 b # 0 B#
 arc even_palindromes 0 $ # 2 $

@@ -21,7 +21,7 @@ CommandDispatcher::CommandDispatcher()
 	registerCommand("print", new PrintCommand(*this));
 	registerCommand("regex", new RegexCommand(*this));
 	registerCommand("environment", new EnvironmentCommand(*this));
-	
+	registerCommand("viz", new VisualizeCommand(*this));
 }
 
 void CommandDispatcher::registerCommand(const std::string& commandName, Command* command)

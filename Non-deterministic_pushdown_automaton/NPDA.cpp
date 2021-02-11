@@ -1,12 +1,13 @@
 #include "NPDA.h"
+#include <cctype>
 #include <sstream>
 
-NPDA::NPDA(size_t states) : finalStates(states)
+NPDA::NPDA(size_t states) : AutomationBase(AutomationBase::AutomationType::NPDA), finalStates(states)
 {}
 
-NPDA::NPDA(const ContextFreeGrammar& grammar) : NPDA(3)
+NPDA::NPDA(const ContextFreeGrammar& grammar) :  NPDA(3)
 {
-	makeFinal(2);
+	makeStateFinal(2);
 
 	addTransition(0, '$', '#', 1, "S#");
 
@@ -36,7 +37,7 @@ NPDA::NPDA(const ContextFreeGrammar& grammar) : NPDA(3)
 	addTransition(1, '$', '#', 2, "$");
 }
 
-bool NPDA::makeFinal(size_t ind)
+bool NPDA::makeStateFinal(size_t ind)
 {
 	if (ind >= finalStates.size())
 		return false;
@@ -48,14 +49,44 @@ int NPDA::addState()
 	finalStates.push_back(false);
 	return finalStates.size() - 1;
 }
+bool isValidNumber(const std::string& s)
+{
+	return !s.empty() && std::find_if(s.begin(),
+		s.end(), [](unsigned char c) { return !std::isdigit(c); }) == s.end();
+}
+int validateCustomInput(const std::vector<std::string>& args)
+{
+	if (args.size() != 5)
+		return -1;
+	if (!isValidNumber(args[0]) || !isValidNumber(args[3]))
+		return  -2;
+
+	if (args[1].size() != 1 || args[2].size() != 1)
+		return -4;
+	return 0;
+}
+int NPDA::addTransition(const std::vector<std::string>& args)
+{
+	int resCodevalidateInput = validateCustomInput(args);
+	
+	if (resCodevalidateInput != 0)
+		return resCodevalidateInput;
+
+	resCodevalidateInput = addTransition(atoi(args[0].c_str()), args[1][0], args[2][0], atoi(args[3].c_str()), args[4]);
+	if (!resCodevalidateInput)
+		return -3;
+	return 0;
+}
+
 bool NPDA::addTransition(int initialState, char symbol, char stackTopSymbol, int destState, string stringToReplaceTopStackSymbol)
 {
 	if (initialState >= finalStates.size() || destState >= finalStates.size())
 		return false;
+
 	rules.push_back({ initialState, symbol, stackTopSymbol, destState, stringToReplaceTopStackSymbol });
 	return true;
 }
-void NPDA::applyRuleIfPossible(Computation& current, Rule& ruleToApply, queue<Computation>& q)
+bool NPDA::applyRuleIfPossible(Computation& current, const Rule& ruleToApply, queue<Computation>& q) const
 {
 	if ((current.state == ruleToApply.initialState) 
 		&&((ruleToApply.symbol == '$') || (current.word[0] == ruleToApply.symbol))
@@ -80,21 +111,23 @@ void NPDA::applyRuleIfPossible(Computation& current, Rule& ruleToApply, queue<Co
 		}
 								
 		q.push(newComputation);
+		return true;
 	}
+	return false;
 }
-void NPDA::printComputation(const Computation& c)
+std::string NPDA::computationToString(const Computation& c)  const
 {
-	cout << "State: " << c.state << ", Stack: ";
+	std::string res =  "< State: " + std::to_string(c.state) + ", Stack: ";
 	stack<char> stCopy = c.st;
 	while (!stCopy.empty())
 	{
-		cout << stCopy.top();
+		res += stCopy.top();
 		stCopy.pop();
 	}
-	cout << ", Word: " << c.word << ", STEPS:" << c.computationSteps << endl;
+	return res += ", Word: " + c.word + ", STEP:" + std::to_string(c.computationSteps) + " > \n";
 }
 
-bool NPDA::accepts(const std::string& word, bool shouldPrint )
+bool NPDA::accepts(const std::string& word, std::string& computationHistory, bool shouldReturnComputation) const
 {
 	Computation currentComputation(0, word, 0);
 	
@@ -105,12 +138,12 @@ bool NPDA::accepts(const std::string& word, bool shouldPrint )
 	while (!q.empty())
 	{
 		currentComputation = q.front();
-		if (shouldPrint)
-			printComputation(currentComputation);
 
 		if (finalStates[currentComputation.state] && currentComputation.word == "")
+		{
+			computationHistory = currentComputation.computationHistory;
 			return true;
-
+		}
 		if (currentComputation.computationSteps == MAX_COMPUTATION_STEPS)
 		{
 			q.pop();
@@ -118,15 +151,31 @@ bool NPDA::accepts(const std::string& word, bool shouldPrint )
 		}
 
 		for (int i = 0; i < rules.size(); i++)
-			applyRuleIfPossible(currentComputation, rules[i], q);
+		{
+			if (applyRuleIfPossible(currentComputation, rules[i], q) && shouldReturnComputation)
+			{
+				Computation& lastAdded = q.back();
+				lastAdded.computationHistory = currentComputation.computationHistory + computationToString(currentComputation);
+			}
+		}
 
 		q.pop();
 	}
 	return false;
 
 }
-std::string NPDA::getString()
+std::string NPDA::getString() const
 {
 	std::string res = "States count: " + std::to_string(finalStates.size()) + ", Rules count: " + std::to_string(rules.size()) + "\n";
 	return res;
+}
+
+std::string  NPDA::getVisualizeString() const
+{
+	//TBI
+	return "";
+}
+AutomationBase* NPDA::clone() const
+{
+	return new NPDA(*this);
 }

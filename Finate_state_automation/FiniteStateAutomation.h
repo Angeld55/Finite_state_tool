@@ -3,11 +3,10 @@
 #ifndef AUTOMATION_HDR
 #define AUTOMATION_HDR
 
-#include "../Collections/Queue.hpp"
-#include "../Collections/DynamicArray.hpp"
-#include "../Collections/Set.hpp"
-#include "../String/CustomString.h"
-#include "../Collections/Dictionary.h"
+#include "../Automation_base/AutomationBase.h"
+
+#include "../Collections/Set/Set.hpp"
+#include "../Collections/Dictionary/Dictionary.h"
 
 
 
@@ -18,7 +17,7 @@ const int SMALL_A_INDEX = 97;
 const int ZERO_INDEX = 48;
 
 
-class FiniteStateAutomation
+class FiniteStateAutomation : public AutomationBase
 {
 	struct edge
 	{
@@ -48,25 +47,26 @@ private:
 	int startState;
 
 	Set<int> finalStates;
-	DynamicArray<DynamicArray<edge>> automation;
+	std::vector<std::vector<edge>> automation;
 	Set<char>  alphabet;
 
+	void addTransition(int start, int end, char ch);
 
 public:
 	FiniteStateAutomation();
 	FiniteStateAutomation(int statesCount);
-	FiniteStateAutomation(const CustomString& reg);
+	FiniteStateAutomation(const std::string& reg);
 
 
 	//control
 	void addLetterToAlphabet(char ch);
-	int addState();
-	bool addTransition(int start, int end, char ch); //adds an edge between two states
+	int addState() override;
+	int addTransition(const std::vector<std::string>& args) override; //adds an edge between two states
 	bool changeStartState(int state);
-	bool makeStateFinal(int state);
+	bool makeStateFinal(size_t state) override;
 	void removeState(int state);
 	void removeNotReachable();
-	bool accepts(const CustomString& str); //returns true if automation accepts the string
+	bool accepts(const std::string& word, std::string& computation, bool shouldReturnComputation = false) const override; //returns true if automation accepts the string
 	bool isEmptyLanguage();
 	
 
@@ -83,45 +83,40 @@ public:
 
 	void reverse();
 	
-	bool isDeterministic();
-	bool isTotal();
+	bool isDeterministic() const;
+	bool isTotal() const;
 
 	void makeTotal();
 	void makeDeterministic();
 	void minimize();
 
-	CustomString getRegEx(); //kleeny theorem
+	std::string getRegEx(); //kleeny theorem
 
 	int getStatesCount() const;
 	int getStartState() const;
 	Set<int> getFinalStates() const;
 
-	void print();
+	std::string getString() const override;
+	std::string getFullString() const;
 
-	std::string getString();
-	std::string getFullString();
-
-	
+	std::string getVisualizeString() const override;
 
 private:
 
 	bool existState(int state); //check if a state exists
 	void absorb(const FiniteStateAutomation& a);
 	void copyTransitions(int x, int y); 
-	Set<int> havePathTo(int begin, const CustomString& str); //returns set of states reachable with that word
-	void CheckIfOneStated();
+	Set<int> havePathTo(int begin, const std::string& str) const; //returns set of states reachable with that word
 
 	//for determinstisation
-	
-	DynamicArray<int> getNotReachableStates(int from);
+	std::vector<int> getNotReachableStates(int from);
 	void DFS(int state, bool* visited);
 	FiniteStateAutomation reverseTransitions();
 	Set<int> getTransitions(int start, char ch);
 	Set<int> getTransitions(const Set<int>&, char ch);
 	
-
 	//for kleeny theorem
-	CustomString getRegEx(int start, int end, int bound, bool needEpsilon);
+	std::string getRegEx(int start, int end, int bound, bool needEpsilon);
 
 	//for making total
 	int addErrorState();
@@ -133,9 +128,11 @@ private:
 
 	void removeNotReachable(int from);
 
+	AutomationBase* clone() const override;
+
 };
 
-FiniteStateAutomation BuildFiniteStateAutomation(const CustomString& reg);
+FiniteStateAutomation BuildFiniteStateAutomation(const std::string& reg);
 FiniteStateAutomation CreateBaseFiniteStateAutomation(char ch); //automation with two states and one letter
 
 #endif // !AUTOMATION_HDR

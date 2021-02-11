@@ -12,7 +12,7 @@ std::string AssignCommand::execute(const std::vector<std::string>& args)
 		newCommandArgs.push_back("_assign");
 		std::string res = dispatcher.dispatch(newCommandArgs);
 		if (res == "Succes!")
-			dispatcher.env.registerFSA(args[0], dispatcher.env.GetSecretForAssignments());
+			dispatcher.env.registerAutomation(args[0], dispatcher.env.GetSecretForAssignments());
 		else
 			return "Error! Invalid command! (Error 1100)";
 		return "Successfully executed operation on the FSA!";
@@ -20,24 +20,34 @@ std::string AssignCommand::execute(const std::vector<std::string>& args)
 	// A = UNION B C
 	if (args.size() == 5)
 	{
-		FiniteStateAutomation* fsaLeft = nullptr;
-		FiniteStateAutomation* fsaRight = nullptr;
-		if (dispatcher.env.getFSA(args[3], fsaLeft) == 0 && dispatcher.env.getFSA(args[4], fsaRight) == 0)
+		AutomationBase* lhs = nullptr;
+		AutomationBase* rhs = nullptr;
+		if (dispatcher.env.getAutomation(args[3], lhs) == 0 && dispatcher.env.getAutomation(args[4], rhs) == 0)
 		{
+			FiniteStateAutomation* fsaLeft;
+			FiniteStateAutomation* fsaRight;
+			if (lhs->getType() == AutomationBase::AutomationType::FSA && rhs->getType() == AutomationBase::AutomationType::FSA)
+			{
+				fsaLeft = static_cast<FiniteStateAutomation*>(lhs);
+				fsaRight = static_cast<FiniteStateAutomation*>(rhs);
+			}
+			else
+				return "Error! One of the FSA-s doesn't exists!";
+
 			if (args[2] == "union")
 			{
-				FiniteStateAutomation res = Union(*fsaLeft, *fsaRight);
-				dispatcher.env.registerFSA(args[0], res);
+				FiniteStateAutomation* res = new FiniteStateAutomation(Union(*fsaLeft, *fsaRight));
+				dispatcher.env.registerAutomation(args[0], res);
 			}
 			else if (args[2] == "intersect")
 			{
-				FiniteStateAutomation res = InterSection(*fsaLeft, *fsaRight);
-				dispatcher.env.registerFSA(args[0], res);
+				FiniteStateAutomation* res = new FiniteStateAutomation(InterSection(*fsaLeft, *fsaRight));
+				dispatcher.env.registerAutomation(args[0], res);
 			}
 			else if (args[2] == "concat")
 			{
-				FiniteStateAutomation res = Concat(*fsaLeft, *fsaRight);
-				dispatcher.env.registerFSA(args[0], res);
+				FiniteStateAutomation* res = new FiniteStateAutomation(Concat(*fsaLeft, *fsaRight));
+				dispatcher.env.registerAutomation(args[0], res);
 			}
 			else
 				return "Error! Invalid command! (Error 1110)";
@@ -49,27 +59,16 @@ std::string AssignCommand::execute(const std::vector<std::string>& args)
 	if (args.size() != 3)
 		return "Error! Invalid command! (Error 1101)";
 	// A = B
-	FiniteStateAutomation* fsaLeft = nullptr;
-	FiniteStateAutomation* fsaRight = nullptr;
+	AutomationBase* fsaLeft = nullptr;
+	AutomationBase* fsaRight = nullptr;
 
-	if (dispatcher.env.getFSA(args[2], fsaRight) == 0)
+	if (dispatcher.env.getAutomation(args[2], fsaRight) == 0)
 	{
-		dispatcher.env.registerFSA(args[0], *fsaRight);
-		return "";
+		dispatcher.env.registerAutomation(args[0], fsaRight->clone());
+		return "Assignment succesfull!";
 	}
 	else
-	{
-		NPDA* npdLeft = nullptr;
-		NPDA* npdright = nullptr;
-	
-		if (dispatcher.env.getNPDA(args[2], npdright) == 0)
-		{
-			dispatcher.env.registerNPDA(args[0], *npdright);
-			return "";
-		}
-		else
-			return "Error! No FSA/NPDA with ID: " + args[2];
-	}
+		return "Error! No FSA/NPDA with ID: " + args[2];
 	return "Error! Invalid command! (Error 1102)";
 }
 
@@ -81,40 +80,35 @@ std::string UnaryCommand::execute(const std::vector<std::string>& args)
 	if (args.size() != 2 && args.size() != 3)
 		return "Error! Invalid command! (Error 1103)";
 
-	FiniteStateAutomation* fsa = nullptr;
-	if (dispatcher.env.getFSA(args[1], fsa) == 0)
+	AutomationBase* ptr = nullptr;
+	if (dispatcher.env.getAutomation(args[1], ptr) == 0)
 	{
+		FiniteStateAutomation* fsa = static_cast<FiniteStateAutomation*> (ptr);
 		if (args.size() == 2)
 		{
 			if (args[0] == "det")
-			{
 				fsa->makeDeterministic();
-				dispatcher.env.registerFSA(args[1], *fsa);
-			}
+
 			else if (args[0] == "min")
-			{
 				fsa->minimize();
-				dispatcher.env.registerFSA(args[1], *fsa);
-			}
+		
 			else if (args[0] == "tot")
-			{
 				fsa->makeTotal();
-				dispatcher.env.registerFSA(args[1], *fsa);
-			}
+
 			else if (args[0] == "reverse")
 			{
-				FiniteStateAutomation reverse = Reverse(*fsa);
-				dispatcher.env.registerFSA(args[1], reverse);
+				FiniteStateAutomation* reverse = new FiniteStateAutomation(Reverse(*fsa)); //TODO// remove unnecessary copy
+				dispatcher.env.registerAutomation(args[1], reverse);
 			}
 			else if (args[0] == "compl")
 			{
-				FiniteStateAutomation complement = Complement(*fsa);
-				dispatcher.env.registerFSA(args[1], complement);
+				FiniteStateAutomation* compl = new FiniteStateAutomation(Complement(*fsa));
+				dispatcher.env.registerAutomation(args[1], compl);
 			}
 			else if (args[0] == "star")
 			{
-				FiniteStateAutomation star = Complement(*fsa);
-				dispatcher.env.registerFSA(args[1], star);
+				FiniteStateAutomation* star = new FiniteStateAutomation(KleeneStar(*fsa));
+				dispatcher.env.registerAutomation(args[1], star);
 			}
 			else
 				return "Error! Invalid command! (Error 1104)";
@@ -126,35 +120,35 @@ std::string UnaryCommand::execute(const std::vector<std::string>& args)
 				
 			if (args[0] == "det")
 			{
-				FiniteStateAutomation fsaTemp = *fsa;
-				fsaTemp.makeDeterministic();
+				FiniteStateAutomation* fsaTemp = new FiniteStateAutomation(*fsa);
+				fsaTemp->makeDeterministic();
 				dispatcher.env.setSecretForAssignments(fsaTemp);
 			}
 			else if (args[0] == "min")
 			{
-				FiniteStateAutomation fsaTemp = *fsa;
-				fsaTemp.minimize();
+				FiniteStateAutomation* fsaTemp = new FiniteStateAutomation(*fsa);
+				fsaTemp->minimize();
 				dispatcher.env.setSecretForAssignments(fsaTemp);
 			}
 			else if (args[0] == "tot")
 			{
-				FiniteStateAutomation fsaTemp = *fsa;
-				fsaTemp.makeTotal();
+				FiniteStateAutomation* fsaTemp = new FiniteStateAutomation(*fsa);
+				fsaTemp->makeTotal();
 				dispatcher.env.setSecretForAssignments(fsaTemp);
 			}
 			else if (args[0] == "reverse")
 			{
-				FiniteStateAutomation revesed = Reverse(*fsa);
-				dispatcher.env.setSecretForAssignments(revesed);
+				FiniteStateAutomation* reversed = new FiniteStateAutomation(Reverse(*fsa));
+				dispatcher.env.setSecretForAssignments(reversed);
 			}
 			else if (args[0] == "compl")
 			{
-				FiniteStateAutomation complement = Complement(*fsa);
+				FiniteStateAutomation* complement = new FiniteStateAutomation(Complement(*fsa));
 				dispatcher.env.setSecretForAssignments(complement);
 			}
 			else if (args[0] == "star")
 			{
-				FiniteStateAutomation star = KleeneStar(*fsa);
+				FiniteStateAutomation* star = new FiniteStateAutomation(KleeneStar(*fsa));
 				dispatcher.env.setSecretForAssignments(star);
 			}
 			else
@@ -176,109 +170,92 @@ bool onlyDigits(const std::string &str)
 std::string TransitionCommand::execute(const std::vector<std::string>& args)
 {
 	// arc A 0 3 b,   arc P 0, 'a', '#', 0, "A#"
-	FiniteStateAutomation* fs = nullptr;
-	NPDA* pa = nullptr;
-	if (dispatcher.env.getFSA(args[1], fs) == 0)
-	{
-		if (args.size() == 5)
-		{
-			if (args[4].size() != 1)
-				return "Transitions should have only one symbol!";
-			if (!onlyDigits(args[2]) || !onlyDigits(args[3]))
-				return "Invalid states!";
-			bool res = fs->addTransition(atoi(args[2].c_str()), atoi(args[3].c_str()), args[4][0]);
-			return  res ? "Trasition added sucessfully!" : "Error! One of the states given does not exists!";
-		}
-		else
-			return "Error! Invalid command! (Error 1106)";
-	}
-	else if (dispatcher.env.getNPDA(args[1], pa) == 0)
-	{
-		//arc PDA 0 a A 1 $ 
-		if (args.size() == 7)
-		{
-			if (!onlyDigits(args[2]) || !onlyDigits(args[5]))
-				return "Invalid states!";
-			if (args[3].size() != 1 || args[4].size() != 1)
-				return "Transitions should have only one symbol!";
 
-			bool res = pa->addTransition(atoi(args[2].c_str()), args[3][0], args[4][0], atoi(args[5].c_str()), args[6]);
-			return  res ? "Trasition added sucessfully!" : "Error! One of the states given does not exists!";
+	AutomationBase* ptr = nullptr;
+
+	if (dispatcher.env.getAutomation(args[1], ptr) == 0)
+	{
+		std::vector<std::string> arc = args;
+		arc.erase(arc.begin(), arc.begin() + 2);
+		int res = ptr->addTransition(arc);
+		if (res == 0)
+			return "Trasition added sucessfully!";
+
+		switch (res)
+		{
+		case -1: return "Error! Invalid command! (Error 1106)";
+		case -2: return "Error! The states should contain only digits!";
+		case -3: return "Error! One of the states given does not exists!";
+		case -4: return "Error! Invalid arc syntax!";
+		default: return "Error! Invalid command! (Error 1107)";
 		}
-		else
-			return "Error! Invalid command! (Error 1107)";
+
 	}
-	return "Error! No FSA/PDA with ID: " + args[1];
+	return "Error! No FSA with ID: " + args[2];
+
 }
 
 std::string AddStateCommand::execute(const std::vector<std::string>& args)  // add_state A
 {
-	FiniteStateAutomation* fs = nullptr;
-	NPDA* npda = nullptr;
-	if (dispatcher.env.getFSA(args[1], fs) == 0)
+	AutomationBase* ptr = nullptr;
+
+	if (dispatcher.env.getAutomation(args[1], ptr) == 0)
 	{
-		fs->addState();
+		ptr->addState();
 		return "State added successfully!";
 	}
-	else if (dispatcher.env.getNPDA(args[1], npda) == 0 )
-	{
-		npda->addState();
-		return "State added successfully!";
-	}
-	else
-		return "Error! No FSA with ID:" + args[1];
+	return "Error! No FSA with ID: " + args[1];
 }
 
 std::string MakeFinalStateCommand::execute(const std::vector<std::string>& args)  // make_final A 3
 {
-	FiniteStateAutomation* fs = nullptr;
-	NPDA* pa = nullptr;
+	AutomationBase* aut = nullptr;
 	if (args.size() != 3 || !onlyDigits(args[2]))
 		return "Error! Invalid command! (Error 1109)";
-	if (dispatcher.env.getFSA(args[1], fs) == 0)
+	if (dispatcher.env.getAutomation(args[1], aut) == 0)
 	{
-		bool res = fs->makeStateFinal(atoi(args[2].c_str()));
+		bool res = aut->makeStateFinal(atoi(args[2].c_str()));
 		return res ? "Success! The state is now final!" : "Error! No such state!";
 	}
-	else if (dispatcher.env.getNPDA(args[1], pa) == 0)
-	{
-		bool res =  pa->makeFinal(atoi(args[2].c_str()));
-		return res ? "Success! The state is now final!" : "Error! No such state!";
-	}
-	else
 		return "Error! No FSA with ID:" + args[1];
 }
 std::string AcceptsCommand::execute(const std::vector<std::string>& args)  
 {
-	FiniteStateAutomation* fs = nullptr;
-	NPDA* pa = nullptr;
-	if (args.size() != 3)
+	//accepts A aaabb full
+	AutomationBase* ptr = nullptr;
+
+	if (args.size() < 3)
 		return "Error! Invalid command!";
-	if (dispatcher.env.getFSA(args[1], fs) == 0)
+	
+	if (dispatcher.env.getAutomation(args[1], ptr) == 0)
 	{
-		bool res = fs->accepts(args[2].c_str());
-		return res ? "True!" : "False!";
-	}
-	else if (dispatcher.env.getNPDA(args[1], pa) == 0)
-	{
-		bool res = pa->accepts(args[2].c_str());
-		return res ? "True!" : "False!";
+		bool shouldPrintComputation = args.size() >= 4 && args[3] == "full";
+		std::string computation;
+
+		bool res = ptr->accepts(args[2], computation, shouldPrintComputation);
+		
+		string resultStr = (res ? "True!" : "False!") + computation;
+
+		return resultStr;
 	}
 	return "Error! No FSA/NPDA with ID:" + args[1];
 }
 
 std::string CreationCommand::execute(const std::vector<std::string>& args)
 {
+	if (args.size()<2)
+		return "Error! Invalid command!";
+	//fsa test ab*
 	if (args[0] == "fsa")
 	{
 		if (args.size() == 3)
 		{
 			std::string regex = args[2];
-			dispatcher.env.registerFSA(args[1], FiniteStateAutomation(regex.c_str()));
+			dispatcher.env.registerAutomation(args[1], new FiniteStateAutomation(regex.c_str()));
 			
 		}
 		else if (args.size() == 2)
-			dispatcher.env.registerFSA(args[1], FiniteStateAutomation());
+			dispatcher.env.registerAutomation(args[1], new FiniteStateAutomation());
 		else
 			return "Error! Invalid command! (Error 1115)";
 		return "FSA succesfully created!";
@@ -287,7 +264,7 @@ std::string CreationCommand::execute(const std::vector<std::string>& args)
 	{
 		if (args.size() == 2)
 		{
-			dispatcher.env.registerNPDA(args[1], NPDA());
+			dispatcher.env.registerAutomation(args[1], new NPDA());
 			return "NPDA succesfully created!";
 		}
 		return "Error! Invalid command! (Error: 1118)";
@@ -302,7 +279,7 @@ std::string CreationCommand::execute(const std::vector<std::string>& args)
 
 		for (int i = 2; i < args.size(); i++)
 			cfg.grammarRules.push_back(args[i]);
-		dispatcher.env.registerNPDA(args[1], NPDA(cfg));
+		dispatcher.env.registerAutomation(args[1], new NPDA(cfg));
 
 		return "NPDA(from CFG) succesfully created!";
 	
@@ -314,21 +291,26 @@ std::string PrintCommand::execute(const std::vector<std::string>& args)
 {
 	if (args.size() != 2)
 		return "Error! Invalid command! (Error: 1109)";
-	FiniteStateAutomation* fs = nullptr;
-	NPDA* pa = nullptr;
-	if (dispatcher.env.getFSA(args[1], fs) == 0)
-		return fs->getFullString();
-	else if ((dispatcher.env.getNPDA(args[1], pa) == 0))
-		return pa->getString();
+	AutomationBase* fs = nullptr;
+
+	if (dispatcher.env.getAutomation(args[1], fs) == 0)
+	{
+		if (fs->getType() == AutomationBase::AutomationType::FSA) //TODO. Remove this casting
+			return static_cast<FiniteStateAutomation*>(fs)->getFullString();
+		return fs->getString();
+	}
 	return  "Error! No FSA/PDA with ID: " + args[1];
 }
 std::string RegexCommand::execute(const std::vector<std::string>& args)
 {
 	if (args.size() != 2)
 		return "Error! Invalid command! (Error: 1114)";
-	FiniteStateAutomation* fs = nullptr;
-	if (dispatcher.env.getFSA(args[1], fs) == 0)
-		return std::string(fs->getRegEx().c_str());
+	AutomationBase* fs = nullptr;
+	if (dispatcher.env.getAutomation(args[1], fs) == 0)
+	{ 
+		if (fs->getType() == AutomationBase::AutomationType::FSA)
+			return std::string((static_cast<FiniteStateAutomation*>(fs))->getRegEx().c_str());
+	}
 	return  "Error! No FSA with ID: " + args[1];
 }
 
@@ -336,11 +318,28 @@ std::string EnvironmentCommand::execute(const std::vector<std::string>& args)
 {
 	if (args.size() != 2)
 		return "Error! Invalid command! (Error: 1116)";
-	if (args[1] == "fsa")
-		return dispatcher.env.toStringFSA();
-	else if (args[1] == "npda")
-		return dispatcher.env.toStringNPDA();
+	return dispatcher.env.toStringAutomations();
+}
+std::string VisualizeCommand::execute(const std::vector<std::string>& args)
+{
+	AutomationBase* aut = nullptr;
+	if (args.size() != 2)
+		return "Error! Invalid command! (Error: 1122)";
+	if (dispatcher.env.getAutomation(args[1], aut) == 0)
+	{
+		if (!dispatcher.env.vis.isOkey())
+		{
+			dispatcher.env.vis.init();
+		}
+
+		if (!dispatcher.env.vis.isOkey())
+			return "Error with the visualization!";
+
+		dispatcher.env.vis.visualize(aut, args[1] + ".html");
+		return "Visualization succesfull!";
+	}
 	else
-		return "Error! Invalid command! (Error: 1117)";
+		return "Error! No FSA with ID:" + args[0];
+
 
 }

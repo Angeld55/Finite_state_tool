@@ -85,3 +85,11 @@ public:
 	std::string execute(const std::vector<std::string>& args);
 };
 
+class VisualizeCommand : public Command
+{
+	//viz A
+public:
+	VisualizeCommand(CommandDispatcher& dispatcher) : Command(dispatcher){}
+	std::string execute(const std::vector<std::string>& args);
+};
+
