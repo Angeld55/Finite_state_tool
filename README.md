@@ -85,31 +85,31 @@ int main()
 </thead>
 <tbody>
 <tr>
-<td>AddState()</td>
+<td>addState()</td>
 <td>Adds a new state. Returns the index of the new state.</td>
 </tr>
 <tr>
-<td>AddTransition(start,end,ch)</td>
+<td>addTransition(start,end,ch)</td>
 <td>Creates a new transition from state start to state end with the letter ch. May become from DFA to NFA.</td>
 </tr>
 <tr>
-<td>ChangeStartState(newStart)</td>
+<td>changeStartState(newStart)</td>
 <td>Changes the start state of the automation. Returns false if the given new start state doesn’t exist and true if it was successful.</td>
 </tr>
 <tr>
-<td>MakeStateFinal(state)</td>
+<td>makeStateFinal(state)</td>
 <td>Marks the given state as final. Returns false if the state doesn’t exist.</td>
 </tr>
 <tr>
-<td>Accepts(word)</td>
+<td>accepts(word)</td>
 <td>Returns true if the word is accepted by the DFA/NFA.</td>
 </tr>
 <tr>
-<td>IsEmptyLanguage()</td>
+<td>isEmptyLanguage()</td>
 <td>Returns true if the FSA doesn't accept any strings.</td>
 </tr>
 <tr>
-<td>RemoveNotReachableStates()</td>
+<td>removeNotReachableStates()</td>
 <td>Removes all states that are not reachable from the start state..</td>
 </tr>	
 </tbody>
