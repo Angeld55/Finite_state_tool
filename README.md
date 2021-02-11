@@ -167,7 +167,7 @@ All basic operations with NFA-s are available:
 <h2 id="example">Example of creating and minimizing a FSA</h2>
 
 ```c++
-#include "FiniteStateAutomation.hpp"
+#include "FiniteStateAutomation.h"
 
 int main() 
 {
@@ -280,7 +280,7 @@ int main()
 	PA.addTransition(1, 'a', 'A', 1, "$");
 	PA.addTransition(1, 'b', 'B', 1, "$");
 
-	PA.AddTransition(1, '$', '#', 2, "$");
+	PA.addTransition(1, '$', '#', 2, "$");
 
 	std::cout << PA.accepts("abba") << std::endl; //true
 	std::cout << PA.accepts("abbb") << std::endl; //false
