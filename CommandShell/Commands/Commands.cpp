@@ -102,8 +102,8 @@ std::string UnaryCommand::execute(const std::vector<std::string>& args)
 			}
 			else if (args[0] == "compl")
 			{
-				FiniteStateAutomation* compl = new FiniteStateAutomation(Complement(*fsa));
-				dispatcher.env.registerAutomation(args[1], compl);
+				FiniteStateAutomation* comple = new FiniteStateAutomation(Complement(*fsa));
+				dispatcher.env.registerAutomation(args[1], comple);
 			}
 			else if (args[0] == "star")
 			{
