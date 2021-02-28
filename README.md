@@ -337,6 +337,6 @@ int main()
 
 	std::cout << PA2.accepts("abc", true) << std::endl; //true
 	std::cout << PA2.accepts("aaaaaabbbbcccccc") << std::endl; //true
-	std::cout << PA2.Accepts("abcc") << std::endl; //false
+	std::cout << PA2.accepts("abcc") << std::endl; //false
 }
 ```
