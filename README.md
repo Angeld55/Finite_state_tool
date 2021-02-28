@@ -49,7 +49,7 @@ This commands generates a **html file** (with the name of the automation). You c
 
 ![enter image description here](https://i.ibb.co/ckfn3yG/sss.png "main folder")
 
-The html file looks like this:
+The **html file** looks like this:
 
 ![enter image description here](https://i.ibb.co/WBWdtSC/3.png "html page")
 
