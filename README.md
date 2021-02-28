@@ -41,6 +41,7 @@
 The AFL system supports automata visualization. The command is called **viz**.
 
 ![enter image description here](https://i.ibb.co/fY2M0F6/1.png "example of viz")
+
 This commands generates an html file (with the name of the automation). You can find it in the main folder.
 
 ![enter image description here](https://i.ibb.co/ckfn3yG/sss.png "main folder")
