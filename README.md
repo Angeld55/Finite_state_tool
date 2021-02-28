@@ -1,6 +1,9 @@
 <h1 id="finite-state-automation">Automata and formal languages tool (AFL)</h1>
 
-![enter image description here](https://i.ibb.co/fYYPwr4/AFL-example.png "AFL")
+![enter image description here](https://i.ibb.co/KwmZVwg/68747470733a2f2f692e6962622e636f2f665959507772342f41464c2d6578616d706c652e706e67.png "AFL")
+
+![enter image description here](https://i.ibb.co/Y8Sc71J/3213.png "AFL")
+
 
 | Syntax:                          | Effect:                                                                      | Example:            |
 |----------------------------------|------------------------------------------------------------------------------|---------------------|
