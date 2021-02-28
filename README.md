@@ -28,8 +28,7 @@
 | [fsa1] = compl [fsa2]            | registers an automation fsa1 which is the complement of fsa2                 | a1 = compl a2       |
 | reverse [fsa1]                   | fsa1 becomes an new automation for the reverse of the old fsa1 automation    | reverse a1          |
 | [fsa1] = reverse [fsa2]          | registers an automation fsa1 which is the reverse of fsa2                    | a1 = reverse a2     |
-| regex [fsa1]                     | returns a regex for the automation.                                          | regex a1            |
-|  For NPDA's:       																|     
+| regex [fsa1]                     | returns a regex for the automation.                                          | regex a1            |   
 | environment npda                 | prints information for all registered npda-s                                 | environment npda    |
 | npda [name]                      | registers an Pushdown automation with one state with this name.              | npda test1          |
 | add_state [npda]                 | adds a new state to the npda                                                 | add_state test1      |
