@@ -36,7 +36,16 @@
 | arc [npda] [start] [symbol] [stack_top] [end] [replace_stack]| adds a new transition from state start to state end   | arc test1 0 a # 0 A# |
 | accepts [npda] [string]           | returns true if the npda accepts the string and false otherwise             | accepts test1  aabbb   |
 | cfg [name] [rules]		   | Creates a context-free grammer. The rules are separated with a space.         | cfg test1 S->aSb&#124;$   |
-	
+<h1 id="vt">Visualization tool</h1>
+The AFL system supports automata visualization. The command is called **viz**.
+![enter image description here](https://i.ibb.co/fY2M0F6/1.png "example of viz")
+This commands generates an html file (with the name of the automation). You can find it in the main folder.
+![enter image description here](https://i.ibb.co/ckfn3yG/sss.png "main folder")
+The html file looks like this:
+![enter image description here](https://i.ibb.co/WBWdtSC/3.png "html page")
+Press the single button on the html page and the automation will be visualized.
+![enter image description here](https://i.ibb.co/nwZXtsv/4.png "viz aut")
+
 <h1 id="finite-state-automation">1. Finite State Automation</h1>
 
 ![enter image description here](https://i.ibb.co/FKQgLBg/69973577-352536238957668-4630865521305190400-n.png "example of FSA")
