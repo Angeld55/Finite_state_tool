@@ -31,7 +31,7 @@ bool GraphVisualiser::init()
 {
 	bool res = readFile(headerPath, header);
 	if (!res)
-		return isOkay = false;
+		return false;
 	return isOkay = readFile(footerPath, footer);
 }
 bool GraphVisualiser::visualize(const AutomationBase* fsa, const std::string& filePath)
