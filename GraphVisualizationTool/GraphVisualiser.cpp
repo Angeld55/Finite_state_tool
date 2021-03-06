@@ -16,6 +16,9 @@ bool readFile(const std::string& filePath, std::string& str)
 
 	str.assign((std::istreambuf_iterator<char>(t)),
 		std::istreambuf_iterator<char>());
+
+	t.close();
+
 	return true;
 }
 
@@ -37,8 +40,13 @@ bool GraphVisualiser::visualize(const AutomationBase* fsa, const std::string& fi
 		return false;
 
 	std::ofstream f(filePath);
+
+	if (!f.is_open())
+		return false;
 	std::string serialized = fsa->getVisualizeString();
 	f << header << serialized << footer;
+
+	f.close();
 
 	return true;
 }
