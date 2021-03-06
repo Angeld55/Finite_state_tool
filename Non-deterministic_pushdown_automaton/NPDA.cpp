@@ -37,12 +37,14 @@ NPDA::NPDA(const ContextFreeGrammar& grammar) :  NPDA(3)
 	addTransition(1, '$', '#', 2, "$");
 }
 
-bool NPDA::makeStateFinal(size_t ind)
+int NPDA::makeStateFinal(size_t ind)
 {
 	if (ind >= finalStates.size())
-		return false;
+		return -2; //no such state
+	if (finalStates[ind])
+		return -1; //the state is final
 	finalStates[ind] = true;
-	return true;
+	return 0;
 }
 int NPDA::addState()
 {

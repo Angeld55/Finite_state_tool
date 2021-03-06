@@ -48,7 +48,7 @@ class NPDA : public AutomationBase
 public:
 	NPDA(size_t states = 1);
 	NPDA(const ContextFreeGrammar& grammar);
-	bool makeStateFinal(size_t ind) override;
+	int makeStateFinal(size_t ind) override;
 	bool accepts(const std::string& word, std::string& computation, bool shouldReturnComputation = false) const override;
 	int addState() override;
 	int addTransition(const std::vector<std::string>& args) override;
