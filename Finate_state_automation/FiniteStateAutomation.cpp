@@ -47,11 +47,11 @@ bool FiniteStateAutomation::changeStartState(int state)
 	return true;
 }
 
-bool FiniteStateAutomation::makeStateFinal(size_t state)
+int FiniteStateAutomation::makeStateFinal(size_t state)
 {
 	if (!existState(state))
-		return false;
-	return finalStates.Add(state);
+		return -2;
+	return finalStates.Add(state) ? 0 : -1;
 }
 
 int FiniteStateAutomation::getStatesCount() const
@@ -101,6 +101,8 @@ int FiniteStateAutomation::addTransition(const std::vector<std::string>& args)
 		return -3;
 
 	addTransition(start, end, ch);
+
+	return 0;
 }
 void FiniteStateAutomation::addTransition(int start, int end, char ch)
 {
@@ -444,7 +446,11 @@ std::string FiniteStateAutomation::getVisualizeString() const
 	str += '\t' + std::to_string(automation.size()) + " -> " + std::to_string(startState) + "\n";
 	//transitions
 	for (int i = 0; i < automation.size(); i++)
-	{
+	{		
+		if (automation[i].size() == 0)
+		{
+			str += '\t' + std::to_string(i) + '\n';
+		}
 		for (int j = 0; j < automation[i].size(); j++)
 		{
 			str += '\t' + std::to_string(i) + " -> " + std::to_string(automation[i][j].dest) + "[" + "label = \"" + ((char)automation[i][j].ch) + "\"" + "]\n";

@@ -63,7 +63,7 @@ public:
 	int addState() override;
 	int addTransition(const std::vector<std::string>& args) override; //adds an edge between two states
 	bool changeStartState(int state);
-	bool makeStateFinal(size_t state) override;
+	int makeStateFinal(size_t state) override;
 	void removeState(int state);
 	void removeNotReachable();
 	bool accepts(const std::string& word, std::string& computation, bool shouldReturnComputation = false) const override; //returns true if automation accepts the string
