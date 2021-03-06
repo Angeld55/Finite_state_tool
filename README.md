@@ -41,7 +41,7 @@
 | cfg [name] [rules]		   | Creates a context-free grammer. The rules are separated with a space.         | cfg test1 S->aSb&#124;$   |
 <h1 id="vt">Visualization tool</h1>
 
-The AFL system supports automata visualization. The command is called **viz**.
+The AFL system supports automata visualization. The command is called **vis**.
 
 ![enter image description here](https://i.ibb.co/XjFBFc5/afl-example3.png "example of vis")
 
@@ -55,7 +55,7 @@ The **html file** looks like this:
 
 Press the **single button** on the html page and the automation will be visualized.
 
-![enter image description here](https://i.ibb.co/nwZXtsv/4.png "viz aut")
+![enter image description here](https://i.ibb.co/nwZXtsv/4.png "vis aut")
 
 <h1 id="finite-state-automation">1. Finite State Automation</h1>
 
