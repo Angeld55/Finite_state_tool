@@ -1,8 +1,8 @@
 <h1 id="finite-state-automation">Automata and formal languages tool (AFL)</h1>
 
-![enter image description here](https://i.ibb.co/KwmZVwg/68747470733a2f2f692e6962622e636f2f665959507772342f41464c2d6578616d706c652e706e67.png "AFL")
+![enter image description here](https://i.ibb.co/x1Bcm4R/afl-example1.png "AFL")
 
-![enter image description here](https://i.ibb.co/Y8Sc71J/3213.png "AFL")
+![enter image description here](https://i.ibb.co/w67BSMP/afl-example2.png "AFL")
 
 
 | Syntax:                          | Effect:                                                                      | Example:            |
@@ -13,7 +13,7 @@
 | fsa [name]                       |  registers an automation with one state with this name.                      | fsa test1           |
 | fsa [name] [regex]               | registers an automation with this name for this regex.                       | fsa test2 a*(a+b)*b |
 | print [name]                     | prints the automation.                                                       | print test1         |
-| viz [name]                       | generates and html file with an image of the automation.                     | viz test1           |
+| vis [name]                       | generates and html file with an image of the automation.                     | vis test1           |
 | accepts [fsa] [string]           | returns true if the fsa accepts the string and false otherwise               | accepts a1  aabbb   |
 | add_state [fsa]                  | adds a new state to the automation                                           | add_state a1        |
 | make_final [fsa] [state]         | makes the state final                                                        | make_final a1 0     |
@@ -43,7 +43,7 @@
 
 The AFL system supports automata visualization. The command is called **viz**.
 
-![enter image description here](https://i.ibb.co/fY2M0F6/1.png "example of viz")
+![enter image description here](https://i.ibb.co/XjFBFc5/afl-example3.png "example of vis")
 
 This commands generates a **html file** (with the name of the automation). You can find it in the main folder.
 
