@@ -214,8 +214,14 @@ std::string MakeFinalStateCommand::execute(const std::vector<std::string>& args)
 		return "Error! Invalid command! (Error 1109)";
 	if (dispatcher.env.getAutomation(args[1], aut) == 0)
 	{
-		bool res = aut->makeStateFinal(atoi(args[2].c_str()));
-		return res ? "Success! The state is now final!" : "Error! No such state!";
+		int res = aut->makeStateFinal(atoi(args[2].c_str()));
+		switch (res)
+		{
+		case 0: return "Success! The state is now final!";  break;
+		case -1: return "Error! The state is already final!"; break;
+		case -2: return "Error! No such state!"; break;
+		default: return "Invalid command! (Error 1156)";
+		}
 	}
 		return "Error! No FSA with ID:" + args[1];
 }
