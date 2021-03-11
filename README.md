@@ -7,7 +7,7 @@
 
 | Syntax:                          | Effect:                                                                      | Example:            |
 |----------------------------------|------------------------------------------------------------------------------|---------------------|
-| load [config_file]               | loads configuration from a file. Example files in Example_config_files       | load myfsa.afl
+| load [config_file]               | loads configuration from a file. Example files in Example_config_files       | load myfsa.afl      | 
 | environment fsa                  | prints information for all registered fsa-s                                  | environment fsa     |
 | regex [fsa1]                     | returns a regex for the automation.                                          | regex a1            |
 | fsa [name]                       |  registers an automation with one state with this name.                      | fsa test1           |
