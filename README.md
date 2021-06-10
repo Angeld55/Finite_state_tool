@@ -75,7 +75,6 @@ F- is the set of final states, a  subset of Q<br>
 int main()
 {
 
-	//With  regular expression (Have to use many brackets for now) *fix later
 	// Automation for a(a+b)*
 	FiniteStateAutomation A("a(a+b)*");
 
