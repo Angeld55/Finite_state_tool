@@ -13,7 +13,7 @@
 | fsa [name]                       |  registers an automation with one state with this name.                      | fsa test1           |
 | fsa [name] [regex]               | registers an automation with this name for this regex.                       | fsa test2 a*(a+b)*b |
 | print [name]                     | prints the automation.                                                       | print test1         |
-| vis [name]                       | generates and html file with an image of the automation.                     | vis test1           |
+| vis [name]                       | generates an  html file with an image of the automation.                     | vis test1           |
 | accepts [fsa] [string]           | returns true if the fsa accepts the string and false otherwise               | accepts a1  aabbb   |
 | add_state [fsa]                  | adds a new state to the automation                                           | add_state a1        |
 | make_final [fsa] [state]         | makes the state final                                                        | make_final a1 0     |
