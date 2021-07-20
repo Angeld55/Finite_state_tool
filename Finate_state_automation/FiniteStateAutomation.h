@@ -4,9 +4,7 @@
 #define AUTOMATION_HDR
 
 #include "../Automation_base/AutomationBase.h"
-
-#include "../Collections/Set/Set.hpp"
-#include "../Collections/Dictionary/Dictionary.h"
+#include "../Collections/CustomSet/CustomSet.hpp"
 
 
 
@@ -46,9 +44,9 @@ class FiniteStateAutomation : public AutomationBase
 private:
 	int startState;
 
-	Set<int> finalStates;
+	CustomSet<int> finalStates;
 	std::vector<std::vector<edge>> automation;
-	Set<char>  alphabet;
+	CustomSet<char>  alphabet;
 
 	void addTransition(int start, int end, char ch);
 
@@ -69,8 +67,6 @@ public:
 	bool accepts(const std::string& word, std::string& computation, bool shouldReturnComputation = false) const override; //returns true if automation accepts the string
 	bool isEmptyLanguage();
 	
-
-
 
 	//operations
 	friend FiniteStateAutomation Union(const FiniteStateAutomation& a, const FiniteStateAutomation& b);
@@ -94,7 +90,7 @@ public:
 
 	int getStatesCount() const;
 	int getStartState() const;
-	Set<int> getFinalStates() const;
+	const CustomSet<int>& getFinalStates() const;
 
 	std::string getString() const override;
 	std::string getFullString() const;
@@ -106,14 +102,14 @@ private:
 	bool existState(int state); //check if a state exists
 	void absorb(const FiniteStateAutomation& a);
 	void copyTransitions(int x, int y); 
-	Set<int> havePathTo(int begin, const std::string& str) const; //returns set of states reachable with that word
+	CustomSet<int> havePathTo(int begin, const std::string& str) const; //returns set of states reachable with that word
 
 	//for determinstisation
 	std::vector<int> getNotReachableStates(int from);
 	void DFS(int state, bool* visited);
 	FiniteStateAutomation reverseTransitions();
-	Set<int> getTransitions(int start, char ch);
-	Set<int> getTransitions(const Set<int>&, char ch);
+	CustomSet<int> getTransitions(int start, char ch);
+	CustomSet<int> getTransitions(const CustomSet<int>&, char ch);
 	
 	//for kleeny theorem
 	std::string getRegEx(int start, int end, int bound, bool needEpsilon);
@@ -123,7 +119,7 @@ private:
 
 	//for minimal autoamta (for Brzozowski theorem).
 	bool makingMinimal = false;
-	Set<int> starts; //simulates multiple starting states for Brzozowski theorem
+	CustomSet<int> starts; //simulates multiple starting states for Brzozowski theorem
 	bool shouldStartBeFinal;
 
 	void removeNotReachable(int from);

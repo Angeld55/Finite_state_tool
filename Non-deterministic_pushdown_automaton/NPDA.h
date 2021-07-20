@@ -8,7 +8,7 @@
 using namespace std;
 
 const int ALPHABET_SIZE = 26;
-const int MAX_COMPUTATION_STEPS = 20;
+const int MAX_COMPUTATION_STEPS = 40;
 struct ContextFreeGrammar;
 class NPDA : public AutomationBase
 {

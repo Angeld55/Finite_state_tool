@@ -4,6 +4,7 @@
 #include <string>
 #include <cctype>
 #include <queue>
+#include <map>
 
 //definitions
 FiniteStateAutomation::FiniteStateAutomation() : AutomationBase(AutomationBase::AutomationType::FSA)
@@ -29,7 +30,7 @@ FiniteStateAutomation::FiniteStateAutomation(const std::string& reg) : Automatio
 
 void FiniteStateAutomation::addLetterToAlphabet(char ch)
 {
-	alphabet.Add(ch);
+	alphabet.add(ch);
 }
 
 int FiniteStateAutomation::addState()
@@ -51,7 +52,7 @@ int FiniteStateAutomation::makeStateFinal(size_t state)
 {
 	if (!existState(state))
 		return -2;
-	return finalStates.Add(state) ? 0 : -1;
+	return finalStates.add(state) ? 0 : -1;
 }
 
 int FiniteStateAutomation::getStatesCount() const
@@ -64,7 +65,7 @@ int FiniteStateAutomation::getStartState() const
 	return startState;
 }
 
-Set<int> FiniteStateAutomation::getFinalStates() const
+const CustomSet<int>& FiniteStateAutomation::getFinalStates() const
 {
 	return finalStates;
 }
@@ -108,20 +109,20 @@ void FiniteStateAutomation::addTransition(int start, int end, char ch)
 {
 	edge e(end, ch);
 	automation[start].push_back(e);
-	alphabet.Add(ch);
+	alphabet.add(ch);
 }
 bool FiniteStateAutomation::existState(int state)
 {
 	return state < automation.size();
 }
 
-Set<int> FiniteStateAutomation::havePathTo(int begin,const std::string& str) const
+CustomSet<int> FiniteStateAutomation::havePathTo(int begin, const std::string& str) const
 {
-	Set<int> result;
+	CustomSet<int> result;
 
 	if (str.length() == 0)
 	{
-		result.Add(begin);
+		result.add(begin);
 		return result;
 	}
 	char firstCh = str[0];
@@ -133,7 +134,7 @@ Set<int> FiniteStateAutomation::havePathTo(int begin,const std::string& str) con
 
 		if (symb == firstCh)
 		{
-			Set<int> resultStates = havePathTo(otherState, str.substr(1));
+			CustomSet<int> resultStates = havePathTo(otherState, str.substr(1));
 			result = Union(result, resultStates);
 		}
 	}
@@ -197,22 +198,24 @@ FiniteStateAutomation FiniteStateAutomation::reverseTransitions()
 
 }
 
-Set<int> FiniteStateAutomation::getTransitions(int start, char ch)
+CustomSet<int> FiniteStateAutomation::getTransitions(int start, char ch)
 {
-	Set<int> result;
+	CustomSet<int> result;
 	for (int i = 0; i < automation[start].size(); ++i)
 	{
 		if (automation[start][i].ch == ch)
-			result.Add(automation[start][i].dest);
+			result.add(automation[start][i].dest);
 	}
 	return result;
 }
 
-Set<int> FiniteStateAutomation::getTransitions(const Set<int>& s, char ch)
+CustomSet<int> FiniteStateAutomation::getTransitions(const CustomSet<int>& s, char ch)
 {
-	Set<int> result;
-	for (int i = 0; i < s.getSize(); ++i)
-		result = Union(result, getTransitions(s.getAt(i), ch));
+	CustomSet<int> result;
+
+	for (auto it = s.getRaw().begin(); it != s.getRaw().end(); it++)
+		result = Union(result, getTransitions(*it, ch));
+
 	return result;
 }
 
@@ -232,18 +235,19 @@ void FiniteStateAutomation::removeState(int state)
 				automation[i].erase(automation[i].begin() + j--);
 		}
 	}
-	Set<int> fs;
-	for (int i = 0; i < finalStates.getSize(); ++i)
-	{
+	CustomSet<int> fs;
 
-		int finalState = finalStates.getAt(i);
+	for (auto it = finalStates.getRaw().begin(); it != finalStates.getRaw().end(); it++)
+	{
+		int finalState = *it;
 
 		if (finalState == state)
 			continue;
 		if (finalState > state)
 			finalState--;
-		fs.Add(finalState);
+		fs.add(finalState);
 	}
+
 	finalStates = fs;
 }
 
@@ -254,8 +258,8 @@ void FiniteStateAutomation::removeNotReachable()
 
 bool FiniteStateAutomation::accepts(const std::string& word, std::string& computation, bool shouldReturnComputation) const
 {
-	Set<int> result = havePathTo(startState, word);
-	Set<int> intersection = Intersection(finalStates, result);
+	CustomSet<int> result = havePathTo(startState, word);
+	CustomSet<int> intersection = Intersection(finalStates, result);
 
 	return intersection.getSize();
 }
@@ -275,7 +279,7 @@ bool FiniteStateAutomation::isEmptyLanguage()
 		int currentVertex = gray.front();
 		gray.pop();
 
-		if (getFinalStates().Contains(currentVertex))
+		if (getFinalStates().contains(currentVertex))
 		{
 			delete[] visited;
 			return false;
@@ -294,55 +298,48 @@ bool FiniteStateAutomation::isEmptyLanguage()
 	delete[] visited;
 	return true;
 }
-bool  FiniteStateAutomation::isTotal() const
+bool FiniteStateAutomation::isTotal() const
 {
-	bool* temp = new bool[alphabet.getSize()];
+	std::set<char> temp;
+
 	int errorStateIndex = -1;
 	for (int i = 0; i < automation.size(); ++i)
 	{
-		for (int j = 0; j < alphabet.getSize(); ++j)
-			temp[j] = false;
+		temp.clear();
+		
 		for (int j = 0; j < automation[i].size(); ++j)
-			temp[alphabet.IndexOf(automation[i][j].ch)] = true; 
-		for (int j = 0; j < alphabet.getSize(); ++j)
-		{
-			if (!temp[j])
-			{
-				delete[] temp;
-				return false;
-			}
-		}
-		for (int i = 0; i < alphabet.getSize(); ++i)
-			temp[i] = false;
+			temp.insert(automation[i][j].ch);
+	
+		if (temp != alphabet.getRaw())
+			return false;
 
 	}
-	delete[] temp;
 	return true;
 }
 void FiniteStateAutomation::makeTotal()
 {
-	bool* temp = new bool[alphabet.getSize()];
+	std::set<char> temp;
 	int errorStateIndex = -1;
 	for (int i = 0; i < automation.size(); ++i)
 	{
-		for (int j = 0; j < alphabet.getSize(); ++j) //we mark all letters as not-used
-			temp[j] = false;
+		temp.clear();
+
 		for (int j = 0; j < automation[i].size(); ++j)
-			temp[alphabet.IndexOf(automation[i][j].ch)] = true; //may not be the best implementation. For big set of letter would be slow
-		for (int j = 0; j < alphabet.getSize(); ++j) //we check with which of the letters we don't have a transition
+			temp.insert(automation[i][j].ch); 
+		
+		int j = 0;
+		for (auto it = alphabet.getRaw().begin(); it != alphabet.getRaw().end(); it++, j++)
 		{
-			if (!temp[j])
+			auto findIt = temp.find(*it);
+			if (findIt == temp.end())
 			{
 				if (errorStateIndex == -1)
 					errorStateIndex = addErrorState();
-				addTransition(i, errorStateIndex, alphabet.getAt(j));
+				addTransition(i, errorStateIndex, *it);
 			}
 		}
-		for (int i = 0; i < alphabet.getSize(); ++i) //we mark all letters as not-used AGAIN (for the next state)
-			temp[i] = false;
-
 	}
-	delete[] temp;
+
 }
 
 bool FiniteStateAutomation::isDeterministic() const
@@ -372,8 +369,8 @@ void FiniteStateAutomation::absorb(const FiniteStateAutomation& a)
 		for (int j = 0; j < a.automation[k].size(); j++)
 			automation[k + sizeFiniteStateAutomation][j].changeDest(sizeFiniteStateAutomation + automation[k + sizeFiniteStateAutomation][j].dest);
 
-		if (a.finalStates.Contains(k))
-			finalStates.Add(sizeFiniteStateAutomation + k);
+		if (a.finalStates.contains(k))
+			finalStates.add(sizeFiniteStateAutomation + k);
 	}
 }
 
@@ -392,13 +389,15 @@ std::string FiniteStateAutomation::getString() const
 	res += "Total: ";
 	res += isTotal() ? "True, " : "False, ";
 	res += "Letters: {";
-	for (int i = 0; i < alphabet.getSize(); i++)
-	{
-		res += alphabet.getAt(i);
-		if (i != alphabet.getSize() - 1)
-			res += ", ";
 	
+	for (auto it = alphabet.getRaw().begin(); it != alphabet.getRaw().end(); it++)
+	{
+		if (it != alphabet.getRaw().begin())
+			res += ", ";
+
+		res += *it;
 	}
+
 	res += ("}, States count: " + std::to_string(automation.size()) + ".\n");
 	return res;
 }
@@ -413,7 +412,7 @@ std::string FiniteStateAutomation::getFullString() const
 			res += "(S)";
 		else
 			res += "    ";
-		if (finalStates.Contains(i))
+		if (finalStates.contains(i))
 			res += "(F)";
 		else
 			res += "   ";
@@ -427,11 +426,13 @@ std::string FiniteStateAutomation::getFullString() const
 	return res;
 }
 
-std::string getFinalStatesString(const Set<int>& finalStates)
+std::string getFinalStatesString(const CustomSet<int>& finalStates)
 {
 	std::string res = "node[shape = doublecircle] ";
-	for (int i = 0; i < finalStates.getSize(); i++)
-		res += std::to_string(finalStates.getAt(i)) + " ";
+
+	for (auto it = finalStates.getRaw().begin(); it != finalStates.getRaw().end(); it++)
+		res += std::to_string(*it) + " ";
+
 	return res;
 }
 std::string FiniteStateAutomation::getVisualizeString() const
@@ -465,17 +466,18 @@ void FiniteStateAutomation::makeDeterministic()
 	FiniteStateAutomation result;
 	result.alphabet = alphabet;
 	result.makingMinimal = makingMinimal;
-	std::queue<Set<int>> newStates;
-	Dictionary newStatesIndecies;
+	std::queue<CustomSet<int>> newStates;
+	std::map<CustomSet<int>, int> newStatesIndecies;
+	//Dictionary newStatesIndecies;
 
 	//init start state
 
-	Set<int> newStartState;
+	CustomSet<int> newStartState;
 
 	if (!makingMinimal)
 	{
-		newStartState.Add(startState);
-		if (getFinalStates().Contains(startState))
+		newStartState.add(startState);
+		if (getFinalStates().contains(startState))
 			result.makeStateFinal(0);
 	}
 	else
@@ -484,41 +486,42 @@ void FiniteStateAutomation::makeDeterministic()
 		if (shouldStartBeFinal)
 			result.makeStateFinal(0);
 	}
-	newStatesIndecies.put(newStartState, 0);
+	newStatesIndecies.insert(std::make_pair(newStartState, 0));
 	newStates.push(newStartState);
 
 	int statesCount = 1;
 	while (!newStates.empty())
 	{
-		Set<int> currentState = newStates.front();
+		CustomSet<int> currentState = newStates.front();
 		newStates.pop();
 
+		int currentStateIndex = (*newStatesIndecies.find(currentState)).second;
 
-		int currentStateIndex = newStatesIndecies.get(currentState);
-
-
-		for (int i = 0; i < alphabet.getSize(); ++i)
+		for (auto it = alphabet.getRaw().begin(); it != alphabet.getRaw().end(); it++)
 		{
-			Set<int> currentStateSet = getTransitions(currentState, alphabet.getAt(i));
+			CustomSet<int> currentStateSet = getTransitions(currentState, (*it));
 			if (currentStateSet.getSize() == 0)
 				continue;
-			if (newStatesIndecies.get(currentStateSet) != -1) //if the state exists
+
+			auto itNewStateIndecies = newStatesIndecies.find(currentStateSet);
+			if (itNewStateIndecies != newStatesIndecies.end()) //if the state exists
 			{
-				int destStateIndex = newStatesIndecies.get(currentStateSet);
-				result.addTransition(currentStateIndex, destStateIndex, alphabet.getAt(i));
+				int destStateIndex = (*itNewStateIndecies).second;
+				result.addTransition(currentStateIndex, destStateIndex, (*it));
 			}
 			else
 			{
 				result.addState();
-				newStatesIndecies.put(currentStateSet, statesCount++);
+				newStatesIndecies.insert(std::make_pair(currentStateSet, statesCount++));
 				newStates.push(currentStateSet);
 
 				if (Intersection(currentStateSet, finalStates).getSize() != 0)
 					result.makeStateFinal(statesCount - 1);
 
-				result.addTransition(currentStateIndex, statesCount - 1, alphabet.getAt(i));
+				result.addTransition(currentStateIndex, statesCount - 1, (*it));
 			}
 		}
+
 	}
 	result.makeTotal();
 	*this = result;
@@ -531,9 +534,9 @@ void FiniteStateAutomation::reverse()
 	result.makeStateFinal(startState);
 	if (makingMinimal)
 	{
-		Set<int> temp = finalStates;
+		CustomSet<int> temp = finalStates;
 		bool temp2 = false;
-		if (finalStates.Contains(startState))
+		if (finalStates.contains(startState))
 			temp2 = true;
 		result.starts = temp;
 		result.shouldStartBeFinal = temp2;
@@ -547,13 +550,13 @@ void FiniteStateAutomation::reverse()
 	result.changeStartState(newStart);
 
 	//the new start state is final if the old start state was final.
-	if (getFinalStates().Contains(startState))
+	if (getFinalStates().contains(startState))
 		result.makeStateFinal(newStart);
 
 	//add the transiotions to the new start state.
-	for (int i = 0; i < finalStates.getSize(); ++i)
+	for (auto it = finalStates.getRaw().begin(); it != finalStates.getRaw().end(); it++)
 	{
-		int currentFinalState = finalStates.getAt(i);
+		int currentFinalState = (*it);
 		for (int j = 0; j < result.automation[currentFinalState].size(); ++j)
 		{
 			edge current = result.automation[currentFinalState][j];
@@ -561,7 +564,6 @@ void FiniteStateAutomation::reverse()
 		}
 	}
 	*this = result;
-
 }
 
 void FiniteStateAutomation::minimize()
@@ -580,11 +582,11 @@ void FiniteStateAutomation::minimize()
 std::string FiniteStateAutomation::getRegEx()
 {
 	std::string res = "";
-	for (int i = 0; i < finalStates.getSize(); ++i)
+	for (auto it = finalStates.getRaw().begin(); it != finalStates.getRaw().end(); it++)
 	{
-		if (i > 0)
+		if (it != finalStates.getRaw().begin())
 			res += '+';
-		res += "[ " + getRegEx(startState, finalStates.getAt(i), automation.size(), true) + " ]";
+		res += "[ " + getRegEx(startState, (*it), automation.size(), true) + " ]";
 	}
 	return res;
 }
@@ -598,7 +600,7 @@ FiniteStateAutomation Union(const FiniteStateAutomation& a, const FiniteStateAut
 	result.copyTransitions(result.getStatesCount() - 1, a.getStartState());
 	result.copyTransitions(result.getStatesCount() - 1, a.getStatesCount() + b.getStartState());
 
-	if (a.getFinalStates().Contains(a.getStartState()) || b.getFinalStates().Contains(b.getStartState()))
+	if (a.getFinalStates().contains(a.getStartState()) || b.getFinalStates().contains(b.getStartState()))
 		result.makeStateFinal(result.getStartState());
 	result.alphabet = Union(a.alphabet, b.alphabet);
 	return result;
@@ -607,14 +609,14 @@ FiniteStateAutomation Union(const FiniteStateAutomation& a, const FiniteStateAut
 FiniteStateAutomation Concat(const FiniteStateAutomation& a, const FiniteStateAutomation& b)
 {
 	FiniteStateAutomation result = a;
-	Set<int> firstFiniteStateAutomationFinalStats(a.getFinalStates()); // copy c-tor
+	CustomSet<int> firstFiniteStateAutomationFinalStates(a.getFinalStates()); // copy c-tor
 	result.absorb(b);
 
-	for (int i = 0; i < firstFiniteStateAutomationFinalStats.getSize(); i++)
-		result.copyTransitions(firstFiniteStateAutomationFinalStats.getElement(i), b.getStartState() + a.getStatesCount());
+	for (auto it = firstFiniteStateAutomationFinalStates.getRaw().begin(); it != firstFiniteStateAutomationFinalStates.getRaw().end(); it++)
+		result.copyTransitions(*it, b.getStartState() + a.getStatesCount());
 
-	if (!b.getFinalStates().Contains(b.getStartState()))
-		result.finalStates = SetDifference(result.finalStates, firstFiniteStateAutomationFinalStats);
+	if (!b.getFinalStates().contains(b.getStartState()))
+		result.finalStates = SetDifference(result.finalStates, firstFiniteStateAutomationFinalStates);
 	result.alphabet = Union(a.alphabet, b.alphabet);
 	return result;
 }
@@ -626,8 +628,9 @@ FiniteStateAutomation KleeneStar(const FiniteStateAutomation& a)
 	result.changeStartState(result.getStatesCount() - 1);
 	result.copyTransitions(result.getStatesCount() - 1, a.getStartState());
 
-	for (int i = 0; i < result.getFinalStates().getSize(); i++)
-		result.copyTransitions(result.getFinalStates().getElement(i), result.getStartState());
+	for (auto it = result.getFinalStates().getRaw().begin(); it != result.getFinalStates().getRaw().end(); it++)
+		result.copyTransitions(*it, result.getStartState());
+
 	result.makeStateFinal(result.getStartState());
 
 	return result;
@@ -639,11 +642,11 @@ FiniteStateAutomation Complement(const FiniteStateAutomation& a)
 	FiniteStateAutomation result = a;
 	result.makeDeterministic();
 	result.makeTotal();
-	Set<int> newFinals;
+	CustomSet<int> newFinals;
 	for (int i = 0; i < result.automation.size(); ++i)
 	{
-		if (!result.finalStates.Contains(i))
-			newFinals.Add(i);
+		if (!result.finalStates.contains(i))
+			newFinals.add(i);
 	}
 	result.finalStates = newFinals;
 	return result;
@@ -823,22 +826,23 @@ std::string FiniteStateAutomation::getRegEx(int start, int end, int bound, bool 
 {
 	if (bound == 0)
 	{
-		Set<char> s;
+		CustomSet<char> s;
 
 		if (start == end && needEpsilon)
-			s.Add('e');
+			s.add('e');
 		for (int i = 0; i < automation[start].size(); ++i)
 		{
 			edge currentEdge = automation[start][i];
 			if (currentEdge.dest == end)
-				s.Add(currentEdge.ch);
+				s.add(currentEdge.ch);
 		}
 		std::string str;
-		for (int i = 0; i < s.getSize(); ++i)
+
+		for (auto it = s.getRaw().begin(); it != s.getRaw().end(); it++)
 		{
-			if (i != 0)
+			if (it != s.getRaw().begin())
 				str += " + ";
-			str += s.getAt(i);
+			str += *it;
 		}
 		return str;
 	}
@@ -899,8 +903,9 @@ std::string FiniteStateAutomation::getRegEx(int start, int end, int bound, bool 
 int FiniteStateAutomation::addErrorState()
 {
 	int ind = addState();
-	for (int i = 0; i < alphabet.getSize(); ++i)
-		addTransition(ind, ind, alphabet.getAt(i));
+
+	for (auto it = alphabet.getRaw().begin(); it != alphabet.getRaw().end(); it++)
+		addTransition(ind, ind, *it);
 	return ind;
 }
 
