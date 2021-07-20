@@ -105,9 +105,9 @@ int main()
 	FiniteStateAutomation A2; //Only one state with index 0
 	
 	A2.addState(); //Adds state with index 1
-	A2.addTransition("0", "1", "a");
-	A2.addTransition("1", "1", "a");
-	A2.addTransition("1", "1", "b");
+	A2.addTransition({"0", "1", "a"});
+	A2.addTransition({"1", "1", "a"});
+	A2.addTransition({"1", "1", "b"});
 
 
 	return 0;
@@ -373,8 +373,8 @@ The project consist of three functions:
 
  - Building and MAST from a given **sorted** list of pairs 
  <key, value>
- It follows the aproach in 
- [Mihov and Maurel, 2001] Mihov, S. and Maurel, D. (2001). Direct construction of minimal acyclic subsequential transducers.
+ 
+ It follows the aproach in [Mihov and Maurel, 2001] Mihov, S. and Maurel, D. (2001). Direct construction of minimal acyclic subsequential transducers.
  - Inserting words to the MAST from a given list of pairs 
  - Removing words to the MAST from a given list of pairs
 
