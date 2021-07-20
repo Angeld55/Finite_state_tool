@@ -1,6 +1,22 @@
-<h1 id="finite-state-automation">Finite_state_tool (FST)</h1>
 
+<h1 id="finite-state-automation">Finite state tool (FST)</h1>
+Finite state tool (FST) is a tool for working with different **finite-state machines** and many algorithmic constructions.
+The projects consists of four components:
+
+ 1. Finite state automation 
+ 2. Pushdown automation 
+ 3. Context-free grammars 
+ 4. Minimal acyclic subsequential transducer
+
+*1-3* are developed for the **Languages, Automata and computability** course at the **Faculty of Mathematics and Informatics, Sofia university**.
+All algorithms are direct implementations of the shown constructions [here](https://github.com/Angeld55/Math_courses_seminars_notes_and_tasks/tree/master/Languages,%20Automata%20and%20computability/Seminars_Notes) and **don't have optimal time and space complexity** 
+*4* is developed for an advanced course of the same topic and it's tested with real-world data.
+
+**1-3 and 4 compile separatly!**
+
+<h1 id="finite-state-automation"> FST interface and commands</h1>
 ![enter image description here](https://i.ibb.co/x1Bcm4R/afl-example1.png "AFL")
+
 
 ![enter image description here](https://i.ibb.co/w67BSMP/afl-example2.png "AFL")
 
@@ -77,16 +93,17 @@ int main()
 
 	// Automation for a(a+b)*
 	FiniteStateAutomation A("a(a+b)*");
-
-	cout << A.accepts("abbb") << endl; //true;
-	cout << A.accepts("bbba") << endl; //false
+	
+	std::string computation;
+	cout << A.accepts("abbb", computation) << endl; //true;
+	cout << A.accepts("bbba", computation) << endl; //false
 
 	FiniteStateAutomation A2; //Only one state with index 0
 	
 	A2.addState(); //Adds state with index 1
-	A2.addTransition(0, 1, 'a');
-	A2.addTransition(1, 1, 'a');
-	A2.addTransition(1, 1, 'b');
+	A2.addTransition("0", "1", "a");
+	A2.addTransition("1", "1", "a");
+	A2.addTransition("1", "1", "b");
 
 
 	return 0;
@@ -121,8 +138,8 @@ int main()
 <td>Marks the given state as final. Returns false if the state doesn’t exist.</td>
 </tr>
 <tr>
-<td>accepts(word)</td>
-<td>Returns true if the word is accepted by the DFA/NFA.</td>
+<td>accepts(word, computation, shouldReturnComputation)</td>
+<td>Returns true if the word is accepted by the DFA/NFA. If the third parameter is true, then the computation will contain the successful (if such exists) path </td>
 </tr>
 <tr>
 <td>isEmptyLanguage()</td>
@@ -342,3 +359,4 @@ int main()
 	std::cout << PA2.accepts("abcc") << std::endl; //false
 }
 ```
+<h1 id="NPDA">4. Minimal acyclic subsequential transducer</h1>
