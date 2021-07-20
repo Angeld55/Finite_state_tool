@@ -1,4 +1,4 @@
-<h1 id="finite-state-automation">Automata and formal languages tool (AFL)</h1>
+<h1 id="finite-state-automation">Finite_state_tool (FST)</h1>
 
 ![enter image description here](https://i.ibb.co/x1Bcm4R/afl-example1.png "AFL")
 
