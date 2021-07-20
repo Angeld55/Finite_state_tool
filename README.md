@@ -372,9 +372,8 @@ The project contains algorithms for creating and maintaining a minimal acyclic s
 The project consist of three functions:
 
  - Building and MAST from a given **sorted** list of pairs 
- <key, value>
- 
- It follows the aproach in [Mihov and Maurel, 2001] Mihov, S. and Maurel, D. (2001). Direct construction of minimal acyclic subsequential transducers.
+ <key, value>.
+ It follows the aproach in **[Mihov and Maurel, 2001]** Mihov, S. and Maurel, D. (2001). Direct construction of minimal acyclic subsequential transducers.
  - Inserting words to the MAST from a given list of pairs 
  - Removing words to the MAST from a given list of pairs
 
