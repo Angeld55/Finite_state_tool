@@ -363,4 +363,4 @@ int main()
 }
 ```
 <h1 id="NPDA">4. Minimal acyclic subsequential transducer</h1>
-The project contains algorithms for creating and maintaining a minimal acyclic subsequential transducer for a finite function **f : Σ\* -> N**
+The project contains algorithms for creating and maintaining a minimal acyclic subsequential transducer for a finite function **f : Σ -> N**
