@@ -7,9 +7,9 @@
 
 class CommandDispatcher
 {
-
 	std::map<std::string, Command*> registeredCommands;
 	void registerCommand(const std::string& commandName, Command* command);
+
 public:
 	CommandDispatcher();
 	std::string dispatch(std::string);

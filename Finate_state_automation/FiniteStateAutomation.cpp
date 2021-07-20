@@ -87,6 +87,7 @@ int validateInput(const std::vector<std::string>& args)
 	return 0;
 
 }
+
 int FiniteStateAutomation::addTransition(const std::vector<std::string>& args)
 {
 	int resCode = validateInput(args);
@@ -105,12 +106,14 @@ int FiniteStateAutomation::addTransition(const std::vector<std::string>& args)
 
 	return 0;
 }
+
 void FiniteStateAutomation::addTransition(int start, int end, char ch)
 {
 	edge e(end, ch);
 	automation[start].push_back(e);
 	alphabet.add(ch);
 }
+
 bool FiniteStateAutomation::existState(int state)
 {
 	return state < automation.size();
@@ -316,6 +319,7 @@ bool FiniteStateAutomation::isTotal() const
 	}
 	return true;
 }
+
 void FiniteStateAutomation::makeTotal()
 {
 	std::set<char> temp;
@@ -435,6 +439,7 @@ std::string getFinalStatesString(const CustomSet<int>& finalStates)
 
 	return res;
 }
+
 std::string FiniteStateAutomation::getVisualizeString() const
 {
 	

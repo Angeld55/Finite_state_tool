@@ -11,6 +11,7 @@ private:
 	std::set<T> elements;
 
 public:
+
 	CustomSet() = default;
 
 	size_t getSize() const;
@@ -35,9 +36,6 @@ CustomSet<T> Intersection(const CustomSet<T>& set1, const CustomSet<T>& set2);
 
 template<typename T>
 CustomSet<T> SetDifference(const CustomSet<T>& set1, const CustomSet<T>& set2);
-
-
-
 
 template<typename T>
 size_t CustomSet<T>::getSize() const

@@ -4,6 +4,7 @@
 class CommandDispatcher;
 class Command
 {
+
 public:
 	Command(CommandDispatcher& dispatcher) : dispatcher(dispatcher){}
 	CommandDispatcher& dispatcher;
@@ -87,7 +88,7 @@ public:
 
 class VisualizeCommand : public Command
 {
-	//viz A
+	//vis A
 public:
 	VisualizeCommand(CommandDispatcher& dispatcher) : Command(dispatcher){}
 	std::string execute(const std::vector<std::string>& args);
