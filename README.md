@@ -376,7 +376,8 @@ The project consist of three functions:
  It follows the aproach in 
  [Mihov and Maurel, 2001] Mihov, S. and Maurel, D. (2001). Direct construction of minimal acyclic subsequential transducers.
  - Inserting words to the MAST from a given list of pairs 
- - Removing words to the MAST from a given list of pairs 
+ - Removing words to the MAST from a given list of pairs
+
  All the algorithms can be easy modified for a function of the type **f : Σ\* -> Σ***
 
 The check for equivalent states is done with a proper hash.
