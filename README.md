@@ -2,7 +2,7 @@
 
 
 <h1 id="finite-state-automation">Finite state tool (FST)</h1>
-Finite state tool (FST) is a tool for working with different ** finite-state machines ** and many algorithmic constructions.
+Finite state tool (FST) is a tool for working with different **finite-state machines** and many algorithmic constructions.
 The projects consists of four components:
 
  1. Finite state automation 
