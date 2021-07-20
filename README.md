@@ -283,24 +283,26 @@ int main()
 {
 	NPDA PA(3); //3 initial states
 
-	PA.makeFinal(2);
-	PA.addTransition(0, 'a', '#', 0, "A#");
-	PA.addTransition(0, 'b', '#', 0, "B#");
-	PA.addTransition(0, '$', '#', 2, "$");
+	PA.makeStateFinal(2);
 
-	PA.addTransition(0, 'a', 'A', 0, "AA");
-	PA.addTransition(0, 'a', 'A', 1, "$");
+	PA.addTransition({ "0", "a", "#", "0", "A#" });
 
-	PA.addTransition(0, 'b', 'B', 0, "BB");
-	PA.addTransition(0, 'b', 'B', 1, "$");
+	PA.addTransition({ "0", "b", "#", "0", "B#" });
+	PA.addTransition({ "0", "$", "#", "2", "$" });
 
-	PA.addTransition(0, 'b', 'A', 0, "BA");
-	PA.addTransition(0, 'a', 'B', 0, "AB");
+	PA.addTransition({ "0", "a", "A", "0", "AA" });
+	PA.addTransition({ "0", "a", "A", "1", "$" });
 
-	PA.addTransition(1, 'a', 'A', 1, "$");
-	PA.addTransition(1, 'b', 'B', 1, "$");
+	PA.addTransition({ "0", "b", "B", "0", "BB" });
+	PA.addTransition({ "0", "b", "B", "1", "$" });
 
-	PA.addTransition(1, '$', '#', 2, "$");
+	PA.addTransition({ "0", "b", "A", "0", "BA" });
+	PA.addTransition({ "0", "a", "B", "0", "AB" });
+
+	PA.addTransition({ "1", "a", "A", "1", "$" });
+	PA.addTransition({ "1", "b", "B", "1", "$" });
+
+	PA.addTransition({ "1", "$", "#", "2", "$" });
 
 	std::cout << PA.accepts("abba") << std::endl; //true
 	std::cout << PA.accepts("abbb") << std::endl; //false
