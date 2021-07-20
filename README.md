@@ -304,9 +304,10 @@ int main()
 
 	PA.addTransition({ "1", "$", "#", "2", "$" });
 
-	std::cout << PA.accepts("abba") << std::endl; //true
-	std::cout << PA.accepts("abbb") << std::endl; //false
-	std::cout << PA.accepts("aaabbbbbbaaa") << std::endl; //true
+	string computation;
+	std::cout << PA.accepts("abba", computation) << std::endl; //true
+	std::cout << PA.accepts("abbb", computation) << std::endl; //false
+	std::cout << PA.accepts("aaabbbbbbaaa", computation) << std::endl; //true
 }
 
 ```
