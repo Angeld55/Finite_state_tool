@@ -14,7 +14,9 @@ All algorithms are direct implementations of the shown constructions [here](http
 
 **1-3 and 4 compile separatly!**
 
+
 <h1 id="finite-state-automation"> FST interface and commands</h1>
+
 ![enter image description here](https://i.ibb.co/x1Bcm4R/afl-example1.png "AFL")
 
 
