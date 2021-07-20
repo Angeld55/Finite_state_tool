@@ -27,7 +27,7 @@ All algorithms are direct implementations of the shown constructions [here](http
 
 | Syntax:                          | Effect:                                                                      | Example:            |
 |----------------------------------|------------------------------------------------------------------------------|---------------------|
-| load [config_file]               | loads configuration from a file. Example files in Example_config_files       | load myfsa.afl      | 
+| load [config_file]               | loads configuration from a file. Example files in Example_config_files       | load myfsa.fst      | 
 | environment fsa                  | prints information for all registered fsa-s                                  | environment fsa     |
 | regex [fsa1]                     | returns a regex for the automation.                                          | regex a1            |
 | fsa [name]                       |  registers an automation with one state with this name.                      | fsa test1           |
@@ -61,7 +61,7 @@ All algorithms are direct implementations of the shown constructions [here](http
 | cfg [name] [rules]		   | Creates a context-free grammer. The rules are separated with a space.         | cfg test1 S->aSb&#124;$   |
 <h1 id="vt">Visualization tool</h1>
 
-The AFL system supports automata visualization. The command is called **vis**.
+The FST system supports automata visualization. The command is called **vis**.
 
 ![enter image description here](https://i.ibb.co/XjFBFc5/afl-example3.png "example of vis")
 
