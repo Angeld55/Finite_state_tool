@@ -8,7 +8,7 @@
 #include <algorithm>
 using namespace std;
 
-char separator = '\t';
+char separator = ' ';
 
 void tokenize(std::string& str, const char delim,
 	std::vector<std::string> &out)

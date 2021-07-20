@@ -1,0 +1,4 @@
+aaribacc 44
+aaribacd 55
+ccribacc 44
+dribacd 10

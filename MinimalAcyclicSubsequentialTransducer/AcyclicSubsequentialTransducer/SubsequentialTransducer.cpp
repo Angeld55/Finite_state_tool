@@ -80,10 +80,12 @@ void SubsequentialTransducer::SET_STATE_OUTPUT(size_t state, const set<int>& cur
 }
 size_t SubsequentialTransducer::OUTPUT(size_t state, char ch)
 {
+	const size_t INVALID = 99999;
+
 	auto it = states[state].transitions.find(ch);
 
 	if (it == states[state].transitions.end())
-		return 999999;
+		return INVALID;
 	else
 		return (*it).second.second;
 }
@@ -94,6 +96,7 @@ void SubsequentialTransducer::SET_OUTPUT(size_t state, char ch, int str)
 	if (it == states[state].transitions.end())
 	{
 		cout << "Error! Error code 3!" <<endl;
+		//throw
 	}
 	else
 	{
@@ -123,11 +126,17 @@ void SubsequentialTransducer::removeFromDict(size_t state)
 {
 	auto it = statesDict.find(states[state].hashFinal);
 	if (it == statesDict.end())
-		cout << "Bad!";
+	{
+		cout << "Error! Error code: 4";
+		//throw
+	}
 	auto eraseIt = (*it).second.erase(state);
 
 	if (eraseIt == 0)
+	{
 		cout << "Error! Error code: 1" << endl;
+		//throw
+	}
 
 	if ((*it).second.empty())
 		statesDict.erase(it);
@@ -178,7 +187,6 @@ size_t SubsequentialTransducer::FindMinimized(size_t stateInd)
 				return *setIt;
 			}
 
-			collisions++;
 		}
 
 		state res(states[stateInd]);

@@ -14,13 +14,14 @@ struct state
 {
 	set<int> outPut; // << 11 * elements>
 	bool isFinal = 0;
-	map<char, pair<size_t, int>> transitions; // <<what>, [<dest> <transduse>]>
-	//<<what>, [<dest> <transduse>]>  // <7 * what + 5 * dest + 3 * transduse>
+	map<char, pair<size_t, int>> transitions; // <<what>, [<dest> <transduce>]>
+	//<<what>, [<dest> <transduce>]>  // <7 * what + 5 * dest + 3 * transduce>
 
 	string hashString;
 
 	int inDegree = 0;
 
+	//for hashing
 	size_t hashOutput = 0;
 	size_t hashTransiotions = 0;
 	size_t hashFinal = 0;
@@ -72,6 +73,8 @@ struct SubsequentialTransducer
 	void handleStateChange(size_t state);
 
 	size_t newState();
+
+	//all the functions with capital letters are used for the initial building
 	bool FINAL(size_t state) const;
 	void SET_FINAL(size_t state, bool isFinal);
 	size_t TRANSITION(size_t state, char ch) const;
@@ -99,6 +102,7 @@ struct SubsequentialTransducer
 
 	void removeState(size_t state);
 
+	//TODO: return false if the given argument is invalid
 	bool removeTransition(size_t state, char ch);
 	bool addNumToTransitionTicket(size_t state, char ch, int n);
 
@@ -107,7 +111,5 @@ struct SubsequentialTransducer
 	bool substractNumberFromOutputState(size_t state, int substract);
 	bool addNumberToOutputState(size_t state, int add);
 	bool insertOutPut(size_t state, int outPut);
-
-	size_t collisions = 0;
 };
 

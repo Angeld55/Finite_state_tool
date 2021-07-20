@@ -1,0 +1,6 @@
+a 9
+aa 8
+aaa 7
+ba 9
+baa 8
+baaa 7

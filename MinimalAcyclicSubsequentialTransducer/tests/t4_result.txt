@@ -1,0 +1,4 @@
+a 100
+aab 20
+aabb 23
+aacc 3

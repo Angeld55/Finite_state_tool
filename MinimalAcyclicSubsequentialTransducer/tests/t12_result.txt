@@ -1,0 +1,4 @@
+aab 4
+aabq 1
+aabr 1
+aac 4

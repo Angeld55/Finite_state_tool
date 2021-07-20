@@ -9,18 +9,18 @@
 int main()
 {
 
-	{ //exam data - separator with a '\t'
+	//{ //exam data - separator with a '\t'
 
-		SubsequentialTransducer st = buildByFile("exam/dict.txt");
-		st.smallPrint();
+	//	SubsequentialTransducer st = buildByFile("exam/dict.txt");
+	//	st.smallPrint();
 
-		removeFromFile("exam/delete.txt", st);
-		st.smallPrint();
+	//	removeFromFile("exam/delete.txt", st);
+	//	st.smallPrint();
 
-		insertFromFile("exam/add.txt", st);
-		st.smallPrint();	
-		cout << "-----------------------------------------------------" << endl;
-	}
+	//	insertFromFile("exam/add.txt", st);
+	//	st.smallPrint();	
+	//	cout << "-----------------------------------------------------" << endl;
+	//}
 
 
 	//for these tests we need to change the separator with a ' ' 
@@ -30,10 +30,17 @@ int main()
 
 
 		insertFromFile("tests2/t1_add.txt", st);
-		st.PRINTTRANSDUSER();
 
 		SubsequentialTransducer st2 = buildByFile("tests2/t1_result.txt");
-		st2.PRINTTRANSDUSER();
+
+		if (areEquivalent(st, st2))
+			cout << "Test passed!" << endl;
+		else
+		{
+			cout << "Test failed!" << endl;
+			st.PRINTTRANSDUSER();
+			st2.PRINTTRANSDUSER();
+		}
 		cout << "-----------------------------------------------------" << endl;
 	}
 
@@ -43,10 +50,17 @@ int main()
 
 
 		insertFromFile("tests2/t2_add.txt", st);
-		st.PRINTTRANSDUSER();
 
 		SubsequentialTransducer st2 = buildByFile("tests2/t2_result.txt");
-		st2.PRINTTRANSDUSER();
+
+		if (areEquivalent(st, st2))
+			cout << "Test passed!" << endl;
+		else
+		{
+			cout << "Test failed!" << endl;
+			st.PRINTTRANSDUSER();
+			st2.PRINTTRANSDUSER();
+		}
 		cout << "-----------------------------------------------------" << endl;
 	}
 
@@ -56,10 +70,17 @@ int main()
 
 
 		insertFromFile("tests2/t3_add.txt", st);
-		st.PRINTTRANSDUSER();
 
 		SubsequentialTransducer st2 = buildByFile("tests2/t3_result.txt");
-		st2.PRINTTRANSDUSER();
+
+		if (areEquivalent(st, st2))
+			cout << "Test passed!" << endl;
+		else
+		{
+			cout << "Test failed!" << endl;
+			st.PRINTTRANSDUSER();
+			st2.PRINTTRANSDUSER();
+		}
 		cout << "-----------------------------------------------------" << endl;
 	}
 
@@ -68,10 +89,17 @@ int main()
 
 
 		insertFromFile("tests2/t4_add.txt", st);
-		st.PRINTTRANSDUSER();
 
 		SubsequentialTransducer st2 = buildByFile("tests2/t4_result.txt");
-		st2.PRINTTRANSDUSER();
+
+		if (areEquivalent(st, st2))
+			cout << "Test passed!" << endl;
+		else
+		{
+			cout << "Test failed!" << endl;
+			st.PRINTTRANSDUSER();
+			st2.PRINTTRANSDUSER();
+		}
 		cout << "-----------------------------------------------------" << endl;
 	}
 
@@ -80,10 +108,17 @@ int main()
 
 
 		insertFromFile("tests2/t5_add.txt", st);
-		st.PRINTTRANSDUSER();
 
 		SubsequentialTransducer st2 = buildByFile("tests2/t5_result.txt");
-		st2.PRINTTRANSDUSER();
+
+		if (areEquivalent(st, st2))
+			cout << "Test passed!" << endl;
+		else
+		{
+			cout << "Test failed!" << endl;
+			st.PRINTTRANSDUSER();
+			st2.PRINTTRANSDUSER();
+		}
 		cout << "-----------------------------------------------------" << endl;
 	}
 	{
@@ -92,10 +127,17 @@ int main()
 
 
 		insertFromFile("tests2/t6_add.txt", st);
-		st.PRINTTRANSDUSER();
 
 		SubsequentialTransducer st2 = buildByFile("tests2/t6_result.txt");
-		st2.PRINTTRANSDUSER();
+
+		if (areEquivalent(st, st2))
+			cout << "Test passed!" << endl;
+		else
+		{
+			cout << "Test failed!" << endl;
+			st.PRINTTRANSDUSER();
+			st2.PRINTTRANSDUSER();
+		}
 		cout << "-----------------------------------------------------" << endl;
 	}
 
@@ -104,10 +146,17 @@ int main()
 
 
 		insertFromFile("tests2/t7_add.txt", st);
-		st.PRINTTRANSDUSER();
 
 		SubsequentialTransducer st2 = buildByFile("tests2/t7_result.txt");
-		st2.PRINTTRANSDUSER();
+
+		if (areEquivalent(st, st2))
+			cout << "Test passed!" << endl;
+		else
+		{
+			cout << "Test failed!" << endl;
+			st.PRINTTRANSDUSER();
+			st2.PRINTTRANSDUSER();
+		}
 		cout << "-----------------------------------------------------" << endl;
 	}
 
@@ -116,10 +165,17 @@ int main()
 
 
 		insertFromFile("tests2/t8_add.txt", st);
-		st.PRINTTRANSDUSER();
 
 		SubsequentialTransducer st2 = buildByFile("tests2/t8_result.txt");
-		st2.PRINTTRANSDUSER();
+
+		if (areEquivalent(st, st2))
+			cout << "Test passed!" << endl;
+		else
+		{
+			cout << "Test failed!" << endl;
+			st.PRINTTRANSDUSER();
+			st2.PRINTTRANSDUSER();
+		}
 		cout << "-----------------------------------------------------" << endl;
 	}
 	{
@@ -127,11 +183,16 @@ int main()
 
 		removeFromFile("tests/t1_remove.txt", st);
 
-		st.PRINTTRANSDUSER();
-
 		SubsequentialTransducer st2 = buildByFile("tests/t1_result.txt");
 
-		st.PRINTTRANSDUSER();
+		if (areEquivalent(st, st2))
+			cout << "Test passed!" << endl;
+		else
+		{
+			cout << "Test failed!" << endl;
+			st.PRINTTRANSDUSER();
+			st2.PRINTTRANSDUSER();
+		}
 
 		cout << "-----------------------------------------------------" << endl;
 	}
@@ -141,11 +202,16 @@ int main()
 
 		removeFromFile("tests/t2_remove.txt", st);
 
-		st.PRINTTRANSDUSER();
-
 		SubsequentialTransducer st2 = buildByFile("tests/t2_result.txt");
 
-		st2.PRINTTRANSDUSER();
+		if (areEquivalent(st, st2))
+			cout << "Test passed!" << endl;
+		else
+		{
+			cout << "Test failed!" << endl;
+			st.PRINTTRANSDUSER();
+			st2.PRINTTRANSDUSER();
+		}
 
 		cout << "-----------------------------------------------------" << endl;
 	}
@@ -156,11 +222,16 @@ int main()
 
 		removeFromFile("tests/t3_remove.txt", st);
 
-		st.PRINTTRANSDUSER();
-
 		SubsequentialTransducer st2 = buildByFile("tests/t3_result.txt");
 
-		st2.PRINTTRANSDUSER();
+		if (areEquivalent(st, st2))
+			cout << "Test passed!" << endl;
+		else
+		{
+			cout << "Test failed!" << endl;
+			st.PRINTTRANSDUSER();
+			st2.PRINTTRANSDUSER();
+		}
 
 		cout << "-----------------------------------------------------" << endl;
 	}
@@ -170,11 +241,16 @@ int main()
 
 		removeFromFile("tests/t4_remove.txt", st);
 
-		st.PRINTTRANSDUSER();
-
 		SubsequentialTransducer st2 = buildByFile("tests/t4_result.txt");
 
-		st2.PRINTTRANSDUSER();
+		if (areEquivalent(st, st2))
+			cout << "Test passed!" << endl;
+		else
+		{
+			cout << "Test failed!" << endl;
+			st.PRINTTRANSDUSER();
+			st2.PRINTTRANSDUSER();
+		}
 
 		cout << "-----------------------------------------------------" << endl;
 	}
@@ -183,11 +259,16 @@ int main()
 
 		removeFromFile("tests/t5_remove.txt", st);
 
-		st.PRINTTRANSDUSER();
-
 		SubsequentialTransducer st2 = buildByFile("tests/t5_result.txt");
 
-		st2.PRINTTRANSDUSER();
+		if (areEquivalent(st, st2))
+			cout << "Test passed!" << endl;
+		else
+		{
+			cout << "Test failed!" << endl;
+			st.PRINTTRANSDUSER();
+			st2.PRINTTRANSDUSER();
+		}
 
 		cout << "-----------------------------------------------------" << endl;
 	}
@@ -196,11 +277,16 @@ int main()
 
 		removeFromFile("tests/t6_remove.txt", st);
 
-		st.PRINTTRANSDUSER();
-
 		SubsequentialTransducer st2 = buildByFile("tests/t6_result.txt");
 
-		st2.PRINTTRANSDUSER();
+		if (areEquivalent(st, st2))
+			cout << "Test passed!" << endl;
+		else
+		{
+			cout << "Test failed!" << endl;
+			st.PRINTTRANSDUSER();
+			st2.PRINTTRANSDUSER();
+		}
 
 		cout << "-----------------------------------------------------" << endl;
 	}
@@ -209,12 +295,16 @@ int main()
 
 		removeFromFile("tests/t7_remove.txt", st);
 
-		st.PRINTTRANSDUSER();
-
 		SubsequentialTransducer st2 = buildByFile("tests/t7_result.txt");
 
-		st2.PRINTTRANSDUSER();
-
+		if (areEquivalent(st, st2))
+			cout << "Test passed!" << endl;
+		else
+		{
+			cout << "Test failed!" << endl;
+			st.PRINTTRANSDUSER();
+			st2.PRINTTRANSDUSER();
+		}
 		cout << "-----------------------------------------------------" << endl;
 	}
 
@@ -223,11 +313,16 @@ int main()
 
 		removeFromFile("tests/t8_remove.txt", st);
 
-		st.PRINTTRANSDUSER();
-
 		SubsequentialTransducer st2 = buildByFile("tests/t8_result.txt");
 
-		st2.PRINTTRANSDUSER();
+		if (areEquivalent(st, st2))
+			cout << "Test passed!" << endl;
+		else
+		{
+			cout << "Test failed!" << endl;
+			st.PRINTTRANSDUSER();
+			st2.PRINTTRANSDUSER();
+		}
 
 		cout << "-----------------------------------------------------" << endl;
 	}
@@ -239,11 +334,16 @@ int main()
 
 		removeFromFile("tests/t9_remove.txt", st);
 
-		st.PRINTTRANSDUSER();
-
 		SubsequentialTransducer st2 = buildByFile("tests/t9_result.txt");
 
-		st2.PRINTTRANSDUSER();
+		if (areEquivalent(st, st2))
+			cout << "Test passed!" << endl;
+		else
+		{
+			cout << "Test failed!" << endl;
+			st.PRINTTRANSDUSER();
+			st2.PRINTTRANSDUSER();
+		}
 
 		cout << "-----------------------------------------------------" << endl;
 	}
@@ -254,11 +354,16 @@ int main()
 
 		removeFromFile("tests/t10_remove.txt", st);
 
-		st.PRINTTRANSDUSER();
-
 		SubsequentialTransducer st2 = buildByFile("tests/t10_result.txt");
 
-		st2.PRINTTRANSDUSER();
+		if (areEquivalent(st, st2))
+			cout << "Test passed!" << endl;
+		else
+		{
+			cout << "Test failed!" << endl;
+			st.PRINTTRANSDUSER();
+			st2.PRINTTRANSDUSER();
+		}
 
 		cout << "-----------------------------------------------------" << endl;
 	}
@@ -268,11 +373,16 @@ int main()
 
 		removeFromFile("tests/t11_remove.txt", st);
 
-		st.PRINTTRANSDUSER();
-
 		SubsequentialTransducer st2 = buildByFile("tests/t11_result.txt");
 
-		st2.PRINTTRANSDUSER();
+		if (areEquivalent(st, st2))
+			cout << "Test passed!" << endl;
+		else
+		{
+			cout << "Test failed!" << endl;
+			st.PRINTTRANSDUSER();
+			st2.PRINTTRANSDUSER();
+		}
 
 		cout << "-----------------------------------------------------" << endl;
 	}
@@ -282,11 +392,16 @@ int main()
 
 		removeFromFile("tests/t12_remove.txt", st);
 
-		st.PRINTTRANSDUSER();
-
 		SubsequentialTransducer st2 = buildByFile("tests/t12_result.txt");
 
-		st2.PRINTTRANSDUSER();
+		if (areEquivalent(st, st2))
+			cout << "Test passed!" << endl;
+		else
+		{
+			cout << "Test failed!" << endl;
+			st.PRINTTRANSDUSER();
+			st2.PRINTTRANSDUSER();
+		}
 
 		cout << "-----------------------------------------------------" << endl;
 	}
@@ -294,11 +409,16 @@ int main()
 		SubsequentialTransducer st = buildByFile("tests/t13_start.txt");
 		removeFromFile("tests/t13_remove.txt", st);
 
-		st.PRINTTRANSDUSER();
-
 		SubsequentialTransducer st2 = buildByFile("tests/t13_result.txt");
-
-		st2.PRINTTRANSDUSER();
+		
+		if (areEquivalent(st, st2))
+			cout << "Test passed!" << endl;
+		else
+		{
+			cout << "Test failed!" << endl;
+			st.PRINTTRANSDUSER();
+			st2.PRINTTRANSDUSER();
+		}
 
 		cout << "-----------------------------------------------------" << endl;
 	}
