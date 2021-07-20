@@ -47,9 +47,7 @@ SubsequentialTransducer createMinimalSubsequentialTransducerBySortedFile(const v
 
 		//we minimize the states from the suffix of the previous word 
 		for (size_t i = previousWord.size(); i >= prefixLengthPlus1; i--)
-		{
 			transducer.SET_TRANSITION(i - 1, getChar(previousWord, i), transducer.FindMinimized(i));
-		}
 
 
 		//This loop initializes the tail states for the  current word
@@ -92,6 +90,7 @@ SubsequentialTransducer createMinimalSubsequentialTransducerBySortedFile(const v
 		}
 		else
 			transducer.SET_OUTPUT(prefixLengthPlus1 - 1, getChar(currentWord, prefixLengthPlus1), currentOutputNumber);
+		
 		previousWord = currentWord;
 
 		if (wordInd > 0 && wordInd % 10000 == 0)
@@ -107,17 +106,13 @@ SubsequentialTransducer createMinimalSubsequentialTransducerBySortedFile(const v
 
 	// here we are minimizing the states of the last word
 	for (int i = previousWord.size(); i >= 1; i--)
-	{
 		transducer.SET_TRANSITION(i - 1, getChar(previousWord, i), transducer.FindMinimized(i));
-		//transduser.PRINTTRANSDUSER();
-	}
+
 	transducer.initialState = transducer.FindMinimized(0);
 	transducer.uselessStates = maxWordLength;
 
 	for (int i = 0; i < transducer.uselessStates; i++)
-	{	
 		transducer.removeFromDict(i);
-	}
 
 	auto end = clock();
 	auto elapsed = double(end - begin);
@@ -237,14 +232,11 @@ int findMinOutGoing(size_t state, SubsequentialTransducer& st)
 		minOutGoing = 0;
 
 	for (auto it = st.states[state].outPut.begin(); it != st.states[state].outPut.end(); it++)
-	{
 		minOutGoing = std::min(minOutGoing, (*it));
-	}
 
 	for (auto it = st.states[state].transitions.begin(); it != st.states[state].transitions.end(); it++)
-	{
 		minOutGoing = std::min(minOutGoing, (*it).second.second);
-	}
+	
 
 	return minOutGoing;
 }
@@ -308,9 +300,8 @@ void removeWord(const string& word, SubsequentialTransducer& st)
 		else
 		{
 			if (lastState && st.states[currentS].transitions.size() >= 1) //dont delete the final if it has outgoing trans
-			{
 				continue;
-			}
+			
 
 			st.removeState(currentS);
 
@@ -345,11 +336,11 @@ void removeWord(const string& word, SubsequentialTransducer& st)
 
 		if (min == 0)
 			break;
+
 		if (k == 0)
 		{
 			addMinToTransition(st, statesSequence[0], word[0], min);
 			break;
-
 		}
 		addMinToTransition(st, statesSequence[k], word[k], min);
 
@@ -373,4 +364,42 @@ void removeWord(const string& word, SubsequentialTransducer& st)
 		}
 
 	}
+}
+bool areEquivalentStates(const SubsequentialTransducer& lhs, size_t stateLhs, const SubsequentialTransducer& rhs, size_t stateRhs)
+{
+	if (lhs.states[stateLhs].outPut != rhs.states[stateRhs].outPut)
+		return false;
+
+	if (lhs.states[stateLhs].hashOutput != rhs.states[stateRhs].hashOutput)
+		return false;
+
+	if (lhs.states[stateLhs].isFinal ^ rhs.states[stateRhs].isFinal)
+		return false;
+
+	if (lhs.states[stateLhs].transitions.size() != rhs.states[stateRhs].transitions.size())
+		return false;
+
+	if (lhs.states[stateLhs].inDegree != rhs.states[stateRhs].inDegree)
+		return false;
+
+	for (auto lhsIt = lhs.states[stateLhs].transitions.begin(); lhsIt != lhs.states[stateLhs].transitions.end(); lhsIt++)
+	{
+		auto rhsIt = rhs.states[stateRhs].transitions.find((*lhsIt).first);
+
+		if (rhsIt == rhs.states[stateRhs].transitions.end())
+			return false;
+
+		if ((*lhsIt).second.second != (*rhsIt).second.second)
+			return false;
+
+		if (!areEquivalentStates(lhs, (*lhsIt).second.first, rhs, (*rhsIt).second.first))
+			return false;
+	}
+
+	return true;
+
+}
+bool areEquivalent(const SubsequentialTransducer& lhs, const SubsequentialTransducer& rhs)
+{
+	return areEquivalentStates(lhs, lhs.initialState, rhs, rhs.initialState);
 }
