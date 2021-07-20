@@ -1,5 +1,6 @@
 
 
+
 <h1 id="finite-state-automation">Finite state tool (FST)</h1>
 Finite state tool (FST) is a tool for working with different **finite-state machines** and many algorithmic constructions.
 The projects consists of four components:
@@ -363,4 +364,20 @@ int main()
 }
 ```
 <h1 id="NPDA">4. Minimal acyclic subsequential transducer</h1>
+
 The project contains algorithms for creating and maintaining a minimal acyclic subsequential transducer for a finite function **f : Σ -> N**
+![enter image description here](https://i.ibb.co/KDvmLyG/pic.png)
+(MAST for (a,11), (ab, 3), (ac 1))
+
+The project consist of three functions:
+
+ - Building and MAST from a given **sorted** list of pairs 
+ <key, value>
+ It follows the aproach in 
+ [Mihov and Maurel, 2001] Mihov, S. and Maurel, D. (2001). Direct construction of minimal acyclic subsequential transducers.
+ - Inserting words to the MAST from a given list of pairs 
+ - Removing words to the MAST from a given list of pairs 
+ All the algorithms can be easy modified for a function of the type **f : Σ* -> Σ***
+
+The check for equivalent states is done with a proper hash.
+Each state is hashed using it's transitions, output and finality.
