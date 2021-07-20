@@ -381,3 +381,4 @@ The project consist of three functions:
 
 The check for equivalent states is done with a proper hash.
 Each state is hashed using it's transitions, output and finality.
+More information about the hash on SubsequentialTransducer.h:18
