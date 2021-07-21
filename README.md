@@ -62,7 +62,9 @@ All algorithms are direct implementations of the shown constructions [here](http
 | cfg [name] [rules]		   | Creates a context-free grammer. The rules are separated with a space.         | cfg test1 S->aSb&#124;$   |
 <h1 id="vt">Visualization tool</h1>
 
-The FST system supports automata visualization. The command is called **vis**. The files header.x, footer.x and the graphVisualiser_files folder should be in the same folder as the executable.
+The FST system supports automata visualization. The command is called **vis**. 
+
+The files *header.x*, *footer.x* and the *graphVisualiser_files* folder should be in the **same folder** as the executable.
 
 ![enter image description here](https://i.ibb.co/XjFBFc5/afl-example3.png "example of vis")
 
