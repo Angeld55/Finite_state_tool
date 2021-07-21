@@ -216,7 +216,7 @@ All basic operations with NFA-s are available:
 int main() 
 {
 	//Regex: a(a+b)*b + b(a+b)*a
-	FiniteStateAutomation A("a(a+b)*b + b(a+b)*a");
+	FiniteStateAutomation A("a(a+b)*b+b(a+b)*a");
 
 	A.print(); //Image 1 and 2
 
