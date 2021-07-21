@@ -12,9 +12,10 @@ The projects consists of four components:
 
 *1-3* are developed for the **Languages, Automata and computability** course at the **Faculty of Mathematics and Informatics, Sofia university**.
 All algorithms are direct implementations of the shown constructions [here](https://github.com/Angeld55/Math_courses_seminars_notes_and_tasks/tree/master/Languages,%20Automata%20and%20computability/Seminars_Notes) and **may not have optimal time and space complexity** 
+
 *4* is developed for an advanced course of the same topic and it's tested with real-world data.
 
-**1-3 and 4 compile separatly!**
+**1-3 and 4 should be compiled separatly!**
 
 
 <h1 id="finite-state-automation"> FST interface and commands</h1>
