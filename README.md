@@ -369,8 +369,9 @@ int main()
 <h1 id="NPDA">4. Minimal acyclic subsequential transducer</h1>
 
 The project contains algorithms for creating and maintaining a minimal acyclic subsequential transducer for a finite function **f : Σ\* -> N**
-![enter image description here](https://i.ibb.co/KDvmLyG/pic.png)
-(MAST for (a,11), (ab, 3), (ac 1))
+
+![enter image description here](https://i.ibb.co/tLpwXHW/pic.png)
+(MAST for [a, 11], [ab, 3], [ac, 1])
 
 The project consist of three functions:
 
