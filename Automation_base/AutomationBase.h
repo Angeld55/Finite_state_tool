@@ -23,6 +23,8 @@ public:
 	virtual AutomationBase* clone() const = 0;
 
 	AutomationType getType() const;
+
+        virtual ~AutomationBase(){}
 private:
 	AutomationType type;
 };
