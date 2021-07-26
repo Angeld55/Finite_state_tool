@@ -104,15 +104,15 @@ template<typename T>
 bool CustomSet<T>::equals(const CustomSet<T>& other) {
 
 
-	for (auto it = set1.elements.begin(); it != set1.elements.end(); it++)
+	for (auto it = elements.begin(); it != elements.end(); it++)
 	{
-		if (set2.elements.find(*it) != set2.elements.end())
+		if (other.elements.find(*it) != other.elements.end())
 			return false;
 	}
 
-	for (auto it = set2.elements.begin(); it != set2.elements.end(); it++)
+	for (auto it = other.elements.begin(); it != other.elements.end(); it++)
 	{
-		if (set1.elements.find(*it) != set1.elements.end())
+		if (elements.find(*it) != elements.end())
 			return false;
 	}
 	return true;
