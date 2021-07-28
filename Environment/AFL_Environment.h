@@ -12,6 +12,7 @@ class AFL_Environment
 	std::map<std::string, AutomationBase*> automations;
 	
 
+	//TODO: finally remove this fsaSecret
 	FiniteStateAutomation* fsaSecret; //temp place for assignments;
 
 public:
