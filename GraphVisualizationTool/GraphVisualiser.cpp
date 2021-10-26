@@ -50,7 +50,7 @@ bool GraphVisualiser::visualize(const AutomationBase* fsa, const std::string& fi
 
 	return true;
 }
-bool GraphVisualiser::isOkey()
+bool GraphVisualiser::isOkey() const
 {
 	return isOkay;
 }
