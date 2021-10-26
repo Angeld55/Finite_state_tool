@@ -12,8 +12,8 @@ class CommandDispatcher
 
 public:
 	CommandDispatcher();
-	std::string dispatch(std::string);
-	std::string dispatch(const std::vector<std::string>& args);
+	std::string dispatch(const std::string&);
+	std::string dispatch(const std::vector<std::string>&);
 	void reset();
 
 	AFL_Environment env;
