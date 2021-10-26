@@ -12,7 +12,7 @@ public:
 	GraphVisualiser(const std::string& headerTemplatePath, const std::string& footerTemplatePath);
 
 	bool init();
-	bool isOkey();
+	bool isOkey() const;
 	bool visualize(const AutomationBase* fsa, const std::string& filePath);
 
 };
