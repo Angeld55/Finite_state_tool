@@ -69,7 +69,7 @@ void removeMultipleWhitespacesWithOne(std::string& str)
 	std::string::iterator new_end = std::unique(str.begin(), str.end(), BothAreSpaces);
 	str.erase(new_end, str.end());
 }
-std::string CommandDispatcher::dispatch(std::string input)
+std::string CommandDispatcher::dispatch(const std::string& input)
 {
 
 	removeMultipleWhitespacesWithOne(input);
