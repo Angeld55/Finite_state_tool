@@ -64,33 +64,42 @@ std::string CommandDispatcher::dispatch(const std::vector<std::string>& args)
 }
 bool BothAreSpaces(char lhs, char rhs) { return (lhs == rhs) && (lhs == ' '); }
 
-void removeMultipleWhitespacesWithOne(std::string& str)
+std::string removeMultipleWhitespacesWithOne(std::string str)
 {
 	std::string::iterator new_end = std::unique(str.begin(), str.end(), BothAreSpaces);
 	str.erase(new_end, str.end());
+	return str;
 }
-std::string CommandDispatcher::dispatch(const std::string& input)
+std::string CommandDispatcher::dispatch(const std::string& userInput)
 {
-
-	removeMultipleWhitespacesWithOne(input);
+	std::string parsedInput = removeMultipleWhitespacesWithOne(userInput);
 	
 	std::vector<std::string> args;
 	std::string delimiter = " ";
 
 	size_t pos = 0;
 	std::string token;
-	while ((pos = input.find(delimiter)) != std::string::npos) 
+	while ((pos = parsedInput.find(delimiter)) != std::string::npos)
 	{
-		token = input.substr(0, pos);
+		token = parsedInput.substr(0, pos);
 		args.push_back(token);
-		input.erase(0, pos + delimiter.length());
+		parsedInput.erase(0, pos + delimiter.length());
 	}
-	args.push_back(input);
+	args.push_back(parsedInput);
 	return dispatch(args);
 }
 void CommandDispatcher::reset()
 {
 	AFL_Environment newEnv;
 	env = newEnv;
+}
+
+CommandDispatcher::~CommandDispatcher()
+{
+	for (auto it = registeredCommands.begin(); it != registeredCommands.end(); it++)
+	{
+		delete it->second;
+		it->second = nullptr;
+	}
 }
 

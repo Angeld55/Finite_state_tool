@@ -12,10 +12,15 @@ class CommandDispatcher
 
 public:
 	CommandDispatcher();
+
+	CommandDispatcher(const CommandDispatcher&) = delete;
+	CommandDispatcher& operator=(const CommandDispatcher&) = delete;
 	std::string dispatch(const std::string&);
 	std::string dispatch(const std::vector<std::string>&);
 	void reset();
 
-	AFL_Environment env;
+	~CommandDispatcher();
+
+	AFL_Environment env; //TODO: Remove that
 };
 
