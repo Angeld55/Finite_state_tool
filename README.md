@@ -338,12 +338,11 @@ int main()
 
 
 If you are looking for simple PDA simulation program, you can use: [this](https://github.com/Angeld55/Data_structures_and_algorithms_FMI/tree/main/Sem.%2008/Task%201)
-<h1 id="NPDA">
-	
-	3. Context-Free Grammar</h1>
 
-![
-](https://i.postimg.cc/DzDG07Vk/CFG.png "regex example")
+
+<h1 id="CFG">3. Context-Free Grammar</h1>
+
+![](https://i.postimg.cc/DzDG07Vk/CFG.png "regex example")
 
 We can input out context-free grammar (CFG) and it will simulate it using NPDA.
 
