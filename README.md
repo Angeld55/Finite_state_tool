@@ -334,6 +334,8 @@ int main()
 	std::cout << PA.accepts("aaabbbbbbaaa", computation) << std::endl; //true
 }
 
+If you are looking for simple PDA simulation program, you can use: [this]
+
 ```
 <h1 id="NPDA">3. Context-Free Grammar</h1>
 
