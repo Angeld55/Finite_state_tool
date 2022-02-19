@@ -1,10 +1,10 @@
-#include "MinimalSubsequentialTransducerBuilder.h"
 #include <ctime>
 #include <algorithm>
 #include <fstream>
+#include <climits>
+#include "MinimalSubsequentialTransducerBuilder.h"
 
 using namespace std;
-
 
 char getChar(const string& str, size_t ind)
 {
