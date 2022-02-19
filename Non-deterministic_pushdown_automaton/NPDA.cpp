@@ -1,6 +1,8 @@
-#include "NPDA.h"
 #include <cctype>
 #include <sstream>
+#include <algorithm>
+#include <iterator>
+#include "NPDA.h"
 
 NPDA::NPDA(size_t states) : AutomationBase(AutomationBase::AutomationType::NPDA), finalStates(states)
 {}
@@ -46,16 +48,19 @@ int NPDA::makeStateFinal(size_t ind)
 	finalStates[ind] = true;
 	return 0;
 }
+
 int NPDA::addState()
 {
 	finalStates.push_back(false);
 	return finalStates.size() - 1;
 }
+
 bool isValidNumber(const std::string& s)
 {
 	return !s.empty() && std::find_if(s.begin(),
 		s.end(), [](unsigned char c) { return !std::isdigit(c); }) == s.end();
 }
+
 int validateCustomInput(const std::vector<std::string>& args)
 {
 	if (args.size() != 5)
@@ -67,6 +72,7 @@ int validateCustomInput(const std::vector<std::string>& args)
 		return -4;
 	return 0;
 }
+
 int NPDA::addTransition(const std::vector<std::string>& args)
 {
 	int resCodevalidateInput = validateCustomInput(args);
@@ -88,6 +94,7 @@ bool NPDA::addTransition(int initialState, char symbol, char stackTopSymbol, int
 	rules.push_back({ initialState, symbol, stackTopSymbol, destState, stringToReplaceTopStackSymbol });
 	return true;
 }
+
 bool NPDA::applyRuleIfPossible(Computation& current, const Rule& ruleToApply, queue<Computation>& q) const
 {
 	if ((current.state == ruleToApply.initialState) 
@@ -166,6 +173,7 @@ bool NPDA::accepts(const std::string& word, std::string& computationHistory, boo
 	return false;
 
 }
+
 std::string NPDA::getString() const
 {
 	std::string res = "States count: " + std::to_string(finalStates.size()) + ", Rules count: " + std::to_string(rules.size()) + "\n";
@@ -177,6 +185,7 @@ std::string  NPDA::getVisualizeString() const
 	//TBI
 	return "";
 }
+
 AutomationBase* NPDA::clone() const
 {
 	return new NPDA(*this);
