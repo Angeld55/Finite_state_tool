@@ -1,5 +1,12 @@
 #include "Commands.h"
 #include "../Dispatcher/CommandDispatcher.h"
++#include <numeric>
++#include <algorithm>
++#include <iterator>
++#include <iostream>
++#include <functional>
+
+
 std::string AssignCommand::execute(const std::vector<std::string>& args)
 {
 	// A = DET B, A = MIN B,
