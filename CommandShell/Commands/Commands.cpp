@@ -1,11 +1,10 @@
-#include "Commands.h"
-#include "../Dispatcher/CommandDispatcher.h"
 +#include <numeric>
 +#include <algorithm>
 +#include <iterator>
 +#include <iostream>
 +#include <functional>
-
+#include "Commands.h"
+#include "../Dispatcher/CommandDispatcher.h"`
 
 std::string AssignCommand::execute(const std::vector<std::string>& args)
 {
