@@ -2,25 +2,36 @@
 #include <vector>
 #include <string>
 #include <fstream>
-#include "..\CommandShell\Dispatcher\CommandDispatcher.h"
+#include <iterator>
+#include "../CommandShell/Dispatcher/CommandDispatcher.h"
 
 using namespace std;
 
-
-void trim(std::string& str)
-{
+void trim(std::string &s)
+ {
 	size_t endpos = str.find_last_not_of(" \t");
 	size_t startpos = str.find_first_not_of(" \t");
 	if (std::string::npos != endpos)
 	{
-		str = str.substr(0, endpos + 1);
-		str = str.substr(startpos);
+	       str = str.substr(0, endpos + 1);
+	       str = str.substr(startpos);
 	}
 	else 
 	{
-		str.erase(std::remove(std::begin(str), std::end(str), ' '), std::end(str));
+	       str.erase(std::remove(std::begin(str), std::end(str), ' '), std::end(str));
 	}
-}
+	auto start = s.begin();
+	while (start != s.end() && std::isspace(*start)) 
+	start++;
+
+	auto end = s.end();
+	do 
+	end--;
+	while (std::distance(start, end) > 0 && std::isspace(*end));
+
+	s = std::string(start, end + 1);
+ }
+
 
 bool loadConfiguration(CommandDispatcher& dispatcher, const std::string& configFile, std::string& dispatcherFinalResponse)
 {
