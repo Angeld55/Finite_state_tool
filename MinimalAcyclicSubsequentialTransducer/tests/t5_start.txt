@@ -1,4 +1,0 @@
-aaXY 33
-bbXY 12
-ccXY 44
-ddXY 2

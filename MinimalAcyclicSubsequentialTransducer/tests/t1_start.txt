@@ -1,5 +1,0 @@
-a 10
-aa 9
-aaa 8
-aaaa 7
-aaaaa 5

@@ -3,35 +3,14 @@
 #include <string>
 #include <fstream>
 #include <iterator>
-#include "../CommandShell/Dispatcher/CommandDispatcher.h"
+#include "../Command_shell/Dispatcher/CommandDispatcher.h"
 
-using namespace std;
-
-void trim(std::string &s)
- {
-	size_t endpos = str.find_last_not_of(" \t");
-	size_t startpos = str.find_first_not_of(" \t");
-	if (std::string::npos != endpos)
-	{
-	       str = str.substr(0, endpos + 1);
-	       str = str.substr(startpos);
-	}
-	else 
-	{
-	       str.erase(std::remove(std::begin(str), std::end(str), ' '), std::end(str));
-	}
-	auto start = s.begin();
-	while (start != s.end() && std::isspace(*start)) 
-	start++;
-
-	auto end = s.end();
-	do 
-	end--;
-	while (std::distance(start, end) > 0 && std::isspace(*end));
-
-	s = std::string(start, end + 1);
- }
-
+void trim(string& str) 
+{
+	const char* typeOfWhitespaces = " \t\n\r\f\v";
+	str.erase(str.find_last_not_of(typeOfWhitespaces) + 1);
+	str.erase(0, str.find_first_not_of(typeOfWhitespaces));
+}
 
 bool loadConfiguration(CommandDispatcher& dispatcher, const std::string& configFile, std::string& dispatcherFinalResponse)
 {
@@ -62,6 +41,7 @@ bool loadConfiguration(CommandDispatcher& dispatcher, const std::string& configF
 	dispatcherFinalResponse = "Configuration file successfuly loaded!";
 	return true;
 }
+
 void runAFL()
 {
 	CommandDispatcher dispatcher;
@@ -80,8 +60,11 @@ void runAFL()
 			cout << response << endl;
 			continue;
 		}
+		else if(request == "exit" || request == "quit")
+			return;
+		
 		response = dispatcher.dispatch(request);
-		cout << response << endl;
+		std::cout << response << std::endl;
 
 
 	}
@@ -89,5 +72,6 @@ void runAFL()
 int main() 
 {
 	runAFL();
+	return 0;
 }
  

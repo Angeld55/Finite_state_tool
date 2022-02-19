@@ -1,0 +1,5 @@
+a 100
+aab 23
+aabb 20
+aabbDD 7
+aacc 3

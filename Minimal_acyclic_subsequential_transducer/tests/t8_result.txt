@@ -1,0 +1,3 @@
+aabbcc 7
+aaee 2
+aagg 30

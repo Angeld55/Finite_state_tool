@@ -1,5 +1,0 @@
-aaaab 12
-aaaac 4
-caaaaa 1
-daaaaa 100
-qwery 30

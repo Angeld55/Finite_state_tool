@@ -1,5 +1,0 @@
-ab 10
-abc 3
-abcd 4
-abce 1
-abcf 5

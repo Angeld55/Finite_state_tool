@@ -1,6 +1,6 @@
-+#include <algorithm>
-+#include <iostream>
-+#include <vector>
+#include <algorithm>
+#include <iostream>
+#include <vector>
 #include "CommandDispatcher.h"
 
 CommandDispatcher::CommandDispatcher()

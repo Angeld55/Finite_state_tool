@@ -1,4 +1,0 @@
-a 100
-aab 23
-aabb 20
-aacc 3

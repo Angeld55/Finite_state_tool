@@ -1,4 +1,0 @@
-abcxy 400
-abdxy 2
-abexy 300
-abfxy 1

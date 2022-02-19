@@ -1,4 +1,0 @@
-aabbcc 7
-aabbdd 2
-aaee 3
-aagg 15

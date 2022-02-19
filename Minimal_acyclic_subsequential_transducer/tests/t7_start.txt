@@ -1,0 +1,8 @@
+aaa 45
+aaaab 12
+aaaac 4
+caaaaa 1
+daaaaa 100
+fdaaaaa 2
+qwery 30
+zdaaaaaz 3

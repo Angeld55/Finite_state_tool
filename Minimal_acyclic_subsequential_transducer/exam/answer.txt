@@ -1,0 +1,14 @@
+First build:
+States: 8111085
+Transitions: 8210803
+Final states: 134
+
+After removing words:
+States: 8088387
+Transitions: 8187807
+Final states: 134
+
+After inserting words:
+States: 8099606
+Transtiotions: 8199175
+Final states: 134

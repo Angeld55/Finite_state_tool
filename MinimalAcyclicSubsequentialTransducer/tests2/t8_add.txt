@@ -1,5 +1,0 @@
-aaa 7
-a 9
-aa 8
-ba 9
-baaa 7

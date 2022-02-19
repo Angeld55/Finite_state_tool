@@ -5,7 +5,7 @@
 #include <vector>
 #include "../Non-deterministic_pushdown_automaton/NPDA.h"
 #include "../Finate_state_automation/FiniteStateAutomation.h"
-#include "../GraphVisualizationTool/GraphVisualiser.h"
+#include "../Graph_visualization_tool/GraphVisualiser.h"
 
 class AFL_Environment
 {

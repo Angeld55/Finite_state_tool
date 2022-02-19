@@ -4,7 +4,7 @@
 #define AUTOMATION_HDR
 
 #include "../Automation_base/AutomationBase.h"
-#include "../Collections/CustomSet/CustomSet.hpp"
+#include "../Collections/Custom_set/CustomSet.hpp"
 
 
 
@@ -25,7 +25,7 @@ class FiniteStateAutomation : public AutomationBase
 		edge()
 		{
 			dest = -1;
-			ch = '/0';
+			ch = '\0';
 		}
 
 		edge(int dest, char ch)

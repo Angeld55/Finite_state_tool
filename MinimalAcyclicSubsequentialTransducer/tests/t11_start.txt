@@ -1,3 +1,0 @@
-aab 4
-aabd 1
-aac 3

@@ -1,4 +1,0 @@
-aabbcc 7
-aabbdd 8
-aaee 2
-aagg 30

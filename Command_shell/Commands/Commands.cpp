@@ -1,8 +1,8 @@
-+#include <numeric>
-+#include <algorithm>
-+#include <iterator>
-+#include <iostream>
-+#include <functional>
+#include <numeric>
+#include <algorithm>
+#include <iterator>
+#include <iostream>
+#include <functional>
 #include "Commands.h"
 #include "../Dispatcher/CommandDispatcher.h"`
 
