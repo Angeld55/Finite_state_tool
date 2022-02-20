@@ -345,8 +345,5 @@ int main()
 	else
 		std::cout << "Failed!" << std::endl;
 
-	while (1)
-	{
-		;
-	}
+	return 0;
 }
