@@ -20,6 +20,10 @@ add_executable(FST Fst_dispatcher/main.cpp)
 
 target_link_libraries(FST CustomSet CommandsDispatcher Commands Environment Fsa GraphVis Npda AutomationBase)
 
+add_executable(Tests Tests/tests.cpp)
+
+target_link_libraries(Tests Fsa Npda AutomationBase)
+
 file(COPY Graph_visualization_tool/header.x
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
