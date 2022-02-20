@@ -75,6 +75,7 @@ bool testFSATranstitionAddingAndDetAutomation()
 
 	if (!f.accepts("bbabbaaab", computation))
 		return false;
+	return true;
 }
 
 
