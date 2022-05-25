@@ -60,6 +60,8 @@ All algorithms are direct implementations of the shown constructions [here](http
 | arc [npda] [start] [symbol] [stack_top] [end] [replace_stack]| adds a new transition from state start to state end   | arc test1 0 a # 0 A# |
 | accepts [npda] [string]           | returns true if the npda accepts the string and false otherwise             | accepts test1  aabbb   |
 | cfg [name] [rules]		   | Creates a context-free grammer. The rules are separated with a space.         | cfg test1 S->aSb&#124;$   |
+
+**! Epsilon in the regex is denoted with by the $ !**
 <h1 id="vt">Visualization tool</h1>
 
 The FST system supports automata visualization. The command is called **vis**. 
