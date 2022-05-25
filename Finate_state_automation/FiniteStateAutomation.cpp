@@ -827,6 +827,10 @@ bool needBrackets(std::string regex)
 	return regex[regex.length() - 1] == '*';
 }
 
+//TODO : Get eps and other symbols to const
+
+//TODO: Review the regex alg.
+
 std::string FiniteStateAutomation::getRegEx(int start, int end, int bound, bool needEpsilon)
 {
 	if (bound == 0)
@@ -834,7 +838,7 @@ std::string FiniteStateAutomation::getRegEx(int start, int end, int bound, bool 
 		CustomSet<char> s;
 
 		if (start == end && needEpsilon)
-			s.add('e');
+			s.add('$');
 		for (int i = 0; i < automation[start].size(); ++i)
 		{
 			edge currentEdge = automation[start][i];
@@ -859,7 +863,7 @@ std::string FiniteStateAutomation::getRegEx(int start, int end, int bound, bool 
 	std::string d = getRegEx(bound - 1, end, bound - 1, needEpsilon);
 
 	std::string right;
-	if (b != "e")
+	if (b != "$")
 	{
 		if (needBrackets(b))
 			right += "(" + b + ")";
@@ -868,10 +872,10 @@ std::string FiniteStateAutomation::getRegEx(int start, int end, int bound, bool 
 	}
 
 
-	if (c != "e" && c != "")
+	if (c != "$" && c != "")
 		right += "(" + c + ")*";
 
-	if (d != "e")
+	if (d != "$")
 	{
 		if (needBrackets(d))
 			right += "(" + d + ")";
@@ -881,8 +885,8 @@ std::string FiniteStateAutomation::getRegEx(int start, int end, int bound, bool 
 
 
 
-	if (b == "e" && (c == "e" || c == "") && d == "e")
-		right = "e";
+	if (b == "$" && (c == "$" || c == "") && d == "$")
+		right = "$";
 	if (b == "" || d == "")
 		right = "";
 
