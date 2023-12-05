@@ -21,7 +21,7 @@ All algorithms are direct implementations of the shown constructions [here](http
 <h1 id="finite-state-automation"> FST interface and commands</h1>
 
 ![enter image description here](https://i.ibb.co/x1Bcm4R/afl-example1.png "AFL")
-
+fsgyertgrtgergre
 
 ![enter image description here](https://i.ibb.co/w67BSMP/afl-example2.png "AFL")
 
