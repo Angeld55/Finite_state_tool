@@ -1,6 +1,6 @@
 #include "AFL_Environment.h"
 
-AFL_Environment::AFL_Environment() : vis("header.x", "footer.x")
+AFL_Environment::AFL_Environment()
 {
 
 }

@@ -3,42 +3,49 @@
 #include <streambuf>
 #include <string>
 
-bool readFile(const std::string& filePath, std::string& str)
+static std::string header = R"(
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>GraphViz with Viz.js</title>
+    </head>
+    <body>
+        <div id="graph" style="width: 100%; height: 500px;"></div>
+
+        <!-- Include Viz.js from a CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/viz.js/2.1.2/viz.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/viz.js/2.1.2/full.render.js"></script>
+
+        <script>
+            // Your GraphViz dot string
+            var dotString = `)";
+
+
+
+static std::string footer = R"(
+        `;
+
+
+        // create an instance of Viz
+        var viz = new Viz();
+
+        // Render the dot string as an SVG and append it to the div
+        viz.renderSVGElement(dotString)
+            .then(function(element) {
+                document.getElementById('graph').appendChild(element);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+    </body>
+    </html>
+        )";
+
+bool visualize(const AutomationBase* fsa, const std::string& filePath)
 {
-
-	std::ifstream t(filePath);
-	if (!t.is_open())
-		return false;
-
-	t.seekg(0, std::ios::end);
-	str.reserve(t.tellg());
-	t.seekg(0, std::ios::beg);
-
-	str.assign((std::istreambuf_iterator<char>(t)),
-		std::istreambuf_iterator<char>());
-
-	t.close();
-
-	return true;
-}
-
-GraphVisualiser::GraphVisualiser(const std::string& headerTemplatePath, const std::string& footerTemplatePath) : headerPath(headerTemplatePath), footerPath(footerTemplatePath), isOkay(false)
-{
-	
-}
-
-bool GraphVisualiser::init()
-{
-	bool res = readFile(headerPath, header);
-	if (!res)
-		return false;
-	return isOkay = readFile(footerPath, footer);
-}
-bool GraphVisualiser::visualize(const AutomationBase* fsa, const std::string& filePath)
-{
-	if (!isOkay)
-		return false;
-
 	std::ofstream f(filePath);
 
 	if (!f.is_open())
@@ -49,8 +56,4 @@ bool GraphVisualiser::visualize(const AutomationBase* fsa, const std::string& fi
 	f.close();
 
 	return true;
-}
-bool GraphVisualiser::isOkey() const
-{
-	return isOkay;
 }

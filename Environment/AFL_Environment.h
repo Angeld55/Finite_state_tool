@@ -16,8 +16,6 @@ class AFL_Environment
 	FiniteStateAutomation* fsaSecret; //temp place for assignments;
 
 public:
-	GraphVisualiser vis;
-
 	AFL_Environment();
 	int registerAutomation(const std::string& key, AutomationBase* npda);
 

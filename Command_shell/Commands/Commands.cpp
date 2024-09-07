@@ -339,16 +339,15 @@ std::string VisualizeCommand::execute(const std::vector<std::string>& args)
 		return "Error! Invalid command! (Error: 1122)";
 	if (dispatcher.env.getAutomation(args[1], aut) == 0)
 	{
-		if (!dispatcher.env.vis.isOkey())
+		bool visResult = visualize(aut, args[1] + ".html");
+		if (visResult)
 		{
-			dispatcher.env.vis.init();
+			return "Visualization succesfull! File with name " + args[1] + ".html is created!";
 		}
-
-		if (!dispatcher.env.vis.isOkey())
+		else
+		{
 			return "Error with the visualization!";
-
-		dispatcher.env.vis.visualize(aut, args[1] + ".html");
-		return "Visualization succesfull!";
+		}
 	}
 	else
 		return "Error! No FSA with ID:" + args[0];
