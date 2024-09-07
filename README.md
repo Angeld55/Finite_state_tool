@@ -76,10 +76,6 @@ This commands generates a **html file** (with the name of the automation). You c
 
 The **html file** looks like this:
 
-![enter image description here](https://i.ibb.co/WBWdtSC/3.png "html page")
-
-Press the **single button** on the html page and the automation will be visualized.
-
 ![enter image description here](https://i.ibb.co/nwZXtsv/4.png "vis aut")
 
 <h1 id="finite-state-automation">1. Finite State Automation</h1>
