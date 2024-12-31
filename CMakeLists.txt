@@ -23,9 +23,3 @@ target_link_libraries(FST CustomSet CommandsDispatcher Commands Environment Fsa 
 add_executable(Tests Tests/tests.cpp)
 
 target_link_libraries(Tests Fsa Npda AutomationBase)
-
-file(COPY Graph_visualization_tool/header.x
-     DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-
-file(COPY Graph_visualization_tool/footer.x
-     DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
